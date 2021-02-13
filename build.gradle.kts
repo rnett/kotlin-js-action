@@ -10,10 +10,6 @@ plugins {
 group = "com.github.rnett.ktjs-github-action"
 version = "0.1.0-SNAPSHOT"
 
-setProperty("GROUP", group)
-setProperty("POM_ARTIFACT_ID", name)
-setProperty("VERSION_NAME", version)
-
 repositories {
     jcenter()
     mavenCentral()
