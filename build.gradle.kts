@@ -4,7 +4,6 @@ plugins {
     kotlin("js") version "1.4.30"
     id("com.vanniktech.maven.publish") version "0.14.0"
     id("org.jetbrains.dokka") version "1.4.20"
-
 }
 
 group = "com.github.rnett.ktjs-github-action"
@@ -50,9 +49,7 @@ kotlin {
     }
 }
 
-plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class.java) {
-    the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = "12.20.2"
-}
+the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = "12.20.2"
 
 val sourceLinkBranch: String by project
 
@@ -78,3 +75,10 @@ tasks.dokkaHtml {
         }
     }
 }
+
+tasks.getByName("publishToMavenLocal")
+    .dependsOn(gradle.includedBuild("kotlin-js-action-plugin").task(":publishToMavenLocal"))
+tasks.getByName("publish")
+    .dependsOn(gradle.includedBuild("kotlin-js-action-plugin").task(":publish"))
+tasks.getByName("closeAndReleaseRepository")
+    .dependsOn(gradle.includedBuild("kotlin-js-action-plugin").task(":closeAndReleaseRepository"))
