@@ -66,7 +66,7 @@ jobs:
           cp -r ../build/dokka/html ./"$PROJECT_VERSION"
           rm -rf "$MAIN_DIR"
           cp -r ../build/dokka/html ./"$MAIN_DIR"
-          ls
+          ls ./*/*
           git stage -A
           git commit -m "Docs for $PROJECT_VERSION"
           git push https://rnett:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git gh-pages
