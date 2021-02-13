@@ -12,7 +12,7 @@ public fun String.maskSecret(): Unit = maskSecret(this)
 /**
  * Mask [secret] in log output.
  */
-public fun maskSecret(secret: String): Unit = maskSecret(secret)
+public fun maskSecret(secret: String): Unit = core.setSecret(secret)
 
 
 /**
@@ -20,7 +20,7 @@ public fun maskSecret(secret: String): Unit = maskSecret(secret)
  */
 @Suppress("UNREACHABLE_CODE")
 public fun fail(message: String): Nothing {
-    log.fatal(message)
+    core.setFailed(message)
     currentProcess.exit(1)
     return error("")
 }
@@ -30,7 +30,7 @@ public fun fail(message: String): Nothing {
  */
 @Suppress("UNREACHABLE_CODE")
 public fun fail(exception: Throwable): Nothing {
-    log.fatal(exception)
+    core.setFailed(exception)
     currentProcess.exit(1)
     return error("")
 }

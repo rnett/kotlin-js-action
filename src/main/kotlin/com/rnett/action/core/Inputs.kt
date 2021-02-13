@@ -5,19 +5,19 @@ import kotlin.reflect.KProperty
 
 internal class InputDelegate(val name: String?) : LazyValProvider<String> {
     override fun provideDelegate(thisRef: Any?, property: KProperty<*>) = lazy {
-        inputs.getRequired(name ?: property.name)
+        core.getRequiredInput(name ?: property.name)
     }
 }
 
 internal class OptionalInputDelegate(val name: String?) : LazyValProvider<String?> {
     override fun provideDelegate(thisRef: Any?, property: KProperty<*>) = lazy {
-        inputs[name ?: property.name]
+        core.getOptionalInput(name ?: property.name)
     }
 }
 
 internal class OptionalInputDelegateWithDefault(val name: String?, val default: () -> String) : LazyValProvider<String> {
     override fun provideDelegate(thisRef: Any?, property: KProperty<*>) = lazy {
-        inputs[name ?: property.name] ?: default()
+        core.getOptionalInput(name ?: property.name) ?: default()
     }
 }
 
@@ -58,12 +58,12 @@ public object inputs : LazyValProvider<String> by InputDelegate(null) {
     /**
      * Get the input passed for [name].
      */
-    public operator fun get(name: String): String? = inputs[name]
+    public operator fun get(name: String): String? = core.getOptionalInput(name)
 
     /**
      * Get the input passed for [name], or throws an error if it was not passed.
      */
-    public fun getRequired(name: String): String = getRequired(name)
+    public fun getRequired(name: String): String = core.getRequiredInput(name)
 
     /**
      * Get the input passed for [name], or [default] if it was not passed.

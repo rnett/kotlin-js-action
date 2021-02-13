@@ -8,5 +8,6 @@ public object PATH {
      * Add a new path [inputPath] to PATH.
      */
     public operator fun plusAssign(inputPath: String) {
+        core.addPath(inputPath)
     }
 }

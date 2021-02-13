@@ -7,15 +7,15 @@ public object state {
     /**
      * Get state [name], returning `null` if it is not set.
      */
-    public operator fun get(name: String): String? = getRequired(name)
+    public operator fun get(name: String): String? = core.getState(name)
 
     /**
      * Get state [name], throwing if it is not set.
      */
-    public fun getRequired(name: String): String = state[name]
+    public fun getRequired(name: String): String = core.getRequiredState(name)
 
     /**
      * Set state [name] to [value].
      */
-    public operator fun set(name: String, value: String): Unit = state[name] = value
+    public operator fun set(name: String, value: String): Unit = core.saveState(name, value)
 }

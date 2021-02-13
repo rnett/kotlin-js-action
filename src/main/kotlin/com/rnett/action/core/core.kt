@@ -122,6 +122,7 @@ public object core {
     public var echoCommands: Boolean?
         get() = null
         set(value) {
+            setCommandEcho(value ?: false)
         }
 
     @Deprecated("Use log.fatal or fail", ReplaceWith("log.fatal(message)", "com.rnett.action.core.log"))
@@ -178,6 +179,5 @@ public object core {
     public fun getState(name: String): String? = currentProcess.env["STATE_$name"]
 
     @Deprecated("Use state", ReplaceWith("state[name]", "com.rnett.action.core.state"))
-    public fun getRequiredState(name: String): String =
-        state.getRequired(name) ?: kotlin.error("No state value for $name")
+    public fun getRequiredState(name: String): String = getState(name) ?: kotlin.error("No state value for $name")
 }

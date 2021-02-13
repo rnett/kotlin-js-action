@@ -9,6 +9,7 @@ public object outputs {
      * Set an output [name] to [value].
      */
     public operator fun set(name: String, value: String) {
+        core.setOutput(name, value)
     }
 
 

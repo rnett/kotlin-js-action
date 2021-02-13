@@ -50,6 +50,7 @@ public abstract class Environment(private val defaultExport: Boolean): AnyVarPro
      */
     public operator fun set(name: String, export: Boolean, value: String) {
         if (export)
+            core.exportVariable(name, value)
         else
             currentProcess.env[name] = value
     }
