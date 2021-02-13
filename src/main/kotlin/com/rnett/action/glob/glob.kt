@@ -10,9 +10,21 @@ import tsstdlib.IteratorYieldResult
 import kotlin.js.Promise
 import internal.glob.Globber as JsGlobber
 
+/**
+ * A globber instance for a given glob.
+ */
 public class Globber internal constructor(private val _globber: JsGlobber) {
+
+    /**
+     * Get all matching files.
+     *
+     * For very large globs, [globFlow] is recommended.
+     */
     public suspend fun glob(): List<Path> = _globber.glob().await().map { Path(it) }
 
+    /**
+     * Get all matching files, asynchronously.  Good for very large globs.
+     */
     public suspend fun globFlow(): Flow<Path> = flow {
         val iterator = _globber.globGenerator()
         do {
@@ -22,6 +34,21 @@ public class Globber internal constructor(private val _globber: JsGlobber) {
     }
 }
 
+/**
+ * Create a [Globber].
+ *
+ * `*`, `?`, `[...]`, and `**` are supported in [patterns].  `~` will be expanded.
+ * Patterns that begin with `#` are ignored.
+ * Patterns that begin with `!` exclude matching files.
+ * Characters can be escaped by wrapping them in `[]`, or by using `\` on non-Windows systems.
+ *
+ * See [`@actions/glob`'s docs](https://github.com/actions/toolkit/tree/main/packages/glob#patterns)
+ *
+ * @param patterns patterns to check
+ * @param followSymbolicLinks whether to follow symbolic links when collecting files
+ * @param implicitDescendants whether to implicitly include all descendants of matching files
+ * @param omitBrokenSymbolicLinks ignore broken symbolic links
+ */
 public suspend fun Globber(
     vararg patterns: String,
     followSymbolicLinks: Boolean = true,
@@ -35,6 +62,23 @@ public suspend fun Globber(
     }).await())
 }
 
+/**
+ * Get all files matching [patterns].
+ *
+ * For very large globs, [globFlow] is recommended.
+ *
+ * `*`, `?`, `[...]`, and `**` are supported in [patterns].  `~` will be expanded.
+ * Patterns that begin with `#` are ignored.
+ * Patterns that begin with `!` exclude matching files.
+ * Characters can be escaped by wrapping them in `[]`, or by using `\` on non-Windows systems.
+ *
+ * See [`@actions/glob`'s docs](https://github.com/actions/toolkit/tree/main/packages/glob#patterns)
+ *
+ * @param patterns patterns to check
+ * @param followSymbolicLinks whether to follow symbolic links when collecting files
+ * @param implicitDescendants whether to implicitly include all descendants of matching files
+ * @param omitBrokenSymbolicLinks ignore broken symbolic links
+ */
 public suspend fun glob(
     vararg patterns: String,
     followSymbolicLinks: Boolean = true,
@@ -47,6 +91,21 @@ public suspend fun glob(
     omitBrokenSymbolicLinks = omitBrokenSymbolicLinks
 ).glob()
 
+/**
+ * Get all files matching [patterns], asynchronously.  Good for very large globs.
+ *
+ * `*`, `?`, `[...]`, and `**` are supported in [patterns].  `~` will be expanded.
+ * Patterns that begin with `#` are ignored.
+ * Patterns that begin with `!` exclude matching files.
+ * Characters can be escaped by wrapping them in `[]`, or by using `\` on non-Windows systems.
+ *
+ * See [`@actions/glob`'s docs](https://github.com/actions/toolkit/tree/main/packages/glob#patterns)
+ *
+ * @param patterns patterns to check
+ * @param followSymbolicLinks whether to follow symbolic links when collecting files
+ * @param implicitDescendants whether to implicitly include all descendants of matching files
+ * @param omitBrokenSymbolicLinks ignore broken symbolic links
+ */
 public suspend fun globFlow(
     vararg patterns: String,
     followSymbolicLinks: Boolean = true,

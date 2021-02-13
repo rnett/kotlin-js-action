@@ -2,15 +2,12 @@ package com.rnett.action
 
 import NodeJS.Process
 import NodeJS.WriteStream
-import com.rnett.action.core.log
-import kotlinx.coroutines.*
-import process
-import setInterval
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
+import process as nodeProcess
 
 public typealias ValProvider<T> = PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, T>>
 
@@ -20,6 +17,9 @@ public typealias VarProvider<T> = PropertyDelegateProvider<Any?, ReadWriteProper
 
 public typealias AnyVarProperty<T> = ReadWriteProperty<Any?, T>
 
+/**
+ * Create a JavaScript object for the given interface.
+ */
 public inline fun <T : Any> JsObject(block: T.() -> Unit = {}): T {
     contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
     os.arch()
@@ -28,16 +28,17 @@ public inline fun <T : Any> JsObject(block: T.() -> Unit = {}): T {
     return value
 }
 
-public inline fun runAction(block: () -> Unit){
-    contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
-    try{
-        block()
-    } catch (e: Throwable){
-        log.fatal(e)
-    }
-}
+/**
+ * Get the current process.  Alias for [process] that doesn't have name conflicts.
+ */
+public val currentProcess: Process get() = nodeProcess
 
-public val currentProcess: Process get() = process
-
+/**
+ * Write a line to [this], using the OS's line seperator.
+ */
 public fun WriteStream.writeLine(buffer: String): Boolean = write(buffer + os.EOL)
+
+/**
+ * Write a line to [this], using the OS's line seperator.
+ */
 public fun process.global.NodeJS.WriteStream.writeLine(buffer: String): Boolean = write(buffer + os.EOL)

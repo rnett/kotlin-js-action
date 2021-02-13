@@ -5,19 +5,31 @@ import fs.*
 import path.path as platformPath
 
 /**
- * Path handling utilities modeled after Python's `pathlib`
+ * Path handling utilities modeled after Python's `pathlib`.  By default resolves paths on creation.  Disabling this may lead to errors.
  */
 public class Path(rawPath: String, resolve: Boolean = true) {
 
+    /**
+     * The raw path.
+     */
     public val path: String = if (resolve) resolve(rawPath) else rawPath
 
+    /**
+     * Resolve a path.  Done by default on creation.
+     */
     public fun resolve(): Path = Path(resolve(path))
 
     public companion object {
+        /**
+         * The current working directory.
+         */
         public val cwd: Path get() = Path(".")
 
+        /**
+         * Resolve a raw path, replacing `~` if present.
+         */
         public fun resolve(rawPath: String): String {
-            val newRawPath = if(rawPath.startsWith("~")){
+            val newRawPath = if (rawPath.startsWith("~")) {
                 platformPath.join(os.homedir(), rawPath.removePrefix("~"))
             } else
                 rawPath
@@ -25,9 +37,15 @@ public class Path(rawPath: String, resolve: Boolean = true) {
             return platformPath.resolve(platformPath.normalize(newRawPath))
         }
 
+        /**
+         * Get the current OS's path seperator
+         */
         public val seperator: String get() = platformPath.sep
     }
 
+    /**
+     * Get a descendant.
+     */
     public operator fun div(rest: String): Path = Path(
         platformPath.join(
             path,
@@ -35,67 +53,156 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         )
     )
 
+    /**
+     * Get a descendant.
+     */
     public operator fun div(rest: Path): Path = this / rest.path
 
+    /**
+     * Get a descendant.
+     */
     public fun descendant(rest: String): Path = this / rest
+
+    /**
+     * Get a descendant.
+     */
     public fun descendant(rest: Path): Path = this / rest
 
+    /**
+     * Get if this is a descendant of [ancestor].
+     */
     public fun isDescendantOf(ancestor: Path): Boolean = this.path.startsWith(ancestor.path)
+
+    /**
+     * Get if this is a descendant of [ancestor].
+     */
     public fun isDescendantOf(ancestor: String): Boolean = isDescendantOf(Path(ancestor))
 
+    /**
+     * Get the path segments of this path.
+     */
     public val segments: List<String> by lazy { path.split(seperator).filter { it.isNotEmpty() } }
 
+    /**
+     * See if this path contains a segment.  Will return false if [Path.seperator] is in [segment].
+     */
     public operator fun contains(segment: String): Boolean = segment in segments
 
+    /**
+     * Get the file/directory name (with extension).
+     */
     public val name: String by lazy { platformPath.basename(path) }
 
+    /**
+     * Get the file extension.
+     */
     public val extension: String by lazy { platformPath.extname(path) }
 
+    /**
+     * Get the parent [Path].
+     */
     public val parent: Path by lazy { Path(platformPath.dirname(path)) }
 
     /**
-     * Repetedly gets [parent].  `ancestor(0)` is `this`, `ancestor(1)` is `parent`, and so on.
+     * Repeatedly gets [parent].  `ancestor(0)` is `this`, `ancestor(1)` is `parent`, and so on.
      */
     public fun ancestor(great: Int): Path {
         var current = this
-        repeat(great){
+        repeat(great) {
             current = current.parent
         }
         return current
     }
 
+    /**
+     * Gets whether this path is absolute.
+     */
     public val isAbsolute: Boolean by lazy { platformPath.isAbsolute(path) }
 
+    /**
+     * Gets whether this path exists.
+     */
     public val exists: Boolean get() = fs.existsSync(path)
 
+    /**
+     * Get [Stats] for this path, if it exists.
+     */
     public val stats: Stats? get() = if (exists) fs.lstatSync(path) else null
 
-    public val isFile: Boolean get() = stats?.isFile() ?: false
+    /**
+     * Get whether this path exists and is a file.
+     */
+    public val isFile: Boolean get() = stats?.isFile() == true
 
-    public val isDir: Boolean get() = stats?.isDirectory() ?: false
+    /**
+     * Get whether this path exists and is a directory.
+     */
+    public val isDir: Boolean get() = stats?.isDirectory() == true
 
-    public val isDirEmpty: Boolean get() = fs.readdirSync(path, JsObject<`T$38`> {
-        this.withFileTypes = true
-    }).isEmpty()
-
-    public val children: List<Path>
-        get() = fs.readdirSync(path, JsObject<`T$38`> {
-            this.withFileTypes = true
-        }).map { this / it.name }
-
-    public fun requireFile() {
+    /**
+     * Throw if this path is not a file, or doesn't exist.
+     *
+     * @return this
+     */
+    public fun requireFile(): Path {
         if (!exists)
             error("File does not exist: $this")
         if (!isFile)
-            error("Path $this is not a file, can't read")
+            error("Path $this is not a file")
+        return this
     }
 
-    public fun mkdir(parents: Boolean = true, existsOk: Boolean = true){
-        if(exists){
-            if(!existsOk)
+    /**
+     * Throw if this path is not a directory, or doesn't exist.
+     *
+     * @return this
+     */
+    public fun requireDirectory(): Path {
+        if (!exists)
+            error("Directory does not exist: $this")
+        if (!isDir)
+            error("Path $this is not a directory")
+        return this
+    }
+
+    /**
+     * Get whether this directory is empty.
+     *
+     * Will throw if this isn't a directory or doesn't exist.
+     */
+    public val isDirEmpty: Boolean
+        get() {
+            requireDirectory()
+            return fs.readdirSync(path, JsObject<`T$38`> {
+                this.withFileTypes = true
+            }).isEmpty()
+        }
+
+    /**
+     * Get whether this directory is empty.
+     *
+     * Will throw if this isn't a directory.
+     */
+    public val children: List<Path>
+        get() {
+            requireDirectory()
+            return fs.readdirSync(path, JsObject<`T$38`> {
+                this.withFileTypes = true
+            }).map { this / it.name }
+        }
+
+    /**
+     * Make this directory.
+     *
+     * @param parents whether to also make parents that don't exist
+     * @param existsOk if false, will throw if the current path exists
+     */
+    public fun mkdir(parents: Boolean = true, existsOk: Boolean = true) {
+        if (exists) {
+            if (!existsOk)
                 error("Path $path already exists")
 
-            if(isFile)
+            if (isFile)
                 error("Path $path exists, but is a file")
 
             return
@@ -107,6 +214,11 @@ public class Path(rawPath: String, resolve: Boolean = true) {
 
     }
 
+    /**
+     * Delete this path.
+     *
+     * If [recursive] is false but this is a directory and has children, throws.
+     */
     public suspend fun delete(recursive: Boolean = false) {
         if (!recursive && isDir && !isDirEmpty)
             error("Can't delete directory $path, it is not empty")
@@ -114,14 +226,23 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         io.rmRF(path)
     }
 
-    public suspend fun copy(dest: String, recursive: Boolean = true, force: Boolean = true){
+    /**
+     * Copy this file to a new location, recursively by default.
+     */
+    public suspend fun copy(dest: String, recursive: Boolean = true, force: Boolean = true) {
         io.cp(path, dest, recursive, force)
     }
 
-    public suspend fun move(dest: String, force: Boolean = true){
+    /**
+     * Move this file to a new location.
+     */
+    public suspend fun move(dest: String, force: Boolean = true) {
         io.mv(path, dest, force)
     }
 
+    /**
+     * Read this file.
+     */
     public fun read(encoding: String = "utf8"): String {
         requireFile()
         return fs.readFileSync(path, JsObject<`T$43`> {
@@ -129,10 +250,17 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         })
     }
 
+    /**
+     * Append a line to this file (adds [lineSeparator] to [data]).
+     * @see append
+     */
     public fun appendLine(data: String, encoding: String = "utf8") {
-        append(data + lineSeperator, encoding)
+        append(data + lineSeparator, encoding)
     }
 
+    /**
+     * Append [data] to this file, creating it if it doesn't exist.
+     */
     public fun append(data: String, encoding: String = "utf8") {
         requireFile()
         fs.writeFileSync(path, data, JsObject<`T$45`> {
@@ -141,6 +269,9 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         })
     }
 
+    /**
+     * Write to this file, truncating it if it exists, and creating it if not.
+     */
     public fun write(data: String, encoding: String = "utf8") {
         requireFile()
         fs.writeFileSync(path, data, JsObject<`T$45`> {

@@ -8,8 +8,17 @@ import fs.`T$45`
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
+/**
+ * Wrappers for [`@actions/core`](https://github.com/actions/toolkit/tree/main/packages/core).
+ * Most are deprecated in favor of the specialized extensions.
+ */
 public object core {
 
+    /**
+     * Issue a GitHub Action command.  Generally should not be used, most commands are wrapped.
+     *
+     * For example, `::set-output name={name}::{value}` would be `issueCommand("set-output", value, "name" to name)` (or better yet `outputs[name] = value`).
+     */
     public fun issueCommand(command: String, value: String, properties: Map<String, String> = emptyMap()) {
         val cmd = buildString {
             append("::$command")
@@ -22,9 +31,21 @@ public object core {
         currentProcess.stdout.writeLine(cmd)
     }
 
+    /**
+     * Issue a GitHub Action command.  Generally should not be used, most commands are wrapped.
+     *
+     * For example, `::set-output name={name}::{value}` would be `issueCommand("set-output", value, "name" to name)` (or better yet `outputs[name] = value`).
+     */
+    public fun issueCommand(command: String, value: String, vararg properties: Pair<String, String>): Unit =
+        issueCommand(command, value, properties.toMap())
+
+    /**
+     * Issue a GitHub Action file command.  Generally should not be used, most commands are wrapped.
+     */
     public fun issueFileCommand(command: String, message: String) {
         val filePath =
-            currentProcess.env["GITHUB_$command"] ?: kotlin.error("Unable to find environment variable for file command $command")
+            currentProcess.env["GITHUB_$command"]
+                ?: kotlin.error("Unable to find environment variable for file command $command")
         if (!fs.existsSync(filePath)) {
             kotlin.error("Missing file at path: $filePath")
         }
@@ -40,17 +61,20 @@ public object core {
         .replace(":", "%3A")
         .replace(",", "%2C")
 
+    @Deprecated("Use exportEnv", ReplaceWith("exportEnv[name] = value", "com.rnett.action.core.exportEnv"))
     public fun exportVariable(name: String, value: String): Unit = internal.core.exportVariable(name, value)
 
     public fun exportVariableStringify(name: String, value: Any): Unit = internal.core.exportVariable(name, value)
 
+    @Deprecated("Use maskSecret", ReplaceWith("maskSecret(secret)", "com.rnett.action.core.maskSecret"))
     public fun setSecret(secret: String) {
         internal.core.setSecret(secret)
     }
 
+    @Deprecated("Use PATH", ReplaceWith("PATH += inputPath", "com.rnett.action.core.PATH"))
     public fun addPath(inputPath: String): Unit = internal.core.addPath(inputPath)
 
-    public fun getInput(name: String, required: Boolean = false): String? {
+    private fun getInput(name: String, required: Boolean = false): String? {
         return try {
             internal.core.getInput(name, JsObject {
                 this.required = true
@@ -68,8 +92,9 @@ public object core {
     }
 
     /**
-     * Gets the required input, or throws [IllegalStateException].
+     * Gets the input, or throws [IllegalStateException].
      */
+    @Deprecated("Use inputs", ReplaceWith("inputs.getRequired(name)", "com.rnett.action.core.inputs"))
     public fun getRequiredInput(name: String): String {
         return try {
             internal.core.getInput(name, JsObject {
@@ -83,44 +108,59 @@ public object core {
         }
     }
 
+    @Deprecated("Use inputs", ReplaceWith("inputs[name]", "com.rnett.action.core.inputs"))
     public fun getOptionalInput(name: String): String? = getInput(name, false)
 
+    @Deprecated("Use outputs", ReplaceWith("outputs[name] = value", "com.rnett.action.core.outputs"))
     public fun setOutput(name: String, value: String): Unit = internal.core.setOutput(name, value)
     public fun setOutputStringify(name: String, value: Any): Unit = internal.core.setOutput(name, value)
 
+    @Deprecated("Use log.echoCommands", ReplaceWith("log.echoCommands = enabled", "com.rnett.action.core.log"))
     public fun setCommandEcho(enabled: Boolean): Unit = internal.core.setCommandEcho(enabled)
 
+    @Deprecated("Use log.echoCommands", ReplaceWith("log.echoCommands = enabled", "com.rnett.action.core.log"))
     public var echoCommands: Boolean?
         get() = null
         set(value) {
-            setCommandEcho(value ?: false)
         }
 
+    @Deprecated("Use log.fatal or fail", ReplaceWith("log.fatal(message)", "com.rnett.action.core.log"))
     public fun setFailed(message: String): Unit = internal.core.setFailed(message)
+
+    @Deprecated("Use log.fatal or fail", ReplaceWith("log.fatal(exception)", "com.rnett.action.core.log"))
     public fun setFailed(exception: Throwable): Unit = internal.core.setFailed(exception)
 
-    public val isDebug: Boolean get() = internal.core.isDebug()
+    @Deprecated("Use log.isDebug", ReplaceWith("log.isDebug", "com.rnett.action.core.log"))
+    public val isDebug: Boolean
+        get() = internal.core.isDebug()
 
+    @Deprecated("Use log.debug", ReplaceWith("log.fatal(message)", "com.rnett.action.core.log"))
     public fun debug(message: String): Unit = internal.core.debug(message)
 
+    @Deprecated("Use log.info", ReplaceWith("log.fatal(message)", "com.rnett.action.core.log"))
     public fun info(message: String): Unit = internal.core.info(message)
 
+    @Deprecated("Use log.error", ReplaceWith("log.error(message)", "com.rnett.action.core.log"))
     public fun error(message: String): Unit = internal.core.error(message)
 
+    @Deprecated("Use log.error", ReplaceWith("log.error(exception)", "com.rnett.action.core.log"))
     public fun error(exception: Throwable): Unit = internal.core.error(exception)
 
+    @Deprecated("Use log.warning", ReplaceWith("log.warning(message)", "com.rnett.action.core.log"))
     public fun warning(message: String): Unit = internal.core.warning(message)
 
+    @Deprecated("Use log.warning", ReplaceWith("log.warning(exception)", "com.rnett.action.core.log"))
     public fun warning(exception: Throwable): Unit = internal.core.warning(exception)
 
     @Suppress("DeprecatedCallableAddReplaceWith")
-    @Deprecated("Use withGroup")
+    @Deprecated("Use log.withGroup")
     public fun startGroup(name: String): Unit = internal.core.startGroup(name)
 
     @Suppress("DeprecatedCallableAddReplaceWith")
-    @Deprecated("Use withGroup")
+    @Deprecated("Use log.withGroup")
     public fun endGroup(): Unit = internal.core.endGroup()
 
+    @Deprecated("Use log.withGroup", ReplaceWith("log.withGroup(name, block)", "com.rnett.action.core.log"))
     public inline fun <R> withGroup(name: String, block: () -> R): R {
         contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
         startGroup(name)
@@ -129,11 +169,15 @@ public object core {
         return result
     }
 
+    @Deprecated("Use state", ReplaceWith("state[name] = value", "com.rnett.action.core.state"))
     public fun saveState(name: String, value: String): Unit = internal.core.saveState(name, value)
 
     public fun saveStateStringify(name: String, value: Any): Unit = internal.core.saveState(name, value)
 
+    @Deprecated("Use state", ReplaceWith("state.getRequired(name)", "com.rnett.action.core.state"))
     public fun getState(name: String): String? = currentProcess.env["STATE_$name"]
 
-    public fun getRequiredState(name: String): String = getState(name) ?: kotlin.error("No state value for $name")
+    @Deprecated("Use state", ReplaceWith("state[name]", "com.rnett.action.core.state"))
+    public fun getRequiredState(name: String): String =
+        state.getRequired(name) ?: kotlin.error("No state value for $name")
 }

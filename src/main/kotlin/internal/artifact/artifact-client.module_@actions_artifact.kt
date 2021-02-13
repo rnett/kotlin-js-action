@@ -4,7 +4,9 @@
 
 package internal.artifact
 
-import kotlin.js.*
+import com.rnett.action.artifact.DownloadResponse
+import com.rnett.action.artifact.UploadResponse
+import kotlin.js.Promise
 
 internal external interface ArtifactClient {
     fun uploadArtifact(name: String, files: Array<String>, rootDirectory: String, options: UploadOptions = definedExternally): Promise<UploadResponse>

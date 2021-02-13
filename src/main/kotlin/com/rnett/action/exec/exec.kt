@@ -7,7 +7,7 @@ import com.rnett.action.currentProcess
 import internal.exec.ExecOptions
 import kotlinx.coroutines.await
 
-public suspend fun exec(command: String, args: List<String> = emptyList(), options: ExecOptions? = null): Int {
+private suspend fun exec(command: String, args: List<String> = emptyList(), options: ExecOptions? = null): Int {
     val promise = if (options == null) {
         internal.exec.exec(command, args.toTypedArray())
     } else {
@@ -16,6 +16,29 @@ public suspend fun exec(command: String, args: List<String> = emptyList(), optio
     return promise.await().toInt()
 }
 
+
+/**
+ * Execute a command.  Uses shell execution, so output redirection etc is supported.
+ *
+ * @param command command to execute (can include additional args). Must be correctly escaped.
+ * @param args optional arguments for tool. Escaping is handled by the lib.
+ * @param cwd the working directory
+ * @param env the environment.  Uses the current environment by default.
+ * @param input input to write to the subprocess's stdin
+ * @param silent whether to hide output
+ * @param outStream the output stream to use.  Defaults to process.stdout.
+ * @param errStream the error stream to use.  Defaults to process.stderr.
+ * @param windowsVerbatimArguments whether to skip escaping arguments for Windows
+ * @param failOnStdErr whether to fail if output is send to stderr
+ * @param ignoreReturnCode whether to not fail the process if the subprocess fails.  Default throws an exception for non-0 return codes.
+ * @param delay How long in ms to wait for STDIO streams to close after the exit event of the process before terminating
+ * @param stdoutListener listener for stdout output
+ * @param stderrListener listener for stderr output
+ * @param stdoutLineListener listener for stdout output, called per line
+ * @param stderrLineListener listener for stderr output, called per line
+ * @param debugListener listener for debug output
+ * @return the exit code
+ */
 public suspend fun exec(
     command: String,
     args: List<String> = emptyList(),

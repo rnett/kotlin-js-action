@@ -1,7 +1,9 @@
+import java.net.URL
+
 plugins {
     kotlin("js") version "1.4.30"
-    id("com.vanniktech.maven.publish") version "0.14.0" apply false
-    id("org.jetbrains.dokka") version "1.4.20" apply false
+    id("com.vanniktech.maven.publish") version "0.14.0"
+    id("org.jetbrains.dokka") version "1.4.20"
 
 }
 
@@ -50,4 +52,29 @@ kotlin {
 
 plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class.java) {
     the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = "12.20.2"
+}
+
+val sourceLinkBranch: String by project
+
+tasks.dokkaHtml {
+    moduleName.set("Kotlin JS GitHub Action SDK")
+    moduleVersion.set(version.toString())
+
+    dokkaSourceSets {
+        val main by getting {
+            includes.from("packages.md", "module.md")
+
+            platform.set(org.jetbrains.dokka.Platform.js)
+
+            sourceLink {
+                localDirectory.set(file("src/main/kotlin"))
+                remoteUrl.set(URL("https://github.com/rnett/kotlin-js-action/blob/$sourceLinkBranch/src/main/kotlin"))
+                remoteLineSuffix.set("#L")
+            }
+
+            externalDocumentationLink {
+                url.set(URL("https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/"))
+            }
+        }
+    }
 }
