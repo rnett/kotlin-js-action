@@ -68,7 +68,7 @@ jobs:
           rm -rf "$MAIN_DIR"
           cp -r ../build/dokka/html ./"$MAIN_DIR"
           ls ./*/*
-          gpg --sign --default-key JNett96@gmail.com ./0.1.0-SNAPSHOT/navigation.html
+          gpg --sign --default-key rnett@calpoly.edu ./0.1.0-SNAPSHOT/navigation.html
           git stage -A
           git commit -m "Docs for $PROJECT_VERSION"
           git push https://rnett:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git gh-pages
