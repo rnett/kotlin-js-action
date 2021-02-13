@@ -89,15 +89,17 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.4.30" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.30" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.4.30" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-gradle-plugin-model:1.4.30" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-util-klib:1.4.30" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.4.30" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.6" level="project" />
     <orderEntry type="library" name="Gradle: de.undercouch:gradle-download-task:4.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.30" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-util-io:1.4.30" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.4.30" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-util-io:1.4.30" level="project" />
     <orderEntry type="module-library" scope="RUNTIME">
       <library>
         <CLASSES>

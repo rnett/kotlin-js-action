@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.github.rnett.ktjs-github-action"
-version = "0.1.0-SNAPSHOT"
+version = "0.1.1-SNAPSHOT"
 
 repositories {
     jcenter()
@@ -17,12 +17,18 @@ repositories {
 }
 
 dependencies{
-    api("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30")
+    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30")
 }
 
-kotlin{
-    target {
+tasks.compileJava{
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+}
 
+tasks.compileKotlin{
+    kotlinOptions{
+        jvmTarget = "1.8"
+        useIR = true
     }
 }
 

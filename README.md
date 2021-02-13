@@ -11,7 +11,13 @@ Kotlin JS utilities for writing GitHub Actions, including wrappers
 for [actions/toolkit](https://github.com/actions/toolkit) packages, except for `@actions/github`
 and `@actions/tool-cache`.  `@actions/tool-cache` will be added once blockind `dukat` bugs are fixes.
 
-Many methods are `suspend`, using a `suspend` `main` is recomended.
+A rather hacky gradle plugin `com.github.rnett.ktjs-github-action` is also provided to configure Kotlin JS with bundling
+for GitHub Actions, since the Kotlin JS plugin doesn't support bundling NodeJS. It only supports the Gradle Kotlin DSL,
+and provides a `githubAction()` method usable in the `js{ }` target block. This handles all necessary configuration to
+produce an Actions-compatible `index.js` file, by default in `dist/`. You can pass a output file to use
+instead.  [Example](https://github.com/rnett/import-gpg-key/blob/main/build.gradle.kts).
+
+Many of the utility methods are `suspend`, using a `suspend` `main` is recommended.
 
 Code is mostly untested, as are the underlying `kotlinx-nodejs` bindings. However, the parts that have been tested imply
 the rest "should" work.
