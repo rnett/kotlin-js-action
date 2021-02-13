@@ -47,6 +47,7 @@ jobs:
           git config --global user.name "Ryan Nett"
           git config --global user.password ${{ github.token }}
           git config --global user.signingkey ${{ secrets.OSSRH_GPG_ID }}
+          git config --global commit.gpgsign true
           git config --global --list
       - name: Get version
         run: |
@@ -66,7 +67,7 @@ jobs:
           rm -rf "$MAIN_DIR"
           cp -r ../build/dokka/html ./"$MAIN_DIR"
           git stage -A
-          git commit -q -S -m "Docs for $PROJECT_VERSION"
+          git commit -q -m "Docs for $PROJECT_VERSION"
           git push https://rnett:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git gh-pages
 
   publish:
