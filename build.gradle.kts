@@ -1,9 +1,12 @@
 plugins {
     kotlin("js") version "1.4.30"
+    id("com.vanniktech.maven.publish") version "0.14.0" apply false
+    id("org.jetbrains.dokka") version "1.4.20" apply false
+
 }
 
-group = "com.rnett.ktjs-github-action"
-version = "1.0-SNAPSHOT"
+group = "com.github.rnett.ktjs-github-action"
+version = "0.1.0-SNAPSHOT"
 
 repositories {
     jcenter()
@@ -34,7 +37,7 @@ kotlin {
     js(IR) {
         useCommonJs()
         nodejs {
-            binaries.executable()
+            binaries.library()
         }
     }
     explicitApi()

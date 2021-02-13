@@ -6,7 +6,7 @@ package internal.artifact
 
 import kotlin.js.*
 
-external interface DownloadResponse {
-    val artifactName: String
-    val downloadPath: String
+public external interface DownloadResponse {
+    public val artifactName: String
+    public val downloadPath: String
 }
