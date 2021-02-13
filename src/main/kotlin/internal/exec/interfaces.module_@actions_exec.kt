@@ -5,66 +5,66 @@
 package internal.exec
 
 import Buffer
-import kotlin.js.*
 import stream.internal.Writable
 
-public external interface EnvBuilder {
+internal external interface EnvBuilder {
     @nativeGetter
-    public operator fun get(key: String): String?
+    operator fun get(key: String): String?
+
     @nativeSetter
-    public operator fun set(key: String, value: String)
+    operator fun set(key: String, value: String)
 }
 
-public external interface ExecListeners {
-    public var stdout: ((data: Buffer) -> Unit)?
+internal external interface ExecListeners {
+    var stdout: ((data: Buffer) -> Unit)?
         get() = definedExternally
         set(value) = definedExternally
-    public var stderr: ((data: Buffer) -> Unit)?
+    var stderr: ((data: Buffer) -> Unit)?
         get() = definedExternally
         set(value) = definedExternally
-    public var stdline: ((data: String) -> Unit)?
+    var stdline: ((data: String) -> Unit)?
         get() = definedExternally
         set(value) = definedExternally
-    public var errline: ((data: String) -> Unit)?
+    var errline: ((data: String) -> Unit)?
         get() = definedExternally
         set(value) = definedExternally
-    public var debug: ((data: String) -> Unit)?
+    var debug: ((data: String) -> Unit)?
         get() = definedExternally
         set(value) = definedExternally
 }
 
-public external interface ExecOptions {
-    public var cwd: String?
+internal external interface ExecOptions {
+    var cwd: String?
         get() = definedExternally
         set(value) = definedExternally
-    public var env: EnvBuilder?
+    var env: EnvBuilder?
         get() = definedExternally
         set(value) = definedExternally
-    public var silent: Boolean?
+    var silent: Boolean?
         get() = definedExternally
         set(value) = definedExternally
-    public var outStream: Writable?
+    var outStream: Writable?
         get() = definedExternally
         set(value) = definedExternally
-    public var errStream: Writable?
+    var errStream: Writable?
         get() = definedExternally
         set(value) = definedExternally
-    public var windowsVerbatimArguments: Boolean?
+    var windowsVerbatimArguments: Boolean?
         get() = definedExternally
         set(value) = definedExternally
-    public var failOnStdErr: Boolean?
+    var failOnStdErr: Boolean?
         get() = definedExternally
         set(value) = definedExternally
-    public var ignoreReturnCode: Boolean?
+    var ignoreReturnCode: Boolean?
         get() = definedExternally
         set(value) = definedExternally
-    public var delay: Number?
+    var delay: Number?
         get() = definedExternally
         set(value) = definedExternally
-    public var input: Buffer?
+    var input: Buffer?
         get() = definedExternally
         set(value) = definedExternally
-    public var listeners: ExecListeners?
+    var listeners: ExecListeners?
         get() = definedExternally
         set(value) = definedExternally
 }
