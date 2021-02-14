@@ -228,6 +228,26 @@ public class Path(rawPath: String, resolve: Boolean = true) {
 
     /**
      * Copy this file to a new location, recursively by default.
+     *
+     * @see io.cp
+     */
+    public suspend fun copy(dest: Path, recursive: Boolean = true, force: Boolean = true) {
+        io.cp(path, dest, recursive, force)
+    }
+
+    /**
+     * Move this file to a new location.
+     *
+     * @see io.mv
+     */
+    public suspend fun move(dest: Path, force: Boolean = true) {
+        io.mv(path, dest, force)
+    }
+
+    /**
+     * Copy this file to a new location, recursively by default.
+     *
+     * @see io.cp
      */
     public suspend fun copy(dest: String, recursive: Boolean = true, force: Boolean = true) {
         io.cp(path, dest, recursive, force)
@@ -235,6 +255,8 @@ public class Path(rawPath: String, resolve: Boolean = true) {
 
     /**
      * Move this file to a new location.
+     *
+     * @see io.mv
      */
     public suspend fun move(dest: String, force: Boolean = true) {
         io.mv(path, dest, force)
