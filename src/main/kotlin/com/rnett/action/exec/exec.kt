@@ -3,6 +3,7 @@ package com.rnett.action.exec
 import Buffer
 import com.rnett.action.JsObject
 import com.rnett.action.Path
+import com.rnett.action.core.runOrFail
 import com.rnett.action.currentProcess
 import internal.exec.ExecOptions
 import kotlinx.coroutines.await
@@ -15,7 +16,7 @@ public object exec {
         command: String,
         args: List<String> = emptyList(),
         options: ExecOptions? = null
-    ): Int {
+    ): Int = runOrFail{
         val promise = if (options == null) {
             internal.exec.exec(command, args.toTypedArray())
         } else {
