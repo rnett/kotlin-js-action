@@ -58,7 +58,7 @@ jobs:
       - name: Generate HTML Docs
         run: ./gradlew dokkaHtml -PsourceLinkBranch=$GITHUB_SHA
       - name: Publish docs
-        uses: rnett/publish-docs@v0.4
+        uses: rnett/publish-docs@v0.5
         with:
           from: build/dokka/html
           publish-to: version+latest
