@@ -62,7 +62,7 @@ jobs:
         with:
           from: build/dokka/html
           publish-to: version+latest
-          version: steps.get_version.outputs.version
+          version: ${{ steps.get_version.outputs.version }}
           restore: 'false'
 #      - name: Make gh-pages repo
 #        run: |
