@@ -26,6 +26,13 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         public val cwd: Path get() = Path(currentProcess.cwd())
 
         /**
+         * Change the working directory
+         */
+        public fun cd(newWD: Path){
+            currentProcess.chdir(newWD.path)
+        }
+
+        /**
          * Resolve a raw path, replacing `~` if present.
          */
         public fun resolve(rawPath: String): String {
