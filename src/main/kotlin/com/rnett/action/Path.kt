@@ -23,7 +23,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         /**
          * The current working directory.
          */
-        public val cwd: Path get() = Path(".")
+        public val cwd: Path get() = Path(currentProcess.cwd())
 
         /**
          * Resolve a raw path, replacing `~` if present.
