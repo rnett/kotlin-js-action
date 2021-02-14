@@ -236,12 +236,30 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
+     * Move this directory's children into the directory [dest].
+     */
+    public suspend fun copyChildren(dest: Path, force: Boolean = true) {
+        requireDirectory()
+        dest.requireDirectory()
+        children.forEach { it.copy(dest, force) }
+    }
+
+    /**
      * Move this file to a new location.
      *
      * @see io.mv
      */
     public suspend fun move(dest: Path, force: Boolean = true) {
         io.mv(path, dest, force)
+    }
+
+    /**
+     * Move this directory's children into the directory [dest].
+     */
+    public suspend fun moveChildren(dest: Path, force: Boolean = true) {
+        requireDirectory()
+        dest.requireDirectory()
+        children.forEach { it.move(dest, force) }
     }
 
     /**
@@ -254,6 +272,11 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
+     * Move this directory's children into the directory [dest].
+     */
+    public suspend fun copyChildren(dest: String, force: Boolean = true): Unit = copyChildren(Path(dest), force)
+
+    /**
      * Move this file to a new location.
      *
      * @see io.mv
@@ -261,6 +284,11 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     public suspend fun move(dest: String, force: Boolean = true) {
         io.mv(path, dest, force)
     }
+
+    /**
+     * Move this directory's children into the directory [dest].
+     */
+    public suspend fun moveChildren(dest: String, force: Boolean = true): Unit = moveChildren(Path(dest), force)
 
     /**
      * Read this file.
