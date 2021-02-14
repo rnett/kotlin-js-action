@@ -50,11 +50,11 @@ jobs:
           git config --global commit.gpgsign true
           git config --global --list
       - name: Get version
+        id: get_version
         run: |
           PROJECT_VERSION=$(./gradlew properties | grep version: | cut -d ' ' -f2)
           if [[ "$PROJECT_VERSION" == *-SNAPSHOT ]]; then MAIN_DIR=snapshot; else MAIN_DIR=release; fi
-          echo "MAIN_DIR=$MAIN_DIR" >> $GITHUB_ENV
-          echo "PROJECT_VERSION=$PROJECT_VERSION" >> $GITHUB_ENV
+          echo ::set-output name=version::$PROJECT_VERSION
       - name: Generate HTML Docs
         run: ./gradlew dokkaHtml -PsourceLinkBranch=$GITHUB_SHA
       - name: Publish docs
@@ -62,7 +62,7 @@ jobs:
         with:
           from: build/dokka/html
           publish-to: version+latest
-          version: $PROJECT_VERSION
+          version: steps.get_version.outputs.version
           restore: 'false'
 #      - name: Make gh-pages repo
 #        run: |
