@@ -34,7 +34,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
             } else
                 rawPath
 
-            return platformPath.resolve(platformPath.normalize(newRawPath))
+            return platformPath.resolve(newRawPath)
         }
 
         /**
