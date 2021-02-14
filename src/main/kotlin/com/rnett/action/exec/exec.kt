@@ -7,7 +7,7 @@ import com.rnett.action.currentProcess
 import internal.exec.ExecOptions
 import kotlinx.coroutines.await
 
-private suspend fun exec(command: String, args: List<String> = emptyList(), options: ExecOptions? = null): Int {
+private suspend fun execCommand(command: String, args: List<String> = emptyList(), options: ExecOptions? = null): Int {
     val promise = if (options == null) {
         internal.exec.exec(command, args.toTypedArray())
     } else {
@@ -39,7 +39,7 @@ private suspend fun exec(command: String, args: List<String> = emptyList(), opti
  * @param debugListener listener for debug output
  * @return the exit code
  */
-public suspend fun exec(
+public suspend fun execCommand(
     command: String,
     args: List<String> = emptyList(),
     cwd: Path = Path("."),
@@ -58,7 +58,7 @@ public suspend fun exec(
     stderrLineListener: ((data: String) -> Unit)? = null,
     debugListener: ((data: String) -> Unit)? = null
 ): Int {
-    return exec(command, args, options = JsObject {
+    return execCommand(command, args, options = JsObject {
         this.cwd = cwd.path
         this.env = env?.let {
             JsObject {

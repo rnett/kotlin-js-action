@@ -28,7 +28,7 @@ public data class ExecResult(val returnCode: Int, val stdout: String, val stderr
  * @param stderrLineListener listener for stderr output, called per line
  * @param debugListener listener for debug output
  */
-public suspend fun execAndCapture(
+public suspend fun execCommandAndCapture(
     command: String,
     args: List<String> = emptyList(),
     cwd: Path = Path("."),
@@ -50,7 +50,7 @@ public suspend fun execAndCapture(
 ): ExecResult {
     val stdout = StringBuilder()
     val stderr = StringBuilder()
-    val returnCode = exec(
+    val returnCode = execCommand(
         command = command,
         args = args,
         cwd = cwd,
