@@ -25,7 +25,7 @@ jobs:
   publishDocs:
     name: Publish Docs
     if: github.event_name == 'push' && contains(github.ref, 'main')
-    needs: [ build ]
+#    needs: [ build ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
