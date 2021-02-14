@@ -57,18 +57,25 @@ jobs:
           echo "PROJECT_VERSION=$PROJECT_VERSION" >> $GITHUB_ENV
       - name: Generate HTML Docs
         run: ./gradlew dokkaHtml -PsourceLinkBranch=$GITHUB_SHA
-      - name: Make gh-pages repo
-        run: |
-          git clone --single-branch --branch gh-pages https://github.com/${GITHUB_REPOSITORY}.git gh-pages
-          cd gh-pages
-          git checkout gh-pages
-          rm -rf "$PROJECT_VERSION"
-          cp -r ../build/dokka/html ./"$PROJECT_VERSION"
-          rm -rf "$MAIN_DIR"
-          cp -r ../build/dokka/html ./"$MAIN_DIR"
-          git stage -A
-          git commit -m "Docs for $PROJECT_VERSION"
-          git push https://rnett:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git gh-pages
+      - name: Publish docs
+        uses: rnett/publish-docs@v0.2
+        with:
+          from: build/dokka/html
+          publish-to: version+latest
+          version: $PROJECT_VERSION
+          restore: 'false'
+#      - name: Make gh-pages repo
+#        run: |
+#          git clone --single-branch --branch gh-pages https://github.com/${GITHUB_REPOSITORY}.git gh-pages
+#          cd gh-pages
+#          git checkout gh-pages
+#          rm -rf "$PROJECT_VERSION"
+#          cp -r ../build/dokka/html ./"$PROJECT_VERSION"
+#          rm -rf "$MAIN_DIR"
+#          cp -r ../build/dokka/html ./"$MAIN_DIR"
+#          git stage -A
+#          git commit -m "Docs for $PROJECT_VERSION"
+#          git push https://rnett:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git gh-pages
 
   publish:
     name: Publish
