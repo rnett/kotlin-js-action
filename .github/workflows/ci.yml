@@ -42,7 +42,7 @@ jobs:
           secret-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
       - name: Get version
         id: get_version
-        uses: rnett/find-regex@0.1
+        uses: rnett/find-regex@v0.1
         with:
           regex: 'version ?= ?"?([\w.\-_]+)"?'
           files: "gradle.properties,build.gradle.kts,build.gradle"
