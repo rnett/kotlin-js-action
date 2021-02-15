@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.rnett.ktjs-github-action"
-version = "0.1.3-SNAPSHOT"
+version = "0.1.4-SNAPSHOT"
 
 repositories {
     jcenter()
@@ -29,7 +29,7 @@ dependencies {
     //TODO breaks dukat
 //    implementation(npm("@actions/tool-cache", "1.6.1"))
     //TODO to complicated and not useful enough to be worth doing
-    implementation(npm("@actions/github", "4.0.0", generateExternals))
+//    implementation(npm("@actions/github", "4.0.0", generateExternals))
     implementation(npm("@actions/artifact", "0.5.0", generateExternals))
     implementation(npm("@actions/cache", "1.0.6", generateExternals))
 }

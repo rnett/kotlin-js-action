@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="15">
       <module name="kotlin-js-action.kotlin-js-action-plugin.main" target="1.8" />
+      <module name="kotlin-js-action.kotlin-js-action-plugin.main~1" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

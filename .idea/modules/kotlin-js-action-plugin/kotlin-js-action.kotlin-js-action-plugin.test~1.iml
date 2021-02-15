@@ -6,7 +6,7 @@
     <content url="file://$MODULE_DIR$/../../../kotlin-js-action-plugin/src/test" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="kotlin-js-action.kotlin-js-action-plugin.main" />
+    <orderEntry type="module" module-name="kotlin-js-action.kotlin-js-action-plugin.main~1" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -131,5 +131,4 @@
       </library>
     </orderEntry>
   </component>
-  <component name="TestModuleProperties" production-module="kotlin-js-action-plugin.main" />
 </module>
