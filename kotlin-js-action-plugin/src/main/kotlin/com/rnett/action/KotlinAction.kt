@@ -3,12 +3,15 @@ package com.rnett.action
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.Copy
+import org.gradle.kotlin.dsl.get
 import java.io.File
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 /**
- * Add a task to create the custom webpack config necessary for acking GitHub actions.  Done by automatically in [githubAction]
+ * Add a task to create the custom webpack config necessary for packing GitHub actions.  Done by automatically in [githubAction]
+ * Adds it as a dependency of `compileKotlinJs` (always) and `browserProductionWebpack` (if [addDependency] is set).
+ *
  * @param addDependency whether to add the created task as a dependency of `browserProductionWebpack`.
  */
 fun Project.addWebpackGenTask(addDependency: Boolean = true): Task {
@@ -27,6 +30,7 @@ fun Project.addWebpackGenTask(addDependency: Boolean = true): Task {
     if(addDependency) {
         val webpackTask = tasks.findByName(Constants.jsProductionWebpackTask) ?: error("No ${Constants.jsProductionWebpackTask} found")
         webpackTask.dependsOn(configTask)
+        tasks["compileKotlinJs"].dependsOn(configTask)
     }
 
     return configTask
