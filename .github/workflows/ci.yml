@@ -42,9 +42,9 @@ jobs:
           secret-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
       - name: Get version
         id: get_version
-        uses: rnett/find-regex@v0.2
+        uses: rnett/find-regex@v0.3
         with:
-          regex: 'version ?= ?"?([\w.\-_]+)"?'
+          regex: 'version ?(?:=|:) ?"?([\w.\-_]+)"?'
           files: "gradle.properties,build.gradle.kts,build.gradle"
           commands: "./gradlew properties"
       - name: Generate HTML Docs
