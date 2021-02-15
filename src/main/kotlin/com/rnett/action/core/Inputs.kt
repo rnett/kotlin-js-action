@@ -77,7 +77,3 @@ public object inputs : LazyValProvider<String> by InputDelegate(null) {
      */
     public fun getOrElse(name: String, default: () -> String): String = get(name) ?: default()
 }
-
-public fun test(){
-    val a = inputs.getRequired("test")
-}
