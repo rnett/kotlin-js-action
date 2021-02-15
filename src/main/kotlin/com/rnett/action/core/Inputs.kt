@@ -64,6 +64,7 @@ public object inputs : LazyValProvider<String> by InputDelegate(null) {
     /**
      * Get the input passed for [name], or throws an error if it was not passed.
      */
+    @Deprecated("Use operator", ReplaceWith("[name]"))
     public fun getRequired(name: String): String = core.getRequiredInput(name)
 
     /**
