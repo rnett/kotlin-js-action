@@ -8,12 +8,13 @@ import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 /**
- * @param addDependency whether to add the created task as a dependency of `browserProductionWebpack`
+ * Add a task to create the custom webpack config necessary for acking GitHub actions.  Done by automatically in [githubAction]
+ * @param addDependency whether to add the created task as a dependency of `browserProductionWebpack`.
  */
 fun Project.addWebpackGenTask(addDependency: Boolean = true): Task {
-    val configTask = tasks.create("createGithubActionWebpackConfig"){
-        group = "kotlin js github action"
-        it.doLast {
+    val configTask = tasks.create(Constants.createWebpackTaskName){
+        group = Constants.taskGroup
+        doLast {
             val directory = File("$projectDir/webpack.config.d/")
             if(!directory.exists())
                 directory.mkdir()
@@ -24,7 +25,7 @@ fun Project.addWebpackGenTask(addDependency: Boolean = true): Task {
     }
 
     if(addDependency) {
-        val webpackTask = tasks.findByName("browserProductionWebpack") ?: error("No browserProductionWebpack found")
+        val webpackTask = tasks.findByName(Constants.jsProductionWebpackTask) ?: error("No ${Constants.jsProductionWebpackTask} found")
         webpackTask.dependsOn(configTask)
     }
 
@@ -32,12 +33,12 @@ fun Project.addWebpackGenTask(addDependency: Boolean = true): Task {
 }
 
 private fun Project.addWebpackCopyTask(outputFile: File){
-    val webpackTask = tasks.getByName("browserProductionWebpack") as KotlinWebpack
-    val copyDist = tasks.create("copyGithubActionDistributable", Copy::class.java){
-        group = "kotlin js github action"
-        it.from(webpackTask.outputFile)
-        it.into(outputFile.parentFile)
-        it.rename(webpackTask.outputFile.name, outputFile.name)
+    val webpackTask = tasks.getByName(Constants.jsProductionWebpackTask) as KotlinWebpack
+    val copyDist = tasks.create(Constants.copyDistTaskName, Copy::class.java){
+        group = Constants.taskGroup
+        from(webpackTask.outputFile)
+        into(outputFile.parentFile)
+        rename(webpackTask.outputFile.name, outputFile.name)
     }
     tasks.getByName("build").dependsOn(copyDist)
 }
@@ -48,8 +49,13 @@ private inline fun <reified T : Any> Project.the(): T =
         ?: convention.findPlugin(T::class.java)
         ?: convention.getByType(T::class.java)
 
+/**
+ * Adds a JS target for GitHub actions (browser commonJs w/ node libraries) and configures necessary tasks for packing.
+ *
+ * Running `build` will generate the compiled GitHub task in [outputFile], which by default is `dist/index.js`.
+ */
 fun KotlinJsTargetDsl.githubAction(
-    outputFile: File = File("${project.projectDir}/dist/index.js"),
+    outputFile: File = File("${project.projectDir}/dist/index.js")
 ) {
 
     useCommonJs()

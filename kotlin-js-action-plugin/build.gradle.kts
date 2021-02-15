@@ -3,6 +3,7 @@ plugins {
     id("com.vanniktech.maven.publish") version "0.14.0"
     id("org.jetbrains.dokka") version "1.4.20"
     `java-gradle-plugin`
+    `kotlin-dsl`
     id("com.gradle.plugin-publish") version "0.11.0"
 
 //    kotlin("js") version "1.4.30" apply false
