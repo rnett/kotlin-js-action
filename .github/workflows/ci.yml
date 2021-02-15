@@ -40,21 +40,13 @@ jobs:
         uses: rnett/import-gpg-key@v1.0
         with:
           secret-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-      - name: Configure git
-        run: |
-          git config --global credential.helper store
-          git config --global user.email JNett96@gmail.com
-          git config --global user.name "Ryan Nett"
-          git config --global user.password ${{ github.token }}
-          git config --global user.signingkey ${{steps.install_gpg_key.outputs.key-id}}
-          git config --global commit.gpgsign true
-          git config --global --list
       - name: Get version
         id: get_version
-        run: |
-          PROJECT_VERSION=$(./gradlew properties | grep version: | cut -d ' ' -f2)
-          if [[ "$PROJECT_VERSION" == *-SNAPSHOT ]]; then MAIN_DIR=snapshot; else MAIN_DIR=release; fi
-          echo ::set-output name=version::$PROJECT_VERSION
+        uses: rnett/find-regex@0.1
+        with:
+          regex: "version ?= ?\"?([\w.\-_]+)\"?"
+          files: "gradle.properties,build.gradle.kts,build.gradle"
+          commands: "./gradlew properties"
       - name: Generate HTML Docs
         run: ./gradlew dokkaHtml -PsourceLinkBranch=$GITHUB_SHA
       - name: Publish docs
@@ -62,20 +54,8 @@ jobs:
         with:
           from: build/dokka/html
           publish-to: version+latest
-          version: ${{ steps.get_version.outputs.version }}
+          version: ${{ steps.get_version.outputs.match }}
           restore: 'false'
-#      - name: Make gh-pages repo
-#        run: |
-#          git clone --single-branch --branch gh-pages https://github.com/${GITHUB_REPOSITORY}.git gh-pages
-#          cd gh-pages
-#          git checkout gh-pages
-#          rm -rf "$PROJECT_VERSION"
-#          cp -r ../build/dokka/html ./"$PROJECT_VERSION"
-#          rm -rf "$MAIN_DIR"
-#          cp -r ../build/dokka/html ./"$MAIN_DIR"
-#          git stage -A
-#          git commit -m "Docs for $PROJECT_VERSION"
-#          git push https://rnett:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git gh-pages
 
   publish:
     name: Publish

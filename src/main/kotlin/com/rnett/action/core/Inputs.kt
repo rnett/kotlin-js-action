@@ -21,6 +21,8 @@ internal class OptionalInputDelegateWithDefault(val name: String?, val default: 
     }
 }
 
+//TODO make non-optional default, delegates w/ transforms, to snake case for delegates
+
 /**
  * Accessors for input variables.
  *

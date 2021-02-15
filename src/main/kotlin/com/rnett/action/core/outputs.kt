@@ -1,5 +1,7 @@
 package com.rnett.action.core
 
+//TODO delegates for setting
+
 /**
  * A setter to set outputs.
  */
