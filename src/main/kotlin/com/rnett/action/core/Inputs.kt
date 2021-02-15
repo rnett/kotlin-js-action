@@ -64,7 +64,7 @@ public object inputs : LazyValProvider<String> by InputDelegate(null) {
     /**
      * Get the input passed for [name], or throws an error if it was not passed.
      */
-    @Deprecated("Use operator", ReplaceWith("[name]"))
+    @Deprecated("Use operator", ReplaceWith("this[name]"))
     public fun getRequired(name: String): String = core.getRequiredInput(name)
 
     /**
@@ -76,4 +76,8 @@ public object inputs : LazyValProvider<String> by InputDelegate(null) {
      * Get the input passed for [name], or [default] if it was not passed.
      */
     public fun getOrElse(name: String, default: () -> String): String = get(name) ?: default()
+}
+
+public fun test(){
+    val a = inputs.getRequired("test")
 }
