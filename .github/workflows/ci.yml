@@ -44,7 +44,7 @@ jobs:
         id: get_version
         uses: rnett/find-regex@0.1
         with:
-          regex: "version ?= ?\"?([\w.\-_]+)\"?"
+          regex: 'version ?= ?"?([\w.\-_]+)"?'
           files: "gradle.properties,build.gradle.kts,build.gradle"
           commands: "./gradlew properties"
       - name: Generate HTML Docs
