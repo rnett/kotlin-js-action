@@ -50,7 +50,7 @@ jobs:
           java-version: $javaVersion
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build and Test
+      - name: Build
         run: ./gradlew build
       - name: Commit dist
         uses: EndBug/add-and-commit@v7
