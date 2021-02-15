@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main, dev ]
-
+# TODO move into one job
 jobs:
   build:
     name: Build
@@ -42,7 +42,7 @@ jobs:
           secret-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
       - name: Get version
         id: get_version
-        uses: rnett/find-regex@v0.3
+        uses: rnett/find-regex@v1.1
         with:
           regex: 'version ?(?:=|:) ?"?([\w.\-_]+)"?'
           files: "gradle.properties,build.gradle.kts,build.gradle"
