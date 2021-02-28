@@ -9,7 +9,7 @@
 
 Kotlin JS utilities for writing GitHub Actions, including wrappers
 for [actions/toolkit](https://github.com/actions/toolkit) packages, except for `@actions/github`
-and `@actions/tool-cache`.  `@actions/tool-cache` will be added once blockind `dukat` bugs are fixes.
+and `@actions/tool-cache`.  `@actions/tool-cache` will be added once blocking `dukat` bugs are fixes.
 
 ## Gradle Plugin
 
@@ -20,7 +20,7 @@ There are two functions you can call in your build script:
 
 * `com.rnett.action.githubAction`, called in the `js` target block to configure the target for GitHub actions. It
   configures a browser target, but with node dependencies in WebPack, and adds a task to generate the custom webpack
-  config. The default kotlin tasks may break sometimes, but `build` will work.
+  config. The default kotlin tasks may sometimes break, but `build` will work.
 * `com.rnett.action.useAutoBuildWorkflow`, called anywhere. Adds a task to generate a GitHub actions workflow for the
   project to build and commit the distributable on push, in case it wasn't built locally. This keeps it up to date with your latest
   changes.  Adds itself as a dependency of `wrapper` and `build` so it should always be present.
