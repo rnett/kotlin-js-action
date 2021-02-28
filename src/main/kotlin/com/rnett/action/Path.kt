@@ -308,6 +308,17 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
+     * Create a stream to read the file.
+     * @see read
+     */
+    public fun readStream(encoding: String = "utf8"): ReadStream {
+        requireFile()
+        return fs.createReadStream(path, JsObject<fs.`T$50`>{
+            this.encoding = encoding
+        })
+    }
+
+    /**
      * Append a line to this file (adds [lineSeparator] to [data]).
      * @see append
      */
@@ -327,6 +338,18 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
+     * Create a stream to read the file.
+     * @see append
+     */
+    public fun appendStream(encoding: String = "utf8"): WriteStream {
+        requireFile()
+        return fs.createWriteStream(path, JsObject<fs.`T$51`>{
+            this.encoding = encoding
+            this.flags = "a"
+        })
+    }
+
+    /**
      * Write to this file, truncating it if it exists, and creating it if not.
      */
     public fun write(data: String, encoding: String = "utf8") {
@@ -334,6 +357,18 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         fs.writeFileSync(path, data, JsObject<`T$45`> {
             this.encoding = encoding
             flag = "w"
+        })
+    }
+
+    /**
+     * Create a stream to read the file.
+     * @see write
+     */
+    public fun writeStream(encoding: String = "utf8"): WriteStream {
+        requireFile()
+        return fs.createWriteStream(path, JsObject<fs.`T$51`>{
+            this.encoding = encoding
+            this.flags = "w"
         })
     }
 
