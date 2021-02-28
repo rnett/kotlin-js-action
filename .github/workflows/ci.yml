@@ -27,7 +27,7 @@ jobs:
       - id: install_gpg_key
         if: github.ref == 'refs/heads/main'
         name: Install gpg secret key
-        uses: rnett/import-gpg-key@v1.0
+        uses: rnett/import-gpg-key@v1.1
         with:
           secret-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           export-secring: true
