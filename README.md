@@ -1,6 +1,7 @@
 # Kotlin JS GitHub Action SDK
 
-![Maven Central](https://img.shields.io/maven-central/v/com.github.rnett.ktjs-github-action/kotlin-js-action)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.rnett.ktjs-github-action/kotlin-js-action)]
+(https://mvnrepository.com/artifact/com.github.rnett.ktjs-github-action)
 [![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.github.rnett.ktjs-github-action/kotlin-js-action?server=https%3A%2F%2Foss.sonatype.org)](https://oss.sonatype.org/content/repositories/snapshots/com/github/rnett/ktjs-github-action/)
 
 ### [Docs](https://rnett.github.io/kotlin-js-action/release/-kotlin%20-j-s%20-git-hub%20-action%20-s-d-k)
