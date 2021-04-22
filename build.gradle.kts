@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.rnett.ktjs-github-action"
-version = "1.1.1-SNAPSHOT"
+version = "1.1.1"
 
 repositories {
     jcenter()
