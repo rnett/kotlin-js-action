@@ -121,11 +121,12 @@ $dokka.location:com.rnett.action.core/state/getRequired/#kotlin.String/PointingT
 $dokka.location:com.rnett.action.core/state/set/#kotlin.String#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/state/set.html
 $dokka.location:com.rnett.action.exec////PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/index.html
 $dokka.location:com.rnett.action.exec/ExecFailureException///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-failure-exception/index.html
-$dokka.location:com.rnett.action.exec/ExecFailureException/ExecFailureException/#kotlin.Int#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-failure-exception/-exec-failure-exception.html
+$dokka.location:com.rnett.action.exec/ExecFailureException/ExecFailureException/#kotlin.String#kotlin.Int#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-failure-exception/-exec-failure-exception.html
+$dokka.location:com.rnett.action.exec/ExecFailureException/command/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-failure-exception/command.html
 $dokka.location:com.rnett.action.exec/ExecFailureException/returnCode/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-failure-exception/return-code.html
 $dokka.location:com.rnett.action.exec/ExecFailureException/stderr/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-failure-exception/stderr.html
 $dokka.location:com.rnett.action.exec/ExecResult///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-result/index.html
-$dokka.location:com.rnett.action.exec/ExecResult/ExecResult/#kotlin.Int#kotlin.String#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-result/-exec-result.html
+$dokka.location:com.rnett.action.exec/ExecResult/ExecResult/#kotlin.String#kotlin.Int#kotlin.String#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-result/-exec-result.html
 $dokka.location:com.rnett.action.exec/ExecResult/returnCode/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-result/return-code.html
 $dokka.location:com.rnett.action.exec/ExecResult/stderr/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-result/stderr.html
 $dokka.location:com.rnett.action.exec/ExecResult/stdout/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-result/stdout.html
