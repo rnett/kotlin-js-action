@@ -1,7 +1,7 @@
 plugins {
-    kotlin("jvm") version "1.4.30"
-    id("com.vanniktech.maven.publish") version "0.14.0"
-    id("org.jetbrains.dokka") version "1.4.20"
+    kotlin("jvm") version "1.4.32"
+    id("com.vanniktech.maven.publish") version "0.14.2"
+    id("org.jetbrains.dokka") version "1.4.30"
     `java-gradle-plugin`
     `kotlin-dsl`
     id("com.gradle.plugin-publish") version "0.11.0"
@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "com.github.rnett.ktjs-github-action"
-version = "1.0.1-SNAPSHOT"
+version = "1.1.0"
 
 repositories {
     jcenter()
