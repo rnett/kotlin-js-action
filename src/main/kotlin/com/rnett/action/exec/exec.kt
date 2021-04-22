@@ -13,7 +13,7 @@ public object exec {
     private suspend fun execCommand(
         command: String,
         args: List<String> = emptyList(),
-        options: ExecOptions? = null
+        options: ExecOptions? = null,
     ): Int = runOrFail {
         val promise = if (options == null) {
             internal.exec.exec(command, args.toTypedArray())
@@ -69,33 +69,27 @@ public object exec {
         stderrListener: ((data: Buffer) -> Unit)? = null,
         stdoutLineListener: ((data: String) -> Unit)? = null,
         stderrLineListener: ((data: String) -> Unit)? = null,
-        debugListener: ((data: String) -> Unit)? = null
+        debugListener: ((data: String) -> Unit)? = null,
     ): Int {
-        return execCommand(command, args, options = JsObject {
-            this.cwd = cwd.path
-            this.env = env?.let {
-                JsObject {
-                    it.forEach { (k, v) ->
-                        this[k] = v
-                    }
-                }
-            }
-            this.silent = silent
-            this.outStream = outStream
-            this.errStream = errStream
-            this.windowsVerbatimArguments = windowsVerbatimArguments
-            this.failOnStdErr = failOnStdErr
-            this.ignoreReturnCode = ignoreReturnCode
-            this.delay = delay
-            this.input = input
-            this.listeners = JsObject {
-                this.stdout = stdoutListener
-                this.stderr = stderrListener
-                this.stdline = stdoutLineListener
-                this.errline = stderrLineListener
-                this.debug = debugListener
-            }
-        })
+        return execCommandAndCapture(
+            command,
+            args,
+            cwd,
+            env,
+            input,
+            silent,
+            outStream,
+            errStream,
+            windowsVerbatimArguments,
+            failOnStdErr,
+            ignoreReturnCode,
+            delay,
+            stdoutListener,
+            stderrListener,
+            stdoutLineListener,
+            stderrLineListener,
+            debugListener
+        ).returnCode
     }
 
     /**
@@ -148,7 +142,7 @@ public object exec {
         stderrListener: ((data: Buffer) -> Unit)? = null,
         stdoutLineListener: ((data: String) -> Unit)? = null,
         stderrLineListener: ((data: String) -> Unit)? = null,
-        debugListener: ((data: String) -> Unit)? = null
+        debugListener: ((data: String) -> Unit)? = null,
     ) {
         execCommand(
             shell.withCommand(command),
@@ -216,36 +210,47 @@ public object exec {
         stdoutLineListener: ((data: String) -> Unit)? = null,
         stderrLineListener: ((data: String) -> Unit)? = null,
         debugListener: ((data: String) -> Unit)? = null,
-        encoding: String = "utf8"
+        encoding: String = "utf8",
     ): ExecResult {
         val stdout = StringBuilder()
         val stderr = StringBuilder()
-        val returnCode = execCommand(
-            command = command,
+        val returnCode = execCommand(command = command,
             args = args,
-            cwd = cwd,
-            env = env,
-            input = input,
-            silent = silent,
-            outStream = outStream,
-            errStream = errStream,
-            windowsVerbatimArguments = windowsVerbatimArguments,
-            failOnStdErr = failOnStdErr,
-            ignoreReturnCode = ignoreReturnCode,
-            delay = delay,
-            stdoutListener = {
-                stdout.append(it.toString(encoding))
-                stdoutListener?.invoke(it)
-            },
-            stderrListener = {
-                stderr.append(it.toString(encoding))
-                stderrListener?.invoke(it)
-            },
-            stdoutLineListener = stdoutLineListener,
-            stderrLineListener = stderrLineListener,
-            debugListener = debugListener
-        )
-        return ExecResult(returnCode, stdout.toString(), stderr.toString())
+            options = JsObject {
+                this.cwd = cwd.path
+                this.env = env?.let {
+                    JsObject {
+                        it.forEach { (k, v) ->
+                            this[k] = v
+                        }
+                    }
+                }
+                this.silent = silent
+                this.outStream = outStream
+                this.errStream = errStream
+                this.windowsVerbatimArguments = windowsVerbatimArguments
+                this.failOnStdErr = failOnStdErr
+                this.ignoreReturnCode = true
+                this.delay = delay
+                this.input = input
+                listeners = JsObject {
+                    this.stdout = { it: Buffer ->
+                        stdout.append(it.toString(encoding))
+                        stdoutListener?.invoke(it)
+                    }
+                    this.stderr = { it: Buffer ->
+                        stderr.append(it.toString(encoding))
+                        stderrListener?.invoke(it)
+                    }
+                    stdline = stdoutLineListener
+                    errline = stderrLineListener
+                    debug = debugListener
+                }
+            })
+        return ExecResult(command, returnCode, stdout.toString(), stderr.toString()).also {
+            if(!ignoreReturnCode)
+                it.throwIfFailure()
+        }
     }
 
     /**
@@ -288,7 +293,7 @@ public object exec {
         stderrListener: ((data: Buffer) -> Unit)? = null,
         stdoutLineListener: ((data: String) -> Unit)? = null,
         stderrLineListener: ((data: String) -> Unit)? = null,
-        debugListener: ((data: String) -> Unit)? = null
+        debugListener: ((data: String) -> Unit)? = null,
     ): ExecResult {
         return execCommandAndCapture(
             shell.withCommand(command),
