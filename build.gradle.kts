@@ -1,9 +1,9 @@
 import java.net.URL
 
 plugins {
-    kotlin("js") version "1.4.30"
+    kotlin("js") version "1.4.32"
     id("com.vanniktech.maven.publish") version "0.14.0"
-    id("org.jetbrains.dokka") version "1.4.20"
+    id("org.jetbrains.dokka") version "1.4.30"
 }
 
 group = "com.github.rnett.ktjs-github-action"
