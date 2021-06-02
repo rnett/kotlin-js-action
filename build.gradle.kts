@@ -1,17 +1,17 @@
 import java.net.URL
 
 plugins {
-    kotlin("js") version "1.4.32"
-    id("com.vanniktech.maven.publish") version "0.14.2"
-    id("org.jetbrains.dokka") version "1.4.30"
+    kotlin("js") version "1.5.10"
+    id("com.vanniktech.maven.publish") version "0.15.1"
+    id("org.jetbrains.dokka") version "1.4.32"
 }
 
 group = "com.github.rnett.ktjs-github-action"
-version = "1.1.2-SNAPSHOT"
+version = "1.2.0-SNAPSHOT"
 
 repositories {
-    jcenter()
     mavenCentral()
+    jcenter()
 }
 
 val generateExternals = false
@@ -20,18 +20,18 @@ dependencies {
     testImplementation(kotlin("test-js"))
 
     api("org.jetbrains.kotlinx:kotlinx-nodejs:0.0.7")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
 
-    implementation(npm("@actions/core", "1.2.6", generateExternals))
+    implementation(npm("@actions/core", "1.3.0", generateExternals))
     implementation(npm("@actions/exec", "1.0.4", generateExternals))
-    implementation(npm("@actions/glob", "0.1.1", generateExternals))
-    implementation(npm("@actions/io", "1.0.2", generateExternals))
+    implementation(npm("@actions/glob", "0.1.2", generateExternals))
+    implementation(npm("@actions/io", "1.1.0", generateExternals))
     //TODO breaks dukat
 //    implementation(npm("@actions/tool-cache", "1.6.1"))
     //TODO to complicated and not useful enough to be worth doing
 //    implementation(npm("@actions/github", "4.0.0", generateExternals))
-    implementation(npm("@actions/artifact", "0.5.0", generateExternals))
-    implementation(npm("@actions/cache", "1.0.6", generateExternals))
+    implementation(npm("@actions/artifact", "0.5.1", generateExternals))
+    implementation(npm("@actions/cache", "1.0.7", generateExternals))
 }
 
 kotlin {
@@ -80,5 +80,3 @@ tasks.getByName("publishToMavenLocal")
     .dependsOn(gradle.includedBuild("kotlin-js-action-plugin").task(":publishToMavenLocal"))
 tasks.getByName("publish")
     .dependsOn(gradle.includedBuild("kotlin-js-action-plugin").task(":publish"))
-tasks.getByName("closeAndReleaseRepository")
-    .dependsOn(gradle.includedBuild("kotlin-js-action-plugin").task(":closeAndReleaseRepository"))

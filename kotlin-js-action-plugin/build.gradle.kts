@@ -1,24 +1,32 @@
 plugins {
-    kotlin("jvm") version "1.4.32"
-    id("com.vanniktech.maven.publish") version "0.14.2"
-    id("org.jetbrains.dokka") version "1.4.30"
+    kotlin("jvm") version "1.5.10"
+    id("com.vanniktech.maven.publish") version "0.15.1"
+    id("org.jetbrains.dokka") version "1.4.32"
     `java-gradle-plugin`
     `kotlin-dsl`
-    id("com.gradle.plugin-publish") version "0.11.0"
+//    id("com.gradle.plugin-publish") version "0.11.0"
 
 //    kotlin("js") version "1.4.30" apply false
 }
 
 group = "com.github.rnett.ktjs-github-action"
-version = "1.1.2-SNAPSHOT"
+version = "1.2.0-SNAPSHOT"
 
 repositories {
-    jcenter()
     mavenCentral()
+    jcenter()
 }
 
 dependencies{
-    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30")
+    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
+}
+
+kotlin{
+    target{
+        attributes {
+            attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
+        }
+    }
 }
 
 tasks.compileJava{
