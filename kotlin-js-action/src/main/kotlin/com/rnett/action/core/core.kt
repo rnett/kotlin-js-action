@@ -175,9 +175,9 @@ public object core {
 
     public fun saveStateStringify(name: String, value: Any): Unit = internal.core.saveState(name, value)
 
-    @Deprecated("Use state", ReplaceWith("state.getRequired(name)", "com.rnett.action.core.state"))
+    @Deprecated("Use state", ReplaceWith("state[name]", "com.rnett.action.core.state"))
     public fun getState(name: String): String? = currentProcess.env["STATE_$name"]
 
-    @Deprecated("Use state", ReplaceWith("state[name]", "com.rnett.action.core.state"))
+    @Deprecated("Use state", ReplaceWith("state.getRequired(name)", "com.rnett.action.core.state"))
     public fun getRequiredState(name: String): String = getState(name) ?: kotlin.error("No state value for $name")
 }
