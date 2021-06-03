@@ -87,5 +87,10 @@ fun KotlinJsTargetDsl.githubAction(
     this as KotlinJsSubTargetContainerDsl
 
 
-    project.rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = "12.20.2"
+    project.extensions
+    var current: Project? = project
+    while(current != null) {
+        current.extensions.findByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class.java)?.nodeVersion = "12.20.2"
+        current = current.parent
+    }
 }
