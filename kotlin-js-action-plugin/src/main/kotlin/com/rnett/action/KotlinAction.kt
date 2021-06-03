@@ -23,8 +23,8 @@ import java.io.File
 fun Project.addWebpackGenTask(
     webpackTask: KotlinWebpack,
     addDependency: Boolean = true,
-): TaskProvider<Task> {
-    val configTask = tasks.register(Constants.createWebpackTaskName) {
+) {
+    val configTask = tasks.create(Constants.createWebpackTaskName) {
         group = Constants.taskGroup
         val directory = File("$projectDir/webpack.config.d/")
         val outputFile = File("$directory/github.action.config.js")
@@ -41,18 +41,16 @@ fun Project.addWebpackGenTask(
     if (addDependency) {
         webpackTask.dependsOn(configTask)
     }
-
-    return configTask
 }
 
 private fun Project.addWebpackCopyTask(webpackTask: KotlinWebpack, outputFile: File) {
-    val copyDist = tasks.register(Constants.copyDistTaskName, Copy::class.java) {
+    val copyDist = tasks.create(Constants.copyDistTaskName, Copy::class.java) {
         group = Constants.taskGroup
         from(webpackTask.outputFile)
         into(outputFile.parentFile)
         rename(webpackTask.outputFile.name, outputFile.name)
     }
-    tasks.named("build"){ dependsOn(copyDist) }
+    tasks.getByName("build"){ dependsOn(copyDist) }
 }
 
 @OptIn(ExperimentalStdlibApi::class)
