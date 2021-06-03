@@ -129,7 +129,7 @@ jobs:
 
       - name: Publish docs
         if: github.ref == 'refs/heads/main'
-        uses: rnett/publish-docs@v1.4
+        uses: rnett/publish-docs@v2.6
         with:
           from: ./kotlin-js-action/build/dokka/html
           publish-to: $version,$latest
