@@ -3,10 +3,16 @@ package com.rnett.action
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.Copy
-import org.gradle.kotlin.dsl.get
-import java.io.File
+import org.gradle.api.tasks.TaskProvider
+import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
+import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsSubTargetContainerDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
+import java.io.File
 
 /**
  * Add a task to create the custom webpack config necessary for packing GitHub actions.  Done by automatically in [githubAction]
@@ -14,37 +20,39 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
  *
  * @param addDependency whether to add the created task as a dependency of `browserProductionWebpack`.
  */
-fun Project.addWebpackGenTask(addDependency: Boolean = true): Task {
-    val configTask = tasks.create(Constants.createWebpackTaskName){
+fun Project.addWebpackGenTask(
+    webpackTask: KotlinWebpack,
+    addDependency: Boolean = true,
+): TaskProvider<Task> {
+    val configTask = tasks.register(Constants.createWebpackTaskName) {
         group = Constants.taskGroup
+        val directory = File("$projectDir/webpack.config.d/")
+        val outputFile = File("$directory/github.action.config.js")
         doLast {
-            val directory = File("$projectDir/webpack.config.d/")
-            if(!directory.exists())
+            if (!directory.exists())
                 directory.mkdir()
 
-            File("$directory/github.action.config.js")
-                .writeText("config.target = 'node';")
+            outputFile.writeText("config.target = 'node';")
         }
+        outputs.file(outputFile)
+            .withPropertyName("outputFile")
     }
 
-    if(addDependency) {
-        val webpackTask = tasks.findByName(Constants.jsProductionWebpackTask) ?: error("No ${Constants.jsProductionWebpackTask} found")
+    if (addDependency) {
         webpackTask.dependsOn(configTask)
-        tasks["compileKotlinJs"].dependsOn(configTask)
     }
 
     return configTask
 }
 
-private fun Project.addWebpackCopyTask(outputFile: File){
-    val webpackTask = tasks.getByName(Constants.jsProductionWebpackTask) as KotlinWebpack
-    val copyDist = tasks.create(Constants.copyDistTaskName, Copy::class.java){
+private fun Project.addWebpackCopyTask(webpackTask: KotlinWebpack, outputFile: File) {
+    val copyDist = tasks.register(Constants.copyDistTaskName, Copy::class.java) {
         group = Constants.taskGroup
         from(webpackTask.outputFile)
         into(outputFile.parentFile)
         rename(webpackTask.outputFile.name, outputFile.name)
     }
-    tasks.getByName("build").dependsOn(copyDist)
+    tasks.named("build"){ dependsOn(copyDist) }
 }
 
 @OptIn(ExperimentalStdlibApi::class)
@@ -63,16 +71,21 @@ fun KotlinJsTargetDsl.githubAction(
 ) {
 
     useCommonJs()
+    val webpackTaskName: String
     browser {
         webpackTask {
             output.globalObject = "this" // NodeJS mode
             sourceMaps = false
             mode = org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION
+
+            project.addWebpackCopyTask(this, outputFile)
+            project.addWebpackGenTask(this)
         }
     }
     binaries.executable()
 
-    project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = "12.20.2"
-    project.addWebpackCopyTask(outputFile)
-    project.addWebpackGenTask()
+    this as KotlinJsSubTargetContainerDsl
+
+
+    project.rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = "12.20.2"
 }

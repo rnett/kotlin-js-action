@@ -1,24 +1,14 @@
 plugins {
-    kotlin("jvm") version "1.5.10"
-    id("com.vanniktech.maven.publish") version "0.15.1"
-    id("org.jetbrains.dokka") version "1.4.32"
+    kotlin("jvm")
+    id("com.vanniktech.maven.publish")
+    id("org.jetbrains.dokka")
     `java-gradle-plugin`
     `kotlin-dsl`
-//    id("com.gradle.plugin-publish") version "0.11.0"
-
-//    kotlin("js") version "1.4.30" apply false
-}
-
-group = "com.github.rnett.ktjs-github-action"
-version = "1.2.0-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-    jcenter()
 }
 
 dependencies{
     compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.5.10")
 }
 
 kotlin{
@@ -37,7 +27,6 @@ tasks.compileJava{
 tasks.compileKotlin{
     kotlinOptions{
         jvmTarget = "1.8"
-        useIR = true
     }
 }
 
