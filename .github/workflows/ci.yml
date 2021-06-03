@@ -115,7 +115,7 @@ jobs:
             ${{ runner.os }}-test-gradle-
 
       - name: Generate HTML Docs
-        run: ./gradlew dokkaHtml -PsourceLinkBranch=$GITHUB_SHA
+        run: ./gradlew :kotlin-js-action:dokkaHtml -PsourceLinkBranch=$GITHUB_SHA
 
       - name: Publish
         if: github.ref == 'refs/heads/main'
@@ -131,7 +131,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: rnett/publish-docs@v1.4
         with:
-          from: build/dokka/html
+          from: ./kotlin-js-action/build/dokka/html
           publish-to: $version,$latest
           version: ${{ needs.find-version.outputs.version }}
 
