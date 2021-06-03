@@ -234,8 +234,8 @@ $dokka.location:com.rnett.action/Path/parent/#/PointingToDeclaration/-kotlin -j
 $dokka.location:com.rnett.action/Path/path/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/path.html
 $dokka.location:com.rnett.action/Path/read/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/read.html
 $dokka.location:com.rnett.action/Path/readStream/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/read-stream.html
-$dokka.location:com.rnett.action/Path/requireDirectory/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/require-directory.html
-$dokka.location:com.rnett.action/Path/requireFile/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/require-file.html
+$dokka.location:com.rnett.action/Path/requireDirectory/#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/require-directory.html
+$dokka.location:com.rnett.action/Path/requireFile/#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/require-file.html
 $dokka.location:com.rnett.action/Path/resolve/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/resolve.html
 $dokka.location:com.rnett.action/Path/segments/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/segments.html
 $dokka.location:com.rnett.action/Path/stats/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/stats.html
