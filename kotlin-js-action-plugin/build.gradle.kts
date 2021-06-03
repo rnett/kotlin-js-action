@@ -1,10 +1,11 @@
 plugins {
     kotlin("jvm")
-    id("com.vanniktech.maven.publish")
-    id("org.jetbrains.dokka")
     `java-gradle-plugin`
     `kotlin-dsl`
 }
+
+description = "A Gradle plugin to easily configure GitHub action packing"
+ext["pomName"] = "Kotlin JS Github Action Gradle Plugin"
 
 dependencies{
     compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")

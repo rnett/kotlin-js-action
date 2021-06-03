@@ -2,9 +2,11 @@ import java.net.URL
 
 plugins {
     kotlin("js")
-    id("com.vanniktech.maven.publish")
     id("org.jetbrains.dokka")
 }
+
+description = "Utilities for writing Kotlin JS GitHub actions, including wrappers around @actions/toolkit"
+ext["pomName"] = "Kotlin JS GitHub Action SDK"
 
 val generateExternals = false
 
