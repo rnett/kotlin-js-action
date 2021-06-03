@@ -126,7 +126,7 @@ jobs:
           version: '0.1.0-SNAPSHOT'
 
       - name: Generate HTML Docs
-        run: ./gradlew :kotlin-js-action:dokkaHtml -PsourceLinkBranch=$GITHUB_SHA
+        run: ./gradlew :kotlin-js-action:dokkaHtml -PsourceLinkBranch=$GITHUB_SHA --info
 
       - name: Publish
         if: github.ref == 'refs/heads/main'
