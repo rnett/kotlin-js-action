@@ -25,6 +25,7 @@ jobs:
         with:
           path: |
             ~/.gradle/caches/modules*
+            ~/.gradle/caches/7*
             ~/.gradle/wrapper
           key: ${{ runner.os }}-test-gradle-${{ hashFiles('**/settings.gradle*', 'buildSrc/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
@@ -114,6 +115,7 @@ jobs:
         with:
           path: |
             ~/.gradle/caches/modules*
+            ~/.gradle/caches/7*
             ~/.gradle/wrapper
           key: ${{ runner.os }}-publish-gradle-${{ hashFiles('**/settings.gradle*', 'buildSrc/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
