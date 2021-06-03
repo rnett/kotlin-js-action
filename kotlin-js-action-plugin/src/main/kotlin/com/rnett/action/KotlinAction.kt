@@ -42,16 +42,6 @@ fun Project.addWebpackGenTask(): TaskProvider<Task> {
     return configTask
 }
 
-private fun Project.addWebpackCopyTask(inputFile: File, outputFile: File) {
-    val copyDist = tasks.register(Constants.copyDistTaskName, Copy::class.java) {
-        group = Constants.taskGroup
-        from(inputFile)
-        into(outputFile.parentFile)
-        rename(inputFile.name, outputFile.name)
-    }
-    tasks.getByName("build"){ dependsOn(copyDist) }
-}
-
 @OptIn(ExperimentalStdlibApi::class)
 private inline fun <reified T : Any> Project.the(): T =
     convention.findByType(T::class.java)
