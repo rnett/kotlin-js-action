@@ -58,7 +58,7 @@ tasks.dokkaHtml {
 
             sourceLink {
                 localDirectory.set(file("src/main/kotlin"))
-                remoteUrl.set(URL("https://github.com/rnett/kotlin-js-action/blob/$sourceLinkBranch/src/main/kotlin"))
+                remoteUrl.set(URL("https://github.com/rnett/kotlin-js-action/blob/$sourceLinkBranch/kotlin-js-action/src/main/kotlin"))
                 remoteLineSuffix.set("#L")
             }
 
