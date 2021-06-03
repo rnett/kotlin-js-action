@@ -55,7 +55,7 @@ fun KotlinJsTargetDsl.githubAction(
                 outputs.file(outputFile)
                     .withPropertyName("actionOutput")
 
-                project.tasks.named(LifecycleBasePlugin.ASSEMBLE_TASK_NAME).configure { dependsOn(this@webpackTask) }
+//                project.tasks.getByName(LifecycleBasePlugin.ASSEMBLE_TASK_NAME) { dependsOn(this@webpackTask) }
 
                 doLast {
                     outputFile.parentFile.mkdirs()
