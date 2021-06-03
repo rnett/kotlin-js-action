@@ -16,6 +16,7 @@ public object github {
         public val workflow: String by env("GITHUB_WORKFLOW")
         public val action: String by env("GITHUB_ACTION")
         public val actor: String by env("GITHUB_ACTOR")
+        public val job: String by env("GITHUB_JOB")
 
         public suspend fun hashFiles(patterns: List<String>): String {
             val result = crypto.createHash("sha256")
@@ -24,9 +25,11 @@ public object github {
                     if (it.isFile) {
                         val hash = crypto.createHash("sha256")
                         val read = fs.createReadStream(it.path, JsObject<fs.`T$50`> { })
+
                         util.promisify { pipeline(read, hash.asDynamic()) }()
                             .asDeferred()
                             .await()
+
                         result.write(hash.digest())
                     }
                 }
