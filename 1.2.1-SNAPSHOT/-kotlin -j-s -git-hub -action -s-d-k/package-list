@@ -158,6 +158,16 @@ $dokka.location:com.rnett.action.exec/exec/execCommand/#kotlin.String#kotlin.col
 $dokka.location:com.rnett.action.exec/exec/execCommandAndCapture/#kotlin.String#kotlin.collections.List[kotlin.String]#com.rnett.action.Path#kotlin.collections.Map[kotlin.String,kotlin.String]?#Buffer?#kotlin.Boolean#stream.internal.Writable#stream.internal.Writable#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Long#kotlin.Function1[Buffer,kotlin.Unit]?#kotlin.Function1[Buffer,kotlin.Unit]?#kotlin.Function1[kotlin.String,kotlin.Unit]?#kotlin.Function1[kotlin.String,kotlin.Unit]?#kotlin.Function1[kotlin.String,kotlin.Unit]?#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/exec/exec-command-and-capture.html
 $dokka.location:com.rnett.action.exec/exec/execShell/#kotlin.String#com.rnett.action.exec.Shell#com.rnett.action.Path#kotlin.collections.Map[kotlin.String,kotlin.String]?#Buffer?#kotlin.Boolean#stream.internal.Writable#stream.internal.Writable#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Long#kotlin.Function1[Buffer,kotlin.Unit]?#kotlin.Function1[Buffer,kotlin.Unit]?#kotlin.Function1[kotlin.String,kotlin.Unit]?#kotlin.Function1[kotlin.String,kotlin.Unit]?#kotlin.Function1[kotlin.String,kotlin.Unit]?/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/exec/exec-shell.html
 $dokka.location:com.rnett.action.exec/exec/execShellAndCapture/#kotlin.String#com.rnett.action.exec.Shell#com.rnett.action.Path#kotlin.collections.Map[kotlin.String,kotlin.String]?#Buffer?#kotlin.Boolean#stream.internal.Writable#stream.internal.Writable#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean#kotlin.Long#kotlin.Function1[Buffer,kotlin.Unit]?#kotlin.Function1[Buffer,kotlin.Unit]?#kotlin.Function1[kotlin.String,kotlin.Unit]?#kotlin.Function1[kotlin.String,kotlin.Unit]?#kotlin.Function1[kotlin.String,kotlin.Unit]?/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/exec/exec-shell-and-capture.html
+$dokka.location:com.rnett.action.github////PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/index.html
+$dokka.location:com.rnett.action.github/github.context///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/index.html
+$dokka.location:com.rnett.action.github/github.context/action/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/action.html
+$dokka.location:com.rnett.action.github/github.context/actor/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/actor.html
+$dokka.location:com.rnett.action.github/github.context/eventName/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/event-name.html
+$dokka.location:com.rnett.action.github/github.context/hashFiles/#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/hash-files.html
+$dokka.location:com.rnett.action.github/github.context/ref/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/ref.html
+$dokka.location:com.rnett.action.github/github.context/sha/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/sha.html
+$dokka.location:com.rnett.action.github/github.context/workflow/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/workflow.html
+$dokka.location:com.rnett.action.github/github///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/index.html
 $dokka.location:com.rnett.action.glob////PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.glob/index.html
 $dokka.location:com.rnett.action.glob//Globber/#kotlin.Array[kotlin.String]#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.glob/-globber.html
 $dokka.location:com.rnett.action.glob//Globber/#kotlin.collections.List[kotlin.String]#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.glob/-globber.html
@@ -260,6 +270,7 @@ com.rnett.action.artifact
 com.rnett.action.cache
 com.rnett.action.core
 com.rnett.action.exec
+com.rnett.action.github
 com.rnett.action.glob
 com.rnett.action.io
 
