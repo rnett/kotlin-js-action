@@ -113,12 +113,17 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.gradle/caches
+            ~/.gradle/caches/modules*
             ~/.gradle/wrapper
           key: ${{ runner.os }}-publish-gradle-${{ hashFiles('**/settings.gradle*', 'buildSrc/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-publish-gradle-
             ${{ runner.os }}-test-gradle-
+
+      - name: Use new build cache
+        uses: rnett/github-actions-gradle-cache@main
+        with:
+          version: '0.1.0-SNAPSHOT'
 
       - name: Generate HTML Docs
         run: ./gradlew :kotlin-js-action:dokkaHtml -PsourceLinkBranch=$GITHUB_SHA
