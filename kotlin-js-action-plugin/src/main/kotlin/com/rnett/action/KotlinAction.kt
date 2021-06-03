@@ -3,6 +3,7 @@ package com.rnett.action
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.TaskProvider
+import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import java.io.File
 import java.nio.file.Files
@@ -40,22 +41,26 @@ fun KotlinJsTargetDsl.githubAction(
     useCommonJs()
 
     val webpackGenTask = project.addWebpackGenTask()
+    binaries.executable()
 
     browser {
         webpackTask {
-            output.globalObject = "this" // NodeJS mode
-            sourceMaps = false
-            mode = org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION
+            if(mode == org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION) {
+                output.globalObject = "this" // NodeJS mode
+                sourceMaps = false
 
-            dependsOn(webpackGenTask)
+                dependsOn(webpackGenTask)
 
-            val packedFile = this.outputFile
-            outputs.file(outputFile)
-                .withPropertyName("actionOutput")
+                val packedFile = this.outputFile
+                outputs.file(outputFile)
+                    .withPropertyName("actionOutput")
 
-            doLast {
-                outputFile.parentFile.mkdirs()
-                Files.copy(packedFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                project.tasks.named(LifecycleBasePlugin.ASSEMBLE_TASK_NAME).configure { dependsOn(this@webpackTask) }
+
+                doLast {
+                    outputFile.parentFile.mkdirs()
+                    Files.copy(packedFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                }
             }
         }
     }
