@@ -164,6 +164,7 @@ $dokka.location:com.rnett.action.github/github.context/action/#/PointingToDeclar
 $dokka.location:com.rnett.action.github/github.context/actor/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/actor.html
 $dokka.location:com.rnett.action.github/github.context/eventName/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/event-name.html
 $dokka.location:com.rnett.action.github/github.context/hashFiles/#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/hash-files.html
+$dokka.location:com.rnett.action.github/github.context/job/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/job.html
 $dokka.location:com.rnett.action.github/github.context/ref/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/ref.html
 $dokka.location:com.rnett.action.github/github.context/sha/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/sha.html
 $dokka.location:com.rnett.action.github/github.context/workflow/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.github/github/context/workflow.html
