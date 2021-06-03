@@ -151,7 +151,9 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      *
      * @return this
      */
-    public fun requireFile(): Path {
+    public fun requireFile(requireExists: Boolean = true): Path {
+        if(!requireExists && !exists)
+            return this
         if (!exists)
             error("File does not exist: $this")
         if (!isFile)
@@ -164,7 +166,9 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      *
      * @return this
      */
-    public fun requireDirectory(): Path {
+    public fun requireDirectory(requireExists: Boolean = true): Path {
+        if(!requireExists && !exists)
+            return this
         if (!exists)
             error("Directory does not exist: $this")
         if (!isDir)
@@ -243,11 +247,13 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
-     * Move this directory's children into the directory [dest].
+     * Copy this directory's children into the directory [dest], creating it if it does not exist.
      */
     public suspend fun copyChildren(dest: Path, force: Boolean = true) {
         requireDirectory()
-        dest.requireDirectory()
+        dest.requireDirectory(false)
+        if(!dest.exists)
+            dest.mkdir()
         children.forEach { it.copy(dest, force) }
     }
 
@@ -261,11 +267,13 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
-     * Move this directory's children into the directory [dest].
+     * Move this directory's children into the directory [dest], creating it if it does not exist.
      */
     public suspend fun moveChildren(dest: Path, force: Boolean = true) {
         requireDirectory()
-        dest.requireDirectory()
+        dest.requireDirectory(false)
+        if(!dest.exists)
+            dest.mkdir()
         children.forEach { it.move(dest, force) }
     }
 
@@ -279,7 +287,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
-     * Move this directory's children into the directory [dest].
+     * Move this directory's children into the directory [dest], creating it if it does not exist.
      */
     public suspend fun copyChildren(dest: String, force: Boolean = true): Unit = copyChildren(Path(dest), force)
 
@@ -293,7 +301,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
-     * Move this directory's children into the directory [dest].
+     * Move this directory's children into the directory [dest], creating it if it does not exist.
      */
     public suspend fun moveChildren(dest: String, force: Boolean = true): Unit = moveChildren(Path(dest), force)
 
@@ -330,7 +338,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * Append [data] to this file, creating it if it doesn't exist.
      */
     public fun append(data: String, encoding: String = "utf8") {
-        requireFile()
+        requireFile(false)
         fs.writeFileSync(path, data, JsObject<`T$45`> {
             this.encoding = encoding
             flag = "a"
@@ -342,7 +350,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @see append
      */
     public fun appendStream(encoding: String = "utf8"): WriteStream {
-        requireFile()
+        requireFile(false)
         return fs.createWriteStream(path, JsObject<fs.`T$51`>{
             this.encoding = encoding
             this.flags = "a"
@@ -353,7 +361,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * Write to this file, truncating it if it exists, and creating it if not.
      */
     public fun write(data: String, encoding: String = "utf8") {
-        requireFile()
+        requireFile(false)
         fs.writeFileSync(path, data, JsObject<`T$45`> {
             this.encoding = encoding
             flag = "w"
@@ -365,7 +373,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @see write
      */
     public fun writeStream(encoding: String = "utf8"): WriteStream {
-        requireFile()
+        requireFile(false)
         return fs.createWriteStream(path, JsObject<fs.`T$51`>{
             this.encoding = encoding
             this.flags = "w"
