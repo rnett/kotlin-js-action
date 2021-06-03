@@ -2,19 +2,9 @@ package com.rnett.action
 
 import org.gradle.api.Project
 import org.gradle.api.Task
-import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.TaskProvider
-import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.KotlinJsProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJsCompilation
-import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsSubTargetContainerDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 import java.io.File
-import java.nio.file.CopyOption
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
@@ -24,22 +14,18 @@ import java.nio.file.StandardCopyOption
  *
  * @param addDependency whether to add the created task as a dependency of `browserProductionWebpack`.
  */
-fun Project.addWebpackGenTask(): TaskProvider<Task> {
-    val configTask = tasks.register(Constants.createWebpackTaskName) {
-        group = Constants.taskGroup
-        val directory = File("$projectDir/webpack.config.d/")
-        val outputFile = File("$directory/github.action.config.js")
-        doLast {
-            if (!directory.exists())
-                directory.mkdir()
+fun Project.addWebpackGenTask(): TaskProvider<Task> = tasks.register(Constants.createWebpackTaskName) {
+    group = Constants.taskGroup
+    val directory = File("$projectDir/webpack.config.d/")
+    val outputFile = File("$directory/github.action.config.js")
+    doLast {
+        if (!directory.exists())
+            directory.mkdir()
 
-            outputFile.writeText("config.target = 'node';")
-        }
-        outputs.file(outputFile)
-            .withPropertyName("outputFile")
+        outputFile.writeText("config.target = 'node';")
     }
-
-    return configTask
+    outputs.file(outputFile)
+        .withPropertyName("outputFile")
 }
 
 @OptIn(ExperimentalStdlibApi::class)
