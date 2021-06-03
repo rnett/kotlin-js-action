@@ -28,12 +28,6 @@ fun Project.addWebpackGenTask(): TaskProvider<Task> = tasks.register(Constants.c
         .withPropertyName("outputFile")
 }
 
-@OptIn(ExperimentalStdlibApi::class)
-private inline fun <reified T : Any> Project.the(): T =
-    convention.findByType(T::class.java)
-        ?: convention.findPlugin(T::class.java)
-        ?: convention.getByType(T::class.java)
-
 /**
  * Adds a JS target for GitHub actions (browser commonJs w/ node libraries) and configures necessary tasks for packing.
  *
