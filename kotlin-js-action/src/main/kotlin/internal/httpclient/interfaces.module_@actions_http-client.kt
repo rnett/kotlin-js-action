@@ -4,6 +4,8 @@
     "RETURN_TYPE_MISMATCH_ON_OVERRIDE",
     "CONFLICTING_OVERLOADS"
 )
+@file:JsModule("@actions/http-client")
+@file:JsNonModule
 
 package internal.httpclient
 

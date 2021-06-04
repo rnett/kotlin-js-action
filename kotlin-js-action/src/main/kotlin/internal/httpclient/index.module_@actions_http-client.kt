@@ -4,6 +4,8 @@
     "RETURN_TYPE_MISMATCH_ON_OVERRIDE",
     "CONFLICTING_OVERLOADS"
 )
+@file:JsModule("@actions/http-client")
+@file:JsNonModule
 
 package internal.httpclient
 
@@ -52,8 +54,6 @@ public external enum class MediaTypes {
 }
 
 public external fun getProxyUrl(serverUrl: String): String
-
-public typealias HttpClientError = Error
 
 public external open class HttpClientResponse(message: IncomingMessage) : IHttpClientResponse {
     override var message: IncomingMessage
