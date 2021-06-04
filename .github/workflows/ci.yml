@@ -23,8 +23,6 @@ jobs:
 
       - name: Use new build cache
         uses: rnett/github-actions-gradle-cache@main
-        with:
-          version: '0.1.0-SNAPSHOT'
 
       - name: Build and Test
         run: ./gradlew build -DRELEASE_SIGNING_ENABLED=false --info
@@ -93,8 +91,6 @@ jobs:
 
       - name: Use new build cache
         uses: rnett/github-actions-gradle-cache@main
-        with:
-          version: '0.1.0-SNAPSHOT'
 
       - name: Generate HTML Docs
         run: ./gradlew :kotlin-js-action:dokkaHtml -PsourceLinkBranch=$GITHUB_SHA --info
