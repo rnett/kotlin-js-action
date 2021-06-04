@@ -31,6 +31,7 @@ public fun fail(message: String): Nothing {
 @Suppress("UNREACHABLE_CODE")
 public fun fail(exception: Throwable): Nothing {
     core.setFailed(exception)
+    exception.printStackTrace()
     currentProcess.exit(1)
     return error("")
 }

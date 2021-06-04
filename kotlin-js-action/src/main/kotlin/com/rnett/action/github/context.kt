@@ -1,5 +1,7 @@
 package com.rnett.action.github
 
+import NodeJS.ReadWriteStream
+import NodeJS.WritableStream
 import com.rnett.action.JsObject
 import com.rnett.action.Path
 import com.rnett.action.core.env
@@ -31,7 +33,7 @@ public object github {
                         val hash = crypto.createHash("sha256")
                         val read = fs.createReadStream(it.path, JsObject<fs.`T$50`> { })
 
-                        launch { pipeline(read, hash.asDynamic()) }
+                        launch { pipeline(stream1 = read, stream2 = hash.asDynamic() as WritableStream) }
                             .join()
 
                         result.write(hash.digest())
