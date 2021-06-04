@@ -44,9 +44,7 @@ private interface CommitCacheRequest {
 /**
  * Cache accessors, similar to `@actions/cache`
  */
-public object CacheClient {
-
-    private const val userAgent = "Kotlin/JS Github Action wrapper"
+public class CacheClient(private val userAgent: String = "Kotlin/JS Github Action wrapper") {
 
     private fun Number.isSuccess() = this in 200..299
 
