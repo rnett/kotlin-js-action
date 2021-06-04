@@ -33,8 +33,9 @@ public object github {
                         val hash = crypto.createHash("sha256")
                         val read = fs.createReadStream(it.path, JsObject<fs.`T$50`> { })
 
-                        launch { pipeline(streams = arrayOf(read, hash)) }
-                            .join()
+                        launch {
+                            read.pipe(hash as WritableStream)
+                        }.join()
 
                         result.write(hash.digest())
                     }
