@@ -7,6 +7,7 @@ import com.rnett.action.glob.globFlow
 import kotlinx.coroutines.asDeferred
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import stream.internal.Companion.pipeline
 
 public object github {
@@ -21,7 +22,7 @@ public object github {
         public val workspace: String by env("GITHUB_WORKSPACE")
         public val workspacePath: Path get() = Path(workspace)
 
-        public suspend fun hashFiles(patterns: List<String>, underWorkspace: Boolean = true): String {
+        public suspend fun hashFiles(patterns: List<String>, underWorkspace: Boolean = true): String = coroutineScope {
             val result = crypto.createHash("sha256")
             val myWorkspacePath = workspacePath
             globFlow(patterns)
@@ -30,14 +31,13 @@ public object github {
                         val hash = crypto.createHash("sha256")
                         val read = fs.createReadStream(it.path, JsObject<fs.`T$50`> { })
 
-                        util.promisify { pipeline(read, hash.asDynamic()) }()
-                            .asDeferred()
-                            .await()
+                        launch { pipeline(read, hash.asDynamic()) }
+                            .join()
 
                         result.write(hash.digest())
                     }
                 }
-            return result.digest("hex")
+            return@coroutineScope result.digest("hex")
         }
     }
 }
