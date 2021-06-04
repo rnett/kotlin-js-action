@@ -17,20 +17,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 15
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
-      - name: Cache Gradle packages and Konan
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches/modules*
-            ~/.gradle/caches/7*
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-test-gradle-${{ hashFiles('**/settings.gradle*', 'buildSrc/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-test-gradle-
-            ${{ runner.os }}-publish-gradle-
 
       - name: Use new build cache
         uses: rnett/github-actions-gradle-cache@main
@@ -39,14 +28,6 @@ jobs:
 
       - name: Build and Test
         run: ./gradlew build -DRELEASE_SIGNING_ENABLED=false --info
-
-      - name: Stop gradle daemon
-        run: ./gradlew --stop
-
-      - name: Cleanup Gradle Cache
-        run: |
-          rm -f ~/.gradle/caches/*/*.lock
-          rm -f ~/.gradle/caches/*/gc.properties
 
   find-version:
     runs-on: ubuntu-latest
@@ -110,18 +91,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Cache Gradle packages and Konan
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches/modules*
-            ~/.gradle/caches/7*
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-publish-gradle-${{ hashFiles('**/settings.gradle*', 'buildSrc/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-publish-gradle-
-            ${{ runner.os }}-test-gradle-
-
       - name: Use new build cache
         uses: rnett/github-actions-gradle-cache@main
         with:
@@ -147,15 +116,6 @@ jobs:
           from: ./kotlin-js-action/build/dokka/html
           publish-to: $version,$latest
           version: ${{ needs.find-version.outputs.version }}
-
-      - name: Stop gradle daemon
-        run: ./gradlew --stop
-
-      - name: Cleanup Gradle Cache Posix
-        if: runner.os != 'Windows'
-        run: |
-          rm -f ~/.gradle/caches/*/*.lock
-          rm -f ~/.gradle/caches/*/gc.properties
 
   finalize:
     runs-on: ubuntu-latest
