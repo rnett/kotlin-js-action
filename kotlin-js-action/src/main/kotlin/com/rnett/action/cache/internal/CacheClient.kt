@@ -20,7 +20,7 @@ import kotlin.math.min
 
 private external fun encodeURIComponent(str: String): String
 
-public interface CacheEntry {
+public external interface CacheEntry {
     public val cacheKey: String
     public val scope: String
     public val creationTime: String
@@ -28,16 +28,16 @@ public interface CacheEntry {
     public val cacheVersion: String
 }
 
-private interface ReserveRequest {
+private external interface ReserveRequest {
     var key: String
     var version: String
 }
 
-private interface ReserveCacheResponse {
+private external interface ReserveCacheResponse {
     val cacheId: Int
 }
 
-private interface CommitCacheRequest {
+private external interface CommitCacheRequest {
     var size: Long
 }
 
