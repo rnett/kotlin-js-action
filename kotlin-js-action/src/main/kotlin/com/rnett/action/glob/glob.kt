@@ -27,10 +27,14 @@ public class Globber internal constructor(private val _globber: JsGlobber) {
      */
     public suspend fun globFlow(): Flow<Path> = flow {
         val iterator = _globber.globGenerator()
-        do {
+        while (true) {
             val next = (iterator.next() as Promise<IteratorYieldResult<String>>).await()
+
+            if (next.done != false)
+                break
+
             emit(Path(next.value))
-        } while (next.done == false)
+        }
     }
 }
 

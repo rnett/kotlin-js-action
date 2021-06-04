@@ -12,7 +12,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * The raw path.
      */
-    public val path: String = if (resolve) resolve(rawPath) else rawPath
+    public val path: String = if (resolve) resolve(rawPath)!! else rawPath!!
 
     /**
      * Resolve a path.  Done by default on creation.
@@ -28,7 +28,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         /**
          * Change the working directory
          */
-        public fun cd(newWD: Path){
+        public fun cd(newWD: Path) {
             currentProcess.chdir(newWD.path)
         }
 
@@ -41,7 +41,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
             } else
                 rawPath
 
-            return platformPath.resolve(newRawPath)
+            return platformPath.resolve(newRawPath)!!
         }
 
         /**
@@ -152,7 +152,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @return this
      */
     public fun requireFile(requireExists: Boolean = true): Path {
-        if(!requireExists && !exists)
+        if (!requireExists && !exists)
             return this
         if (!exists)
             error("File does not exist: $this")
@@ -167,7 +167,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @return this
      */
     public fun requireDirectory(requireExists: Boolean = true): Path {
-        if(!requireExists && !exists)
+        if (!requireExists && !exists)
             return this
         if (!exists)
             error("Directory does not exist: $this")
@@ -252,7 +252,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     public suspend fun copyChildren(dest: Path, force: Boolean = true) {
         requireDirectory()
         dest.requireDirectory(false)
-        if(!dest.exists)
+        if (!dest.exists)
             dest.mkdir()
         children.forEach { it.copy(dest, force) }
     }
@@ -272,7 +272,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     public suspend fun moveChildren(dest: Path, force: Boolean = true) {
         requireDirectory()
         dest.requireDirectory(false)
-        if(!dest.exists)
+        if (!dest.exists)
             dest.mkdir()
         children.forEach { it.move(dest, force) }
     }
@@ -321,7 +321,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      */
     public fun readStream(encoding: String = "utf8"): ReadStream {
         requireFile()
-        return fs.createReadStream(path, JsObject<fs.`T$50`>{
+        return fs.createReadStream(path, JsObject<fs.`T$50`> {
             this.encoding = encoding
         })
     }
@@ -351,7 +351,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      */
     public fun appendStream(encoding: String = "utf8"): WriteStream {
         requireFile(false)
-        return fs.createWriteStream(path, JsObject<fs.`T$51`>{
+        return fs.createWriteStream(path, JsObject<fs.`T$51`> {
             this.encoding = encoding
             this.flags = "a"
         })
@@ -374,7 +374,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      */
     public fun writeStream(encoding: String = "utf8"): WriteStream {
         requireFile(false)
-        return fs.createWriteStream(path, JsObject<fs.`T$51`>{
+        return fs.createWriteStream(path, JsObject<fs.`T$51`> {
             this.encoding = encoding
             this.flags = "w"
         })

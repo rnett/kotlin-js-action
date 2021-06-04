@@ -1,16 +1,13 @@
 package com.rnett.action.github
 
-import NodeJS.ReadWriteStream
 import NodeJS.WritableStream
 import com.rnett.action.JsObject
 import com.rnett.action.Path
 import com.rnett.action.core.env
 import com.rnett.action.glob.globFlow
-import kotlinx.coroutines.asDeferred
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import stream.internal.Companion.pipeline
 
 public object github {
     public object context {
