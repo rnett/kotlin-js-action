@@ -75,7 +75,7 @@ jobs:
           username: rnett
           password: ${{ secrets.SONATYPE_PASSWORD }}
           staging_profile_id: ${{ secrets.SONATYPE_PROFILE_ID }}
-          description: ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }}
+          description: kotlin-js-action ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }}
 
   publish:
     name: Publish
@@ -131,10 +131,9 @@ jobs:
           staging_repository_id: ${{ needs.create_staging_repository.outputs.repository_id }}
       - name: Release
         if: ${{ needs.publish.result == 'success' }}
-        uses: rnett/release-nexus-staging-repo@rn_use_description
+        uses: nexus-actions/release-nexus-staging-repo@v1.1
         with:
           username: rnett
           password: ${{ secrets.SONATYPE_PASSWORD }}
           staging_repository_id: ${{ needs.create_staging_repository.outputs.repository_id }}
-          description: Closing ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }}
           close_only: 'true'

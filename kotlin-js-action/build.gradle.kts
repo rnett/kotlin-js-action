@@ -27,6 +27,7 @@ dependencies {
 //    implementation(npm("@actions/github", "4.0.0", generateExternals))
     implementation(npm("@actions/artifact", "0.5.1", generateExternals))
     implementation(npm("@actions/cache", "1.0.7", generateExternals))
+    implementation(npm("@actions/http-client", "1.0.11", generateExternals))
 }
 
 kotlin {
@@ -34,7 +35,7 @@ kotlin {
         useCommonJs()
         nodejs {
             binaries.library()
-            runTask { nodeJs.nodeVersion = "12.20.2"}
+            runTask { nodeJs.nodeVersion = "12.20.2" }
         }
     }
     explicitApi()
