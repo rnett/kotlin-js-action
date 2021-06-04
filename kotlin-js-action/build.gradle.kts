@@ -35,7 +35,6 @@ kotlin {
         useCommonJs()
         nodejs {
             binaries.library()
-            runTask { nodeJs.nodeVersion = "12.20.2" }
         }
     }
     explicitApi()
