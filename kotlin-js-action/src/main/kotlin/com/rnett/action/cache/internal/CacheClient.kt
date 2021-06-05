@@ -13,8 +13,6 @@ import kotlinx.coroutines.await
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
-import stream.internal
-import tsstdlib.Iterable
 import kotlin.js.Promise
 import kotlin.math.min
 
@@ -88,6 +86,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
         val response = httpClient.getJson<CacheEntry>(url).await()
         if (response.statusCode == 204)
             return null
+
         if (!response.statusCode.isSuccess())
             error("Cache service responded with ${response.statusCode}")
 
@@ -190,7 +189,11 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
             additionalHeaders
         ).await()
         if (!response.message.statusCode.isSuccess())
-            error("Cache service responded with ${response.message.statusCode} during chunk upload")
+            error(
+                "Cache service responded with ${response.message.statusCode} during chunk upload: ${
+                    response.readBody().await()
+                }"
+            )
     }
 
     /**
@@ -199,17 +202,20 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
     public suspend fun uploadText(cacheId: Int, text: String) {
         val additionalHeaders = JsObject<IHeaders> {
             this["Content-Type"] = "application/octet-stream"
-            this["Content-Range"] = "bytes $0-${text.length - 1}/*"
+            this["Content-Range"] = "bytes 0-${text.length - 1}/*"
         }
         val url = getCacheApiUrl("caches/$cacheId")
-        val response = httpClient.sendStream(
-            "PATCH",
+        val response = httpClient.patch(
             url,
-            internal.Readable.from(arrayOf(text) as Iterable<Any>),
+            text,
             additionalHeaders
         ).await()
         if (!response.message.statusCode.isSuccess())
-            error("Cache service responded with ${response.message.statusCode} during text upload")
+            error(
+                "Cache service responded with ${response.message.statusCode} during text upload: ${
+                    response.readBody().await()
+                }"
+            )
     }
 
     /**

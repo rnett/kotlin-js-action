@@ -24,7 +24,7 @@ dependencies {
 //    implementation(npm("@actions/tool-cache", "1.6.1"))
     //TODO should do https://github.com/actions/toolkit/blob/30e0a77337213de5d4e158b05d1019c6615f69fd/packages/github/src/context.ts at least
     // don't need the actual lib for that
-//    implementation(npm("@actions/github", "4.0.0", generateExternals))
+    implementation(npm("@actions/github", "5.0.0", generateExternals))
     implementation(npm("@actions/artifact", "0.5.1", generateExternals))
     implementation(npm("@actions/cache", "1.0.7", generateExternals))
     implementation(npm("@actions/http-client", "1.0.11", generateExternals))
