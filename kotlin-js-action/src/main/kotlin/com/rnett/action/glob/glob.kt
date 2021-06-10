@@ -204,3 +204,15 @@ public suspend fun globFlow(
     implicitDescendants = implicitDescendants,
     omitBrokenSymbolicLinks = omitBrokenSymbolicLinks
 )
+
+/**
+ * Hash files, the same as the actions context function `hashFiles.
+ *
+ * Note that patterns are relative to `GITHUB_WORKSPACE` and only include files inside of it.
+ *
+ * @param followSymbolicLinks whether to follow symbolic links when hashing files
+ */
+public suspend fun hashFiles(patterns: List<String>, followSymbolicLinks: Boolean = true): String =
+    internal.glob.hashFiles(patterns.joinToString("\n"), JsObject {
+        this.followSymbolicLinks = followSymbolicLinks
+    }).await()

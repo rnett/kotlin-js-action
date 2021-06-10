@@ -11,19 +11,17 @@ ext["pomName"] = "Kotlin JS GitHub Action SDK"
 val generateExternals = false
 
 dependencies {
-    testImplementation(kotlin("test-js"))
+    testImplementation(kotlin("test"))
 
     api("org.jetbrains.kotlinx:kotlinx-nodejs:0.0.7")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
 
     implementation(npm("@actions/core", "1.3.0", generateExternals))
     implementation(npm("@actions/exec", "1.0.4", generateExternals))
-    implementation(npm("@actions/glob", "0.1.2", generateExternals))
-    implementation(npm("@actions/io", "1.1.0", generateExternals))
+    implementation(npm("@actions/glob", "0.2.0", generateExternals))
+    implementation(npm("@actions/io", "1.1.1", generateExternals))
     //TODO breaks dukat
 //    implementation(npm("@actions/tool-cache", "1.6.1"))
-    //TODO should do https://github.com/actions/toolkit/blob/30e0a77337213de5d4e158b05d1019c6615f69fd/packages/github/src/context.ts at least
-    // don't need the actual lib for that
     implementation(npm("@actions/github", "5.0.0", generateExternals))
     implementation(npm("@actions/artifact", "0.5.1", generateExternals))
     implementation(npm("@actions/cache", "1.0.7", generateExternals))
@@ -35,6 +33,18 @@ kotlin {
         useCommonJs()
         nodejs {
             binaries.library()
+            testTask {
+                useMocha()
+
+                val dir = rootProject.file("testdir")
+                doFirst {
+                    dir.deleteRecursively()
+                    dir.mkdirs()
+                }
+                doLast {
+                    dir.deleteRecursively()
+                }
+            }
         }
     }
     explicitApi()

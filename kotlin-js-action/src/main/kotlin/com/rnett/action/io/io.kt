@@ -12,10 +12,17 @@ public object io {
     /**
      * Copy files.
      */
-    public suspend fun cp(source: String, dest: String, recursive: Boolean = false, force: Boolean = true) {
+    public suspend fun cp(
+        source: String,
+        dest: String,
+        recursive: Boolean = false,
+        force: Boolean = true,
+        copySourceDirectory: Boolean = true
+    ) {
         internal.io.cp(source, dest, JsObject {
             this.recursive = recursive
             this.force = force
+            this.copySourceDirectory = copySourceDirectory
         }).await()
     }
 
@@ -55,6 +62,7 @@ public object io {
                 throw error
         }
     }
+
     /**
      * Copy files.
      */
