@@ -67,8 +67,11 @@ public object io {
      * Copy files.
      */
 
-    public suspend fun cp(source: Path, dest: Path, recursive: Boolean = false, force: Boolean = true): Unit =
-        cp(source.path, dest.path, recursive, force)
+    public suspend fun cp(
+        source: Path, dest: Path, recursive: Boolean = false, force: Boolean = true,
+        copySourceDirectory: Boolean = true
+    ): Unit =
+        cp(source.path, dest.path, recursive, force, copySourceDirectory)
 
     /**
      * Move files.
@@ -78,8 +81,11 @@ public object io {
     /**
      * Copy files.
      */
-    public suspend fun cp(source: Path, dest: String, recursive: Boolean = false, force: Boolean = true): Unit =
-        cp(source.path, dest, recursive, force)
+    public suspend fun cp(
+        source: Path, dest: String, recursive: Boolean = false, force: Boolean = true,
+        copySourceDirectory: Boolean = true
+    ): Unit =
+        cp(source.path, dest, recursive, force, copySourceDirectory)
 
     /**
      * Move files.
@@ -89,8 +95,11 @@ public object io {
     /**
      * Copy files.
      */
-    public suspend fun cp(source: String, dest: Path, recursive: Boolean = false, force: Boolean = true): Unit =
-        cp(source, dest.path, recursive, force)
+    public suspend fun cp(
+        source: String, dest: Path, recursive: Boolean = false, force: Boolean = true,
+        copySourceDirectory: Boolean = true
+    ): Unit =
+        cp(source, dest.path, recursive, force, copySourceDirectory)
 
     /**
      * Move files.
