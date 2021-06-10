@@ -25,6 +25,8 @@ public class Path(rawPath: String, resolve: Boolean = true) {
          */
         public val cwd: Path get() = Path(currentProcess.cwd())
 
+        public val userHome: Path get() = Path(os.homedir())
+
         /**
          * Change the working directory
          */
@@ -147,31 +149,39 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     public val isDir: Boolean get() = stats?.isDirectory() == true
 
     /**
-     * Throw if this path is not a file, or doesn't exist.
+     * Throw if this path is not a file, or doesn't exist and [requireExists] is true (as it is by default).
      *
      * @return this
      */
     public fun requireFile(requireExists: Boolean = true): Path {
+        val stats = stats
+        val exists = stats != null
+
         if (!requireExists && !exists)
             return this
         if (!exists)
             error("File does not exist: $this")
-        if (!isFile)
+
+        if (stats?.isFile() == false)
             error("Path $this is not a file")
         return this
     }
 
     /**
-     * Throw if this path is not a directory, or doesn't exist.
+     * Throw if this path is not a directory, or doesn't exist and [requireExists] is true (as it is by default).
      *
      * @return this
      */
     public fun requireDirectory(requireExists: Boolean = true): Path {
+        val stats = stats
+        val exists = stats != null
+
         if (!requireExists && !exists)
             return this
         if (!exists)
             error("Directory does not exist: $this")
-        if (!isDir)
+
+        if (stats?.isDirectory() == false)
             error("Path $this is not a directory")
         return this
     }
@@ -207,22 +217,43 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      *
      * @param parents whether to also make parents that don't exist
      * @param existsOk if false, will throw if the current path exists
+     * @return this
      */
-    public fun mkdir(parents: Boolean = true, existsOk: Boolean = true) {
-        if (exists) {
+    public fun mkdir(parents: Boolean = true, existsOk: Boolean = true): Path {
+        val stats = stats
+        if (stats != null) {
             if (!existsOk)
                 error("Path $path already exists")
 
-            if (isFile)
-                error("Path $path exists, but is a file")
+            if (!stats.isDirectory())
+                error("Path $path exists, but is not a directory")
 
-            return
+            return this
         }
 
         fs.mkdirSync(path, JsObject<MakeDirectoryOptions> {
             this.recursive = parents
         })
 
+        return this
+    }
+
+    /**
+     * Create an empty file if it doesn't exist, creating parent directories if necessary.
+     * @return this
+     */
+    public fun touch(): Path {
+        val stats = stats
+        if (stats != null) {
+            if (stats.isFile())
+                return this
+            else
+                error("Path $path exists, but is not a file")
+        }
+
+        parent.mkdir()
+        write("")
+        return this
     }
 
     /**
@@ -240,70 +271,69 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Copy this file to a new location, recursively by default.
      *
+     * Copies [this] **into** [destDir].
+     *
+     * @param recursive whether to recursively copy children
+     * @param force whether to overwrite files in [destDir].  **A `false` value is sometimes ignored, do not rely on.**
      * @see io.cp
      */
-    public suspend fun copy(dest: Path, recursive: Boolean = true, force: Boolean = true) {
-        io.cp(path, dest, recursive, force)
+    public suspend fun copyInto(destDir: Path, recursive: Boolean = true, force: Boolean = true) {
+        val stats = destDir.stats
+        if (stats == null) {
+            destDir.mkdir()
+        } else if (stats.isFile()) {
+            error("Destination $destDir is a file, can't copy into a file.")
+        }
+
+        io.cp(path, destDir, recursive, force, true)
     }
 
     /**
-     * Copy this directory's children into the directory [dest], creating it if it does not exist.
+     * Copy this directory's children into the directory [destDir], creating it if it does not exist.
+     *
+     * @param recursive whether to recursively copy children.
+     * Note that this applies to this directories children, not to itself.
+     * @param force whether to overwrite files in [destDir].  **A `false` value is sometimes ignored, do not rely on.**
      */
-    public suspend fun copyChildren(dest: Path, force: Boolean = true) {
-        requireDirectory()
-        dest.requireDirectory(false)
-        if (!dest.exists)
-            dest.mkdir()
-        children.forEach { it.copy(dest, force) }
+    public suspend fun copyChildrenInto(destDir: Path, recursive: Boolean = true, force: Boolean = true) {
+        children.forEach {
+            it.copyInto(destDir, recursive, force)
+        }
     }
 
     /**
      * Move this file to a new location.
      *
+     * Moves [this] **into** [destDir].  To move children use [moveChildrenInto].
+     *
      * @see io.mv
      */
-    public suspend fun move(dest: Path, force: Boolean = true) {
-        io.mv(path, dest, force)
+    public suspend fun moveInto(destDir: Path, force: Boolean = true) {
+        val stats = destDir.stats
+        if (stats == null) {
+            destDir.mkdir()
+        } else if (stats.isFile()) {
+            error("Destination $destDir is a file, can't copy into a file.")
+        }
+
+        io.mv(path, destDir, force)
     }
 
     /**
      * Move this directory's children into the directory [dest], creating it if it does not exist.
      */
-    public suspend fun moveChildren(dest: Path, force: Boolean = true) {
+    public suspend fun moveChildrenInto(dest: Path, force: Boolean = true) {
         requireDirectory()
         dest.requireDirectory(false)
         if (!dest.exists)
             dest.mkdir()
-        children.forEach { it.move(dest, force) }
-    }
-
-    /**
-     * Copy this file to a new location, recursively by default.
-     *
-     * @see io.cp
-     */
-    public suspend fun copy(dest: String, recursive: Boolean = true, force: Boolean = true) {
-        io.cp(path, dest, recursive, force)
+        children.forEach { it.moveInto(dest, force) }
     }
 
     /**
      * Move this directory's children into the directory [dest], creating it if it does not exist.
      */
-    public suspend fun copyChildren(dest: String, force: Boolean = true): Unit = copyChildren(Path(dest), force)
-
-    /**
-     * Move this file to a new location.
-     *
-     * @see io.mv
-     */
-    public suspend fun move(dest: String, force: Boolean = true) {
-        io.mv(path, dest, force)
-    }
-
-    /**
-     * Move this directory's children into the directory [dest], creating it if it does not exist.
-     */
-    public suspend fun moveChildren(dest: String, force: Boolean = true): Unit = moveChildren(Path(dest), force)
+    public suspend fun moveChildrenInto(dest: String, force: Boolean = true): Unit = moveChildrenInto(Path(dest), force)
 
     /**
      * Read this file.
