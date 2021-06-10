@@ -269,9 +269,8 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
-     * Copy this file to a new location, recursively by default.
-     *
-     * Copies [this] **into** [destDir].
+     * Copy this file or directory **into** [destDir], creating it if it does not exist.
+     * Note that this differs from `cp` which will sometimes copy into.
      *
      * @param recursive whether to recursively copy children
      * @param force whether to overwrite files in [destDir].  **A `false` value is sometimes ignored, do not rely on.**
@@ -302,10 +301,23 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
-     * Move this file to a new location.
+     * Copies this file or directory **to** [dest].
+     * Never copies into, for that use [copyInto].
+     * Note that this differs from `cp` which will sometimes copy into.
      *
-     * Moves [this] **into** [destDir].  To move children use [moveChildrenInto].
+     * @param recursive whether to recursively copy children
+     * @param force whether to overwrite files in [dest].  **A `false` value is sometimes ignored, do not rely on.**
+     * @see io.cp
+     */
+    public suspend fun copy(dest: Path, recursive: Boolean = true, force: Boolean = true) {
+        io.cp(path, dest, recursive, force, false)
+    }
+
+    /**
+     * Move this file or directory **into** [destDir], creating it if it does not exist.
+     * Note that this differs from `mv` which will sometimes move into.
      *
+     * @param force whether to overwrite files in [destDir].
      * @see io.mv
      */
     public suspend fun moveInto(destDir: Path, force: Boolean = true) {
@@ -313,32 +325,56 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         if (stats == null) {
             destDir.mkdir()
         } else if (stats.isFile()) {
-            error("Destination $destDir is a file, can't copy into a file.")
+            error("Destination $destDir is a file, can't move into a file.")
         }
 
         io.mv(path, destDir, force)
     }
 
     /**
-     * Move this directory's children into the directory [dest], creating it if it does not exist.
+     * Move this directory's children into the directory [destDir], creating it if it does not exist.
+     *
+     * @param force whether to overwrite files in [destDir].
      */
-    public suspend fun moveChildrenInto(dest: Path, force: Boolean = true) {
-        requireDirectory()
-        dest.requireDirectory(false)
-        if (!dest.exists)
-            dest.mkdir()
-        children.forEach { it.moveInto(dest, force) }
+    public suspend fun moveChildrenInto(destDir: Path, force: Boolean = true) {
+        children.forEach { it.moveInto(destDir, force) }
     }
 
+
     /**
-     * Move this directory's children into the directory [dest], creating it if it does not exist.
+     * Move this file or directory **to** [dest].
+     * Never moves into, for that use [copyInto].
+     * Note that this differs from `mv` which will sometimes copy into.
+     *
+     * @param force whether to overwrite files in [dest].
+     * @see io.cp
      */
-    public suspend fun moveChildrenInto(dest: String, force: Boolean = true): Unit = moveChildrenInto(Path(dest), force)
+    public suspend fun move(dest: Path, force: Boolean = true) {
+        if (dest.exists) {
+            if (force)
+                dest.delete(true)
+            else
+                error("Destination $dest exists, but force is false.")
+        }
+
+
+        fs.renameSync(path, dest.path)
+    }
+
+    public fun rename(newName: String) {
+        if (newName == name)
+            return
+
+        val newPath = (parent / newName)
+        if (newPath.exists)
+            error("File already exists with new name: $newPath")
+        fs.renameSync(path, newPath.path)
+    }
 
     /**
      * Read this file.
      */
-    public fun read(encoding: String = "utf8"): String {
+    public fun readText(encoding: String = "utf8"): String {
         requireFile()
         return fs.readFileSync(path, JsObject<`T$43`> {
             this.encoding = encoding
@@ -346,10 +382,26 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
-     * Create a stream to read the file.
-     * @see read
+     * Read this file.
      */
-    public fun readStream(encoding: String = "utf8"): ReadStream {
+    public fun readBytes(): ByteArray {
+        requireFile()
+        return fs.readFileSync(path, JsObject<`T$42`> {
+            this.encoding = encoding
+        }).let { buffer ->
+            //FIXME duplicates memory, need a better way of doing this
+            ByteArray(buffer.length) {
+                buffer.readUInt8(it).toByte()
+            }
+        }
+    }
+
+    /**
+     * Create a stream to read the file.
+     * @see readText
+     * @see readBytes
+     */
+    public fun readStream(encoding: String? = "utf8"): ReadStream {
         requireFile()
         return fs.createReadStream(path, JsObject<fs.`T$50`> {
             this.encoding = encoding
@@ -360,14 +412,17 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * Append a line to this file (adds [lineSeparator] to [data]).
      * @see append
      */
-    public fun appendLine(data: String, encoding: String = "utf8") {
-        append(data + lineSeparator, encoding)
+    public fun appendLine(data: String, encoding: String = "utf8", createParents: Boolean = true) {
+        append(data + lineSeparator, encoding, createParents)
     }
 
     /**
      * Append [data] to this file, creating it if it doesn't exist.
      */
-    public fun append(data: String, encoding: String = "utf8") {
+    public fun append(data: String, encoding: String = "utf8", createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
         requireFile(false)
         fs.writeFileSync(path, data, JsObject<`T$45`> {
             this.encoding = encoding
@@ -376,10 +431,27 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
-     * Create a stream to read the file.
+     * Append [data] to this file, creating it if it doesn't exist.
+     */
+    public fun append(data: ByteArray, encoding: String = "utf8", createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
+        requireFile(false)
+        fs.writeFileSync(path, data, JsObject<`T$45`> {
+            this.encoding = encoding
+            flag = "a"
+        })
+    }
+
+    /**
+     * Create a stream to append to the file.
      * @see append
      */
-    public fun appendStream(encoding: String = "utf8"): WriteStream {
+    public fun appendStream(encoding: String? = "utf8", createParents: Boolean = true): WriteStream {
+        if (createParents)
+            parent.mkdir()
+
         requireFile(false)
         return fs.createWriteStream(path, JsObject<fs.`T$51`> {
             this.encoding = encoding
@@ -390,7 +462,10 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Write to this file, truncating it if it exists, and creating it if not.
      */
-    public fun write(data: String, encoding: String = "utf8") {
+    public fun write(data: String, encoding: String = "utf8", createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
         requireFile(false)
         fs.writeFileSync(path, data, JsObject<`T$45`> {
             this.encoding = encoding
@@ -399,10 +474,27 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
-     * Create a stream to read the file.
+     * Write to this file, truncating it if it exists, and creating it if not.
+     */
+    public fun write(data: ByteArray, encoding: String = "utf8", createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
+        requireFile(false)
+        fs.writeFileSync(path, data, JsObject<`T$45`> {
+            this.encoding = encoding
+            flag = "w"
+        })
+    }
+
+    /**
+     * Create a stream to write the file.
      * @see write
      */
-    public fun writeStream(encoding: String = "utf8"): WriteStream {
+    public fun writeStream(encoding: String? = "utf8", createParents: Boolean = true): WriteStream {
+        if (createParents)
+            parent.mkdir()
+
         requireFile(false)
         return fs.createWriteStream(path, JsObject<fs.`T$51`> {
             this.encoding = encoding

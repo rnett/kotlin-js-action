@@ -14,16 +14,6 @@ class TestPath {
         Path.cd(Path(TestEnv.testCwd))
     }
 
-    @BeforeTest
-    fun before() {
-        testDir.mkdir()
-    }
-
-    @AfterTest
-    fun after() = GlobalScope.promise {
-        testDir.children.forEach { it.delete() }
-    }
-
     @Test
     fun testCwd() {
         assertEquals(currentProcess.cwd(), Path.cwd.path)
@@ -142,7 +132,7 @@ class TestPath {
     }
 
     @Test
-    fun testCopy() = GlobalScope.promise {
+    fun testCopyInto() = GlobalScope.promise {
         val destDir = testDir / "copyDest"
         destDir.mkdir()
 
@@ -154,15 +144,28 @@ class TestPath {
 
         //FIXME doesn't work, not my doing
 //        assertFails { sourceDir.copyInto(destDir, force = false) }
-        assertEquals("test", (destDir / "copyDir/file").read())
+        assertEquals("test", (destDir / "copyDir/file").readText())
 
         val sourceFile = (testDir / "copyFile").apply { write("test2") }
         sourceFile.copyInto(destDir)
-        assertEquals("test2", (destDir / "copyFile").read())
+        assertEquals("test2", (destDir / "copyFile").readText())
 
         val newDestDir = testDir / "copyDest"
         sourceDir.copyInto(newDestDir)
-        assertEquals("test", (newDestDir / "copyDir/file").read())
+        assertEquals("test", (newDestDir / "copyDir/file").readText())
+    }
+
+    @Test
+    fun testCopy() = GlobalScope.promise {
+        val destDir = testDir / "copyDest3"
+        val source = testDir / "copySource3"
+        source.mkdir()
+        (source / "file").write("test")
+
+        source.copy(destDir)
+        assertEquals("test", (destDir / "file").readText())
+        //FIXME doesn't work, not my doing
+//        assertFails { source.copy(destDir, force = false) }
     }
 
     @Test
@@ -173,11 +176,11 @@ class TestPath {
         }
         sourceDir.copyChildrenInto(dest)
 
-        assertEquals("test3", (dest / "file2").read())
+        assertEquals("test3", (dest / "file2").readText())
     }
 
     @Test
-    fun testMove() = GlobalScope.promise {
+    fun testMoveInto() = GlobalScope.promise {
         val destDir = testDir / "moveDest"
         destDir.mkdir()
 
@@ -189,18 +192,51 @@ class TestPath {
 
         sourceDir.moveInto(destDir)
         assertFails { sourceDir.moveInto(destDir, force = false) }
-        assertEquals("test", (destDir / "moveDir/file").read())
+        assertEquals("test", (destDir / "moveDir/file").readText())
         assertFalse(sourceDir.exists)
 
         val sourceFile = (testDir / "moveFile").apply { write("test2") }
         sourceFile.moveInto(destDir)
-        assertEquals("test2", (destDir / "moveFile").read())
+        assertEquals("test2", (destDir / "moveFile").readText())
         assertFalse(sourceFile.exists)
 
         val newDestDir = testDir / "moveDest"
         sourceDir2.moveInto(newDestDir)
-        assertEquals("test", (newDestDir / "moveDir/file").read())
+        assertEquals("test", (newDestDir / "moveDir/file").readText())
         assertFalse(sourceDir2.exists)
+    }
+
+    @Test
+    fun testMove() = GlobalScope.promise {
+        val destDir = testDir / "moveDest3"
+        val source = testDir / "moveSource3"
+        source.mkdir()
+        (source / "file").write("test")
+
+        val source2 = (testDir / "moveSource32").apply { source.copy(this) }
+
+        source.move(destDir)
+        source2.move(destDir)
+
+        assertEquals("test", (destDir / "file").readText())
+        assertFalse(source.exists)
+        assertFails { source.move(destDir, force = false) }
+    }
+
+    @Test
+    fun testRename() = GlobalScope.promise {
+        val destDir = testDir / "newRename"
+        val source = testDir / "reanemSource"
+        source.mkdir()
+        (source / "file").write("test")
+
+        source.rename(destDir.name)
+        assertEquals("test", (destDir / "file").readText())
+        assertFalse(source.exists)
+
+        (testDir / "takenName").touch()
+
+        assertFails { source.rename("takenName") }
     }
 
     @Test
@@ -210,8 +246,42 @@ class TestPath {
             (this / "file2").write("test3")
         }
         sourceDir.moveChildrenInto(dest)
-        assertEquals("test3", (dest / "file2").read())
+        assertEquals("test3", (dest / "file2").readText())
         assertFalse((sourceDir / "file2").exists)
     }
+
+    @Test
+    fun testRead() = GlobalScope.promise {
+        val file = testDir / "readFile"
+        file.write("testData")
+        assertEquals("testData", file.readText())
+        assertEquals("testData", file.readBytes().decodeToString())
+    }
+
+    @Test
+    fun testWrite() = GlobalScope.promise {
+        val textFile = testDir / "writeTextFile"
+        textFile.write("testData")
+        assertEquals("testData", textFile.readText())
+
+        val bytesFile = testDir / "dir/writeBytesFile"
+        bytesFile.write("testData".encodeToByteArray())
+        assertEquals("testData", bytesFile.readBytes().decodeToString())
+    }
+
+    @Test
+    fun testAppend() = GlobalScope.promise {
+        val textFile = testDir / "writeTextFile"
+        textFile.write("test")
+        textFile.append("Data")
+        assertEquals("testData", textFile.readText())
+
+        val bytesFile = testDir / "dir/writeBytesFile"
+        bytesFile.write("test".encodeToByteArray())
+        bytesFile.append("Data".encodeToByteArray())
+        assertEquals("testData", bytesFile.readBytes().decodeToString())
+    }
+
+    //TODO stream tests
 
 }
