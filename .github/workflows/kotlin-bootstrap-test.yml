@@ -7,6 +7,7 @@ jobs:
   test-no-bootstrap:
     name: Compile normally
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 15
@@ -17,14 +18,16 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Compile with Kotlin Bootstrap
+      - name: Compile
         run: |
           ./gradlew assemble
 
   test-kotlin-bootstrap:
     name: Compile with Kotlin bootstrap
     runs-on: ubuntu-latest
+    continue-on-error: true
     needs: test-no-bootstrap
+    if: ${{ needs.publish.test-no-bootstrap.result == 'success' }}
     env:
       ORG_GRADLE_PROJECT_kotlinBootstrap: "latest"
     steps:
@@ -37,6 +40,21 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Compile with Kotlin Bootstrap
+      - name: Compile
         run: |
           ./gradlew assemble
+
+  check-results:
+    name: Results
+    needs: [ test-no-bootstrap, test-kotlin-bootstrap ]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Original Compile Failed
+        if: ${{ needs.publish.test-no-bootstrap.result != 'success' }}
+        run: echo "::warning::Compilation without bootstrap failed, aborting"
+
+      - name: Bootstrap Compile failed
+        if: ${{ needs.publish.test-no-bootstrap.result == 'success' && needs.publish.test-kotlin-bootstrap.result != 'success' }}
+        run: echo "::error::Compilation with Kotlin bootstrap failed"
+        
