@@ -21,11 +21,35 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Use new build cache
-        uses: rnett/github-actions-gradle-cache@main
+      - name: Cache Gradle packages and Konan
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-test-gradle-${{ hashFiles('**/settings.gradle*', 'buildSrc/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-test-gradle-
+            ${{ runner.os }}-publish-gradle-
+
+      - name: Get Home
+        id: get-home
+        run: echo "::set-output home=$HOME"
 
       - name: Build and Test
-        run: ./gradlew build -DRELEASE_SIGNING_ENABLED=false --info
+        env:
+          TEST_ENV_testCwd: ${{ env.GITHUB_WORKSPACE }}
+          TEST_ENV_os: Linux
+          TEST_ENV_userHome: ${{ steps.get-home.outputs.home }}
+        run: ./gradlew build -DRELEASE_SIGNING_ENABLED=false
+
+      - name: Stop gradle daemon
+        run: ./gradlew --stop
+
+      - name: Cleanup Gradle Cache
+        run: |
+          rm -f ~/.gradle/caches/*/*.lock
+          rm -f ~/.gradle/caches/*/gc.properties
 
   find-version:
     runs-on: ubuntu-latest
@@ -73,7 +97,7 @@ jobs:
           username: rnett
           password: ${{ secrets.SONATYPE_PASSWORD }}
           staging_profile_id: ${{ secrets.SONATYPE_PROFILE_ID }}
-          description: kotlin-js-action ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }}
+          description: ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }} - ${{ needs.find-version.outputs.version }}
 
   publish:
     name: Publish
@@ -89,8 +113,16 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Use new build cache
-        uses: rnett/github-actions-gradle-cache@main
+      - name: Cache Gradle packages and Konan
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-publish-gradle-${{ hashFiles('**/settings.gradle*', 'buildSrc/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-publish-gradle-
+            ${{ runner.os }}-test-gradle-
 
       - name: Generate HTML Docs
         run: ./gradlew :kotlin-js-action:dokkaHtml -PsourceLinkBranch=$GITHUB_SHA --info
@@ -113,6 +145,14 @@ jobs:
           publish-to: $version,$latest
           version: ${{ needs.find-version.outputs.version }}
 
+      - name: Stop gradle daemon
+        run: ./gradlew --stop
+
+      - name: Cleanup Gradle Cache
+        run: |
+          rm -f ~/.gradle/caches/*/*.lock
+          rm -f ~/.gradle/caches/*/gc.properties
+
   finalize:
     runs-on: ubuntu-latest
     needs: [ create_staging_repository, find-version, publish ]
@@ -127,9 +167,10 @@ jobs:
           staging_repository_id: ${{ needs.create_staging_repository.outputs.repository_id }}
       - name: Release
         if: ${{ needs.publish.result == 'success' }}
-        uses: nexus-actions/release-nexus-staging-repo@v1.1
+        uses: nexus-actions/release-nexus-staging-repo@v1.2
         with:
           username: rnett
           password: ${{ secrets.SONATYPE_PASSWORD }}
           staging_repository_id: ${{ needs.create_staging_repository.outputs.repository_id }}
+          description: Closed ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }} - ${{ needs.find-version.outputs.version }}
           close_only: 'true'
