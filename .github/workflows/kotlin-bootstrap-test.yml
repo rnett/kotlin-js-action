@@ -1,0 +1,27 @@
+name: Kotlin Bootstrap Test
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 15
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Setup ENV
+        run: |
+          echo "TEST_ENV_testCwd=$(pwd)" | tee -a $GITHUB_ENV
+          echo "TEST_ENV_userHome=$HOME" | tee -a $GITHUB_ENV
+
+      - name: Build and Test
+        env:
+          TEST_ENV_os: Linux
+        run: ./gradlew build -DRELEASE_SIGNING_ENABLED=false -PkotlinBootstrap

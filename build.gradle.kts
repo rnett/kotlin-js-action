@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
+
 plugins {
     kotlin("js") version "1.5.10" apply false
     kotlin("jvm") version "1.5.10" apply false
@@ -14,6 +16,8 @@ allprojects {
         jcenter()
     }
 }
+
+println("Kotlin plugin version: ${getKotlinPluginVersion()}")
 
 subprojects {
     afterEvaluate {
