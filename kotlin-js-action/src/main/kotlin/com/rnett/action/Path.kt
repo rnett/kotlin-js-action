@@ -7,7 +7,7 @@ import path.path as platformPath
 /**
  * Path handling utilities modeled after Python's `pathlib`.  By default resolves paths on creation.  Disabling this may lead to errors.
  */
-public class Path(rawPath: String, resolve: Boolean = true) {
+public clsass Path(rawPath: String, resolve: Boolean = true) {
 
     /**
      * The raw path.
@@ -192,12 +192,12 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * Will throw if this isn't a directory or doesn't exist.
      */
     public val isDirEmpty: Boolean
-        get() {
-            requireDirectory()
-            return fs.readdirSync(path, JsObject<`T$38`> {
-                this.withFileTypes = true
-            }).isEmpty()
-        }
+    get() {
+        requireDirectory()
+        return fs.readdirSync(path, JsObject<`T$38`> {
+            this.withFileTypes = true
+        }).isEmpty()
+    }
 
     /**
      * Get whether this directory is empty.
@@ -205,12 +205,12 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * Will throw if this isn't a directory.
      */
     public val children: List<Path>
-        get() {
-            requireDirectory()
-            return fs.readdirSync(path, JsObject<`T$38`> {
-                this.withFileTypes = true
-            }).map { this / it.name }
-        }
+    get() {
+        requireDirectory()
+        return fs.readdirSync(path, JsObject<`T$38`> {
+            this.withFileTypes = true
+        }).map { this / it.name }
+    }
 
     /**
      * Make this directory.
