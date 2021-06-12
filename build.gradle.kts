@@ -17,10 +17,10 @@ allprojects {
     }
 }
 
-println("Kotlin plugin version: ${getKotlinPluginVersion()}")
-
 subprojects {
     afterEvaluate {
+        println("Kotlin plugin version: ${getKotlinPluginVersion()}")
+
         apply(plugin = "org.jetbrains.dokka")
         apply(plugin = "org.gradle.maven-publish")
         apply(plugin = "com.vanniktech.maven.publish")

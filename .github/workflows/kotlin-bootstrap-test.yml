@@ -24,4 +24,4 @@ jobs:
       - name: Build and Test
         env:
           TEST_ENV_os: Linux
-        run: ./gradlew build -DRELEASE_SIGNING_ENABLED=false -PkotlinBootstrap
+        run: ./gradlew assemble -DRELEASE_SIGNING_ENABLED=false -PkotlinBootstrap

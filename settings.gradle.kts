@@ -8,7 +8,7 @@ pluginManagement {
     }
 }
 plugins {
-    id("com.github.rnett.kotlin-bootstrap") version "0.0.2-SNAPSHOT"
+    id("com.github.rnett.kotlin-bootstrap") version "0.0.3-SNAPSHOT"
 }
 
 rootProject.name = "kotlin-js-action"
