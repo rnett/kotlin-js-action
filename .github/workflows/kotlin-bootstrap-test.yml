@@ -1,11 +1,32 @@
 name: Kotlin Bootstrap Test
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 6"
 jobs:
-  test:
-    name: Build and Test
+  test-no-bootstrap:
+    name: Compile normally
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK jobs:15
+        uses: actions/setup-java@v1
+        with:
+          java-version: jobs:15
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Compile with Kotlin Bootstrap
+        run: |
+          ./gradlew assemble
+
+  test-kotlin-bootstrap:
+    name: Compile with Kotlin bootstrap
+    runs-on: ubuntu-latest
+    needs: test-no-bootstrap
+    env:
+      ORG_GRADLE_PROJECT_kotlinBootstrap: "latest"
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 15
@@ -16,12 +37,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Setup ENV
+      - name: Compile with Kotlin Bootstrap
         run: |
-          echo "TEST_ENV_testCwd=$(pwd)" | tee -a $GITHUB_ENV
-          echo "TEST_ENV_userHome=$HOME" | tee -a $GITHUB_ENV
-
-      - name: Build and Test
-        env:
-          TEST_ENV_os: Linux
-        run: ./gradlew assemble -DRELEASE_SIGNING_ENABLED=false -PkotlinBootstrap
+          ./gradlew assemble

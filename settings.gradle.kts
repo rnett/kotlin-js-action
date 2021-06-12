@@ -1,3 +1,5 @@
+import com.rnett.bootstrap.kotlinBootstrap
+
 pluginManagement {
     repositories {
         mavenCentral()
@@ -8,7 +10,11 @@ pluginManagement {
     }
 }
 plugins {
-    id("com.github.rnett.kotlin-bootstrap") version "0.0.3-SNAPSHOT"
+    id("com.github.rnett.kotlin-bootstrap") version "0.0.5-SNAPSHOT"
+}
+
+kotlinBootstrap {
+    generateGithubWorkflow()
 }
 
 rootProject.name = "kotlin-js-action"
