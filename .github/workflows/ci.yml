@@ -35,8 +35,8 @@ jobs:
       - name: Get Home
         id: get-home
         run: |
-          echo "TEST_ENV_testCwd=$(pwd)" | tee /dev/tty >> $GITHUB_ENV
-          echo "TEST_ENV_userHome=$HOME" | tee /dev/tty >> $GITHUB_ENV
+          echo "TEST_ENV_testCwd=$(pwd)" | tee $GITHUB_ENV
+          echo "TEST_ENV_userHome=$HOME" | tee $GITHUB_ENV
 
       - name: Build and Test
         env:
