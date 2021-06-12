@@ -7,26 +7,26 @@ plugins {
 description = "A Gradle plugin to easily configure GitHub action packing"
 ext["pomName"] = "Kotlin JS Github Action Gradle Plugin"
 
-dependencies{
-    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.5.10")
+dependencies {
+    compileOnly(kotlin("gradle-plugin"))
+    implementation(kotlin("gradle-plugin-api"))
 }
 
-kotlin{
-    target{
+kotlin {
+    target {
         attributes {
             attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
         }
     }
 }
 
-tasks.compileJava{
+tasks.compileJava {
     sourceCompatibility = "1.8"
     targetCompatibility = "1.8"
 }
 
-tasks.compileKotlin{
-    kotlinOptions{
+tasks.compileKotlin {
+    kotlinOptions {
         jvmTarget = "1.8"
     }
 }

@@ -125,7 +125,7 @@ jobs:
             ${{ runner.os }}-test-gradle-
 
       - name: Generate HTML Docs
-        run: ./gradlew :kotlin-js-action:dokkaHtml -PsourceLinkBranch=$GITHUB_SHA --info
+        run: ./gradlew :kotlin-js-action:dokkaHtml -PsourceLinkBranch=$GITHUB_SHA
 
       - name: Publish
         if: github.ref == 'refs/heads/main'
