@@ -1,4 +1,4 @@
-import com.rnett.bootstrap.kotlinBootstrap
+import com.rnett.future.testing.kotlinFutureTesting
 
 pluginManagement {
     repositories {
@@ -10,11 +10,11 @@ pluginManagement {
     }
 }
 plugins {
-    id("com.github.rnett.kotlin-bootstrap") version "0.0.5-SNAPSHOT"
+    id("com.github.rnett.kotlin-future-testing") version "0.0.7-SNAPSHOT"
 }
 
-kotlinBootstrap {
-    generateGithubWorkflow(force = true)
+kotlinFutureTesting {
+    generateGithubWorkflows { both() }
 }
 
 rootProject.name = "kotlin-js-action"

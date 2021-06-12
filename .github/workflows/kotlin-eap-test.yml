@@ -1,0 +1,60 @@
+name: Kotlin Eap Test
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 6"
+jobs:
+  test-no-eap:
+    name: Compile normally
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 15
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Compile
+        run: |
+          ./gradlew assemble
+
+  test-kotlin-eap:
+    name: Compile with Kotlin eap
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    needs: test-no-eap
+    if: ${{ needs.test-no-eap.result == 'success' }}
+    env:
+      ORG_GRADLE_PROJECT_kotlinEap: "latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 15
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Compile
+        run: |
+          ./gradlew assemble
+
+  check-results:
+    name: Results
+    needs: [ test-no-eap, test-kotlin-eap ]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Original Compile Failed
+        if: ${{ needs.test-no-eap.result != 'success' }}
+        run: echo "::warning::Compilation without eap failed, aborting"
+
+      - name: Eap Compile failed
+        if: ${{ needs.test-no-eap.result == 'success' && needs.test-kotlin-eap.result != 'success' }}
+        run: echo "::error::Compilation with Kotlin eap failed"
+        
