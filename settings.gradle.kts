@@ -14,7 +14,7 @@ plugins {
 }
 
 kotlinBootstrap {
-    generateGithubWorkflow()
+    generateGithubWorkflow(force = true)
 }
 
 rootProject.name = "kotlin-js-action"
