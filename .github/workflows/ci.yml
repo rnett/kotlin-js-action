@@ -32,11 +32,10 @@ jobs:
             ${{ runner.os }}-test-gradle-
             ${{ runner.os }}-publish-gradle-
 
-      - name: Get Home
-        id: get-home
-        run: |
-          echo "TEST_ENV_testCwd=$(pwd)" | tee $GITHUB_ENV
-          echo "TEST_ENV_userHome=$HOME" | tee $GITHUB_ENV
+      - name: Set CWD
+        run: echo "TEST_ENV_testCwd=$(pwd)" | tee $GITHUB_ENV
+      - name: Set Home
+        run: echo "TEST_ENV_userHome=$HOME" | tee $GITHUB_ENV
 
       - name: Build and Test
         env:
