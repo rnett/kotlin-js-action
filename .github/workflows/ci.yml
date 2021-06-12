@@ -34,13 +34,13 @@ jobs:
 
       - name: Get Home
         id: get-home
-        run: echo "::set-output home=$HOME"
+        run: |
+          echo "TEST_ENV_testCwd=$(cwd)" | tee /dev/tty >> $GITHUB_ENV
+          echo "TEST_ENV_userHome=$HOME" | tee /dev/tty >> $GITHUB_ENV
 
       - name: Build and Test
         env:
-          TEST_ENV_testCwd: ${{ env.GITHUB_WORKSPACE }}
           TEST_ENV_os: Linux
-          TEST_ENV_userHome: ${{ steps.get-home.outputs.home }}
         run: ./gradlew build -DRELEASE_SIGNING_ENABLED=false
 
       - name: Stop gradle daemon
