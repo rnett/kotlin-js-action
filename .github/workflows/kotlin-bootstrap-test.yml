@@ -46,6 +46,7 @@ jobs:
 
       - name: Archive ICE report
         uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
         with:
           name: future-ice-report
           path: .kotlin-future-testing-ICE-report
