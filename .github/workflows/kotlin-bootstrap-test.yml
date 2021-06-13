@@ -87,9 +87,9 @@ jobs:
         if: ${{ needs.test-kotlin-bootstrap.outputs.was-ice == 'true' }}
         run: |
           touch .kotlin-future-testing-run-info
-          'echo "Workflow: ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }}" >> .kotlin-future-testing-run-info'
-          'echo "Git Ref: ${{ github.ref }}, SHA: ${{ github.sha }}" >> .kotlin-future-testing-run-info'
-          'echo "Run ID: ${{ github.run_id }}" >> .kotlin-future-testing-run-info'
+          echo "Workflow: ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }}" >> .kotlin-future-testing-run-info
+          echo "Git Ref: ${{ github.ref }}, SHA: ${{ github.sha }}" >> .kotlin-future-testing-run-info
+          echo "Run ID: ${{ github.run_id }}" >> .kotlin-future-testing-run-info
 
       - name: Archive ICE report
         uses: actions/upload-artifact@v2
