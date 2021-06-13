@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * 6"
+
 jobs:
   test-no-bootstrap:
     name: Compile normally
@@ -26,10 +27,9 @@ jobs:
     name: Compile with Kotlin bootstrap
     runs-on: ubuntu-latest
     continue-on-error: true
-    needs: test-no-bootstrap
-    if: ${{ needs.test-no-bootstrap.result == 'success' }}
     env:
       ORG_GRADLE_PROJECT_kotlinBootstrap: "latest"
+      ORG_GRADLE_PROJECT_reportICEs: "true"
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 15
@@ -44,6 +44,12 @@ jobs:
         run: |
           ./gradlew assemble
 
+      - name: Archive ICE report
+        uses: actions/upload-artifact@v2
+        with:
+          name: future-ice-report
+          path: .kotlin-future-testing-ICE-report
+
   check-results:
     name: Results
     needs: [ test-no-bootstrap, test-kotlin-bootstrap ]
@@ -57,4 +63,5 @@ jobs:
       - name: Bootstrap Compile failed
         if: ${{ needs.test-no-bootstrap.result == 'success' && needs.test-kotlin-bootstrap.result != 'success' }}
         run: echo "::error::Compilation with Kotlin bootstrap failed"
-        
+                
+                
