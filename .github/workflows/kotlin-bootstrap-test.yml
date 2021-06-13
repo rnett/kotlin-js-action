@@ -27,6 +27,10 @@ jobs:
     name: Compile with Kotlin bootstrap
     runs-on: ubuntu-latest
     continue-on-error: true
+
+
+    outputs:
+      was-ice: ${{ steps.was-ice.files_exists }}
     env:
       ORG_GRADLE_PROJECT_kotlinBootstrap: "latest"
       ORG_GRADLE_PROJECT_reportICEs: "true"
@@ -44,9 +48,16 @@ jobs:
         run: |
           ./gradlew assemble
 
+
+      - name: Check for ICE report
+        id: was-ice
+        uses: andstor/file-existence-action@v1
+        with:
+          files: ".kotlin-future-testing-ICE-report"
+
       - name: Archive ICE report
         uses: actions/upload-artifact@v2
-        if: ${{ failure() }}
+        if: ${{ steps.was-ice.files_exists == 'true' }}
         with:
           name: future-ice-report
           path: .kotlin-future-testing-ICE-report
@@ -64,5 +75,26 @@ jobs:
       - name: Bootstrap Compile failed
         if: ${{ needs.test-no-bootstrap.result == 'success' && needs.test-kotlin-bootstrap.result != 'success' }}
         run: echo "::error::Compilation with Kotlin bootstrap failed"
-                
+
+
+      - name: Download ICE report
+        if: ${{ needs.test-kotlinbootstrap.was-ice }}
+        uses: actions/download-artifact@v2
+        with:
+          name: future-ice-report
+      - name: Save git info
+        if: ${{ needs.test-kotlinbootstrap.was-ice }}
+        run: |
+          'echo "Workflow: ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }}" >> .kotlin-future-testing-run-info'
+          'echo "Git Ref: ${{ github.ref }}, SHA: ${{ github.sha }}" >> .kotlin-future-testing-run-info'
+          'echo "Run ID: ${{ github.run_id }}" >> .kotlin-future-testing-run-info'
+
+      - name: Archive ICE report
+        uses: actions/upload-artifact@v2
+        if: ${{ needs.test-kotlinbootstrap.was-ice }}
+        with:
+          name: future-ice-report
+          path: |
+            .kotlin-future-testing-ICE-report
+            .kotlin-future-testing-run-info
                 
