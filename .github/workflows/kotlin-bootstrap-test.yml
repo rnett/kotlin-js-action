@@ -79,12 +79,12 @@ jobs:
 
 
       - name: Download ICE report
-        if: ${{ needs.test-kotlinbootstrap.outputs.was-ice == 'true' }}
+        if: ${{ needs.test-kotlin-bootstrap.outputs.was-ice == 'true' }}
         uses: actions/download-artifact@v2
         with:
           name: future-ice-report
       - name: Save git info
-        if: ${{ needs.test-kotlinbootstrap.outputs.was-ice == 'true' }}
+        if: ${{ needs.test-kotlin-bootstrap.outputs.was-ice == 'true' }}
         run: |
           'echo "Workflow: ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }}" >> .kotlin-future-testing-run-info'
           'echo "Git Ref: ${{ github.ref }}, SHA: ${{ github.sha }}" >> .kotlin-future-testing-run-info'
@@ -92,7 +92,7 @@ jobs:
 
       - name: Archive ICE report
         uses: actions/upload-artifact@v2
-        if: ${{ needs.test-kotlinbootstrap.outputs.was-ice == 'true' }}
+        if: ${{ needs.test-kotlin-bootstrap.outputs.was-ice == 'true' }}
         with:
           name: future-ice-report
           path: |
