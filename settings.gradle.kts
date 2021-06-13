@@ -10,7 +10,7 @@ pluginManagement {
     }
 }
 plugins {
-    id("com.github.rnett.kotlin-future-testing") version "0.0.8-SNAPSHOT"
+    id("com.github.rnett.kotlin-future-testing") version "0.0.9-SNAPSHOT"
 }
 
 kotlinFutureTesting {
