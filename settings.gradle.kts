@@ -14,7 +14,7 @@ plugins {
 }
 
 kotlinFutureTesting {
-    generateGithubWorkflows { both() }
+    generateGithubWorkflows(force = true) { both() }
 }
 
 rootProject.name = "kotlin-js-action"

@@ -50,6 +50,7 @@ jobs:
 
 
       - name: Check for ICE report
+        if: ${{ failure() }}
         id: was-ice
         uses: andstor/file-existence-action@v1
         with:
@@ -57,7 +58,7 @@ jobs:
 
       - name: Archive ICE report
         uses: actions/upload-artifact@v2
-        if: ${{ steps.was-ice.files_exists == 'true' }}
+        if: ${{ failure() && steps.was-ice.files_exists == 'true' }}
         with:
           name: future-ice-report
           path: .kotlin-future-testing-ICE-report
