@@ -79,6 +79,8 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
+      - name: Show result
+        run: echo "Result ${{ needs.test-no-bootstrap.result }}"
       - name: Original Compile Failed
         if: ${{ needs.test-no-eap.result != 'success' }}
         run: echo "::warning::Compilation without eap failed, aborting"
