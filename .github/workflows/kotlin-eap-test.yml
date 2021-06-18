@@ -1,6 +1,11 @@
 name: Kotlin Eap Test
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: "The branch to check out"
+        required: false
+        default: ''
   schedule:
     - cron: "0 0 * * 6"
 
@@ -19,6 +24,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: future_test
+
+      - name: Checkout branch
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.branch != ''
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
 
       - name: Set up JDK 15
