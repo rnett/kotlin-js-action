@@ -13,7 +13,6 @@ jobs:
   test-no-bootstrap:
     name: Compile normally
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
 
       - name: Checkout default branch
@@ -49,7 +48,6 @@ jobs:
   test-kotlin-bootstrap:
     name: Compile with Kotlin bootstrap
     runs-on: ubuntu-latest
-    continue-on-error: true
     outputs:
       was-ice: ${{ steps.was-ice.outputs.files_exists }}
     env:
