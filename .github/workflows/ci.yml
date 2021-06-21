@@ -69,8 +69,13 @@ jobs:
 
       - name: Run test action
         uses: ./.github/actions/test-action
+        env:
+          test-env: test2
         with:
           required-input: required-test
+          multiline: |
+            test
+            test2
 
       - name: Stop gradle daemon
         run: ./gradlew --stop

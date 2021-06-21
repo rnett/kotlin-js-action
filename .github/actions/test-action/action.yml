@@ -11,6 +11,9 @@ inputs:
     description: "Input with default"
     required: false
     default: "Test"
+  multiline:
+    description: "Multiline input"
+    required: true
 runs:
   using: 'node12'
   main: '../../../test-action/build/dist/index.js'

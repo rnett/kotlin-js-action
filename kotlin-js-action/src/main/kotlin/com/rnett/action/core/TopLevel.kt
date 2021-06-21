@@ -49,27 +49,34 @@ public inline fun <R> runOrFail(finally: () -> Unit = {}, flush: Boolean = true,
         fail(e)
     } finally {
         finally()
-        if(flush)
+        if (flush)
             println()
     }
 }
 
-//TODO convert to kotlin.Result post 1.5
+/**
+ * Runs [block], failing the action if exceptions are thrown
+ */
+public inline fun runAction(flush: Boolean = true, block: () -> Unit) {
+    contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+    runOrFail(flush = flush, block = block)
+}
+
 /**
  * Runs [block], logging (as [log.error]) any exceptions that are not caught within [block].
  *
  * Runs [finally] in the try-catch's `finally` block.  If [flush] is `true`, prints a newline in the finally block.
  */
-public inline fun <R> runOrLogException(finally: () -> Unit = {}, flush: Boolean = true, block: () -> R): R? {
+public inline fun <R> runOrLogException(finally: () -> Unit = {}, flush: Boolean = true, block: () -> R): Result<R> {
     contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
-    try {
-        return block()
+    return try {
+        Result.success(block())
     } catch (e: Throwable) {
         log.error(e)
-        return null
+        Result.failure(e)
     } finally {
         finally()
-        if(flush)
+        if (flush)
             println()
     }
 }
