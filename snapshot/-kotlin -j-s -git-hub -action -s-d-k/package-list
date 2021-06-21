@@ -42,6 +42,8 @@ $dokka.location:com.rnett.action.cache.internal/CacheEntry/cacheKey/#/PointingTo
 $dokka.location:com.rnett.action.cache.internal/CacheEntry/cacheVersion/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.cache.internal/-cache-entry/cache-version.html
 $dokka.location:com.rnett.action.cache.internal/CacheEntry/creationTime/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.cache.internal/-cache-entry/creation-time.html
 $dokka.location:com.rnett.action.cache.internal/CacheEntry/scope/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.cache.internal/-cache-entry/scope.html
+$dokka.location:com.rnett.action.cache.internal/ExperimentalCacheAPI///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.cache.internal/-experimental-cache-a-p-i/index.html
+$dokka.location:com.rnett.action.cache.internal/ExperimentalCacheAPI/ExperimentalCacheAPI/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.cache.internal/-experimental-cache-a-p-i/-experimental-cache-a-p-i.html
 $dokka.location:com.rnett.action.cache////PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.cache/index.html
 $dokka.location:com.rnett.action.cache/cache///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.cache/cache/index.html
 $dokka.location:com.rnett.action.cache/cache/restoreCache/#kotlin.collections.List[com.rnett.action.Path]#kotlin.String#kotlin.collections.List[kotlin.String]#kotlin.Boolean#kotlin.Int#kotlin.Int/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.cache/cache/restore-cache.html
