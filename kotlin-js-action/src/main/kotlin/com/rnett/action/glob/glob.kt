@@ -52,17 +52,20 @@ public class Globber internal constructor(private val _globber: JsGlobber) {
  * @param followSymbolicLinks whether to follow symbolic links when collecting files
  * @param implicitDescendants whether to implicitly include all descendants of matching files
  * @param omitBrokenSymbolicLinks ignore broken symbolic links
+ * @param matchDirectories whether to include directories in the result
  */
 public suspend fun Globber(
     vararg patterns: String,
     followSymbolicLinks: Boolean = true,
     implicitDescendants: Boolean = true,
-    omitBrokenSymbolicLinks: Boolean = true
+    omitBrokenSymbolicLinks: Boolean = true,
+    matchDirectories: Boolean = true
 ): Globber {
     return Globber(create(patterns.joinToString("\n"), JsObject {
         this.followSymbolicLinks = followSymbolicLinks
         this.implicitDescendants = implicitDescendants
         this.omitBrokenSymbolicLinks = omitBrokenSymbolicLinks
+        this.matchDirectories = matchDirectories
     }).await())
 }
 
@@ -82,17 +85,20 @@ public suspend fun Globber(
  * @param followSymbolicLinks whether to follow symbolic links when collecting files
  * @param implicitDescendants whether to implicitly include all descendants of matching files
  * @param omitBrokenSymbolicLinks ignore broken symbolic links
+ * @param matchDirectories whether to include directories in the result
  */
 public suspend fun glob(
     vararg patterns: String,
     followSymbolicLinks: Boolean = true,
     implicitDescendants: Boolean = true,
-    omitBrokenSymbolicLinks: Boolean = true
+    omitBrokenSymbolicLinks: Boolean = true,
+    matchDirectories: Boolean = true
 ): List<Path> = Globber(
     *patterns,
     followSymbolicLinks = followSymbolicLinks,
     implicitDescendants = implicitDescendants,
-    omitBrokenSymbolicLinks = omitBrokenSymbolicLinks
+    omitBrokenSymbolicLinks = omitBrokenSymbolicLinks,
+    matchDirectories = matchDirectories
 ).glob()
 
 /**
@@ -109,17 +115,20 @@ public suspend fun glob(
  * @param followSymbolicLinks whether to follow symbolic links when collecting files
  * @param implicitDescendants whether to implicitly include all descendants of matching files
  * @param omitBrokenSymbolicLinks ignore broken symbolic links
+ * @param matchDirectories whether to include directories in the result
  */
 public suspend fun globFlow(
     vararg patterns: String,
     followSymbolicLinks: Boolean = true,
     implicitDescendants: Boolean = true,
-    omitBrokenSymbolicLinks: Boolean = true
+    omitBrokenSymbolicLinks: Boolean = true,
+    matchDirectories: Boolean = true
 ): Flow<Path> = Globber(
     *patterns,
     followSymbolicLinks = followSymbolicLinks,
     implicitDescendants = implicitDescendants,
-    omitBrokenSymbolicLinks = omitBrokenSymbolicLinks
+    omitBrokenSymbolicLinks = omitBrokenSymbolicLinks,
+    matchDirectories = matchDirectories
 ).globFlow()
 
 /**
@@ -136,17 +145,20 @@ public suspend fun globFlow(
  * @param followSymbolicLinks whether to follow symbolic links when collecting files
  * @param implicitDescendants whether to implicitly include all descendants of matching files
  * @param omitBrokenSymbolicLinks ignore broken symbolic links
+ * @param matchDirectories whether to include directories in the result
  */
 public suspend fun Globber(
     patterns: List<String>,
     followSymbolicLinks: Boolean = true,
     implicitDescendants: Boolean = true,
-    omitBrokenSymbolicLinks: Boolean = true
+    omitBrokenSymbolicLinks: Boolean = true,
+    matchDirectories: Boolean = true
 ): Globber = Globber(
     *patterns.toTypedArray(),
     followSymbolicLinks = followSymbolicLinks,
     implicitDescendants = implicitDescendants,
-    omitBrokenSymbolicLinks = omitBrokenSymbolicLinks
+    omitBrokenSymbolicLinks = omitBrokenSymbolicLinks,
+    matchDirectories = matchDirectories
 )
 
 /**
@@ -165,17 +177,20 @@ public suspend fun Globber(
  * @param followSymbolicLinks whether to follow symbolic links when collecting files
  * @param implicitDescendants whether to implicitly include all descendants of matching files
  * @param omitBrokenSymbolicLinks ignore broken symbolic links
+ * @param matchDirectories whether to include directories in the result
  */
 public suspend fun glob(
     patterns: List<String>,
     followSymbolicLinks: Boolean = true,
     implicitDescendants: Boolean = true,
-    omitBrokenSymbolicLinks: Boolean = true
+    omitBrokenSymbolicLinks: Boolean = true,
+    matchDirectories: Boolean = true
 ): List<Path> = glob(
     *patterns.toTypedArray(),
     followSymbolicLinks = followSymbolicLinks,
     implicitDescendants = implicitDescendants,
-    omitBrokenSymbolicLinks = omitBrokenSymbolicLinks
+    omitBrokenSymbolicLinks = omitBrokenSymbolicLinks,
+    matchDirectories = matchDirectories
 )
 
 /**
@@ -192,17 +207,20 @@ public suspend fun glob(
  * @param followSymbolicLinks whether to follow symbolic links when collecting files
  * @param implicitDescendants whether to implicitly include all descendants of matching files
  * @param omitBrokenSymbolicLinks ignore broken symbolic links
+ * @param matchDirectories whether to include directories in the result
  */
 public suspend fun globFlow(
     patterns: List<String>,
     followSymbolicLinks: Boolean = true,
     implicitDescendants: Boolean = true,
-    omitBrokenSymbolicLinks: Boolean = true
+    omitBrokenSymbolicLinks: Boolean = true,
+    matchDirectories: Boolean = true
 ): Flow<Path> = globFlow(
     *patterns.toTypedArray(),
     followSymbolicLinks = followSymbolicLinks,
     implicitDescendants = implicitDescendants,
-    omitBrokenSymbolicLinks = omitBrokenSymbolicLinks
+    omitBrokenSymbolicLinks = omitBrokenSymbolicLinks,
+    matchDirectories = matchDirectories
 )
 
 /**
