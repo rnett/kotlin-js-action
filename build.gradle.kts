@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
-
 plugins {
     kotlin("js") version "1.5.10" apply false
     kotlin("jvm") version "1.5.10" apply false
@@ -19,7 +17,6 @@ allprojects {
 
 subprojects {
     afterEvaluate {
-        println("Kotlin plugin version: ${getKotlinPluginVersion()}")
 
         apply(plugin = "org.jetbrains.dokka")
         apply(plugin = "org.gradle.maven-publish")

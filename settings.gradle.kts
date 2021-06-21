@@ -17,6 +17,6 @@ kotlinFutureTesting {
     generateGithubWorkflows(branch = "future_test", force = true) { both() }
 }
 
-rootProject.name = "kotlin-js-action"
+rootProject.name = "kotlin-js-action-parent"
 
 include("kotlin-js-action", "kotlin-js-action-plugin")

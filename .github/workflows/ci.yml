@@ -32,7 +32,9 @@ jobs:
           java-version: 15
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: |
+          chmod +x gradlew
+          chmod +x test-action/gradlew
 
       - name: Cache Gradle packages
         uses: actions/cache@v2
@@ -62,13 +64,30 @@ jobs:
           TEST_ENV_os: ${{ matrix.os-name }}
         run: ./gradlew check
 
+      - name: Build test action
+        run: (cd test-action && ./gradlew assemble)
+
+      - name: Run test action
+        uses: ./.github/actions/test-action
+        with:
+          required-input: required-test
+
       - name: Stop gradle daemon
         run: ./gradlew --stop
 
-      - name: Cleanup Gradle Cache
+      - name: Cleanup Gradle Cache Posix
+        if: runner.os != 'Windows'
         run: |
+          jps
           rm -f ~/.gradle/caches/*/*.lock
           rm -f ~/.gradle/caches/*/gc.properties
+
+      - name: Cleanup Gradle Cache Windows
+        if: runner.os == 'Windows'
+        run: |
+          jps
+          rm -fo ~/.gradle/caches/*/*.lock
+          rm -fo ~/.gradle/caches/*/gc.properties
 
   find-version:
     runs-on: ubuntu-latest

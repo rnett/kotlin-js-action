@@ -1,0 +1,16 @@
+name: "Test action"
+description: "Action to test Kotlin JS SDK"
+inputs:
+  required-input:
+    description: "A required input"
+    required: true
+  optional-no-default:
+    description: "Optional input"
+    required: false
+  with-default:
+    description: "Input with default"
+    required: false
+    default: "Test"
+runs:
+  using: 'node12'
+  main: 'test-action/build/dist/index.js'
