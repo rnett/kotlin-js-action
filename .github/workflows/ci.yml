@@ -74,7 +74,7 @@ jobs:
         with:
           required-input: required-test
           multiline: |
-            test
+            test1
             test2
 
       - name: Stop gradle daemon
