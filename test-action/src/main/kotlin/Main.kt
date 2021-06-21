@@ -1,7 +1,7 @@
 import com.rnett.action.core.env
 import com.rnett.action.core.inputs
 import com.rnett.action.core.runAction
-import com.rnett.action.map
+import com.rnett.action.lines
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertNull
@@ -40,7 +40,7 @@ suspend fun main() = runAction {
 
     assertEquals(multilineValue, inputs[multilineKey].split("\n"))
     assertEquals(multilineValue, inputs.getOptional(multilineKey)?.split("\n"))
-    val multiline by inputs.map { it.split("\n") }
+    val multiline by inputs.lines()
     assertEquals(multilineValue, multiline)
 
     assertEquals(testEnvValue, env[testEnvKey])
@@ -50,8 +50,11 @@ suspend fun main() = runAction {
 
     assertNull(env[noEnvKey])
     assertFails { env.getRequired(noEnvKey) }
-    val noEnv by env.optional(noEnvKey)
+    var noEnv by env(noEnvKey)
     assertNull(noEnvKey)
+    noEnv = "test"
+    assertEquals("test", noEnv)
+    assertEquals("test", env.getRequired(noEnvKey))
 
     println("Tests done!")
 }
