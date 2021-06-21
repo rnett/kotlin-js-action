@@ -18,19 +18,19 @@ jobs:
       - name: Checkout default branch
         uses: actions/checkout@v2
 
+      - name: Checkout target branch for manual
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.branch != ''
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
-      - name: Checkout branch for scheduled
+
+      - name: Checkout target branch for scheduled
         if: github.event_name == 'schedule'
         uses: actions/checkout@v2
         with:
           ref: future_test
 
-
-      - name: Checkout branch for manual
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.branch != ''
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.inputs.branch }}
 
 
       - name: Set up JDK 15
@@ -58,19 +58,19 @@ jobs:
       - name: Checkout default branch
         uses: actions/checkout@v2
 
+      - name: Checkout target branch for manual
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.branch != ''
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
-      - name: Checkout branch for scheduled
+
+      - name: Checkout target branch for scheduled
         if: github.event_name == 'schedule'
         uses: actions/checkout@v2
         with:
           ref: future_test
 
-
-      - name: Checkout branch for manual
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.branch != ''
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.inputs.branch }}
 
 
       - name: Set up JDK 15

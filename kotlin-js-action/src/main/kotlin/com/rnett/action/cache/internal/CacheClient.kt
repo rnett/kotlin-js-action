@@ -18,6 +18,11 @@ import kotlin.math.min
 
 private external fun encodeURIComponent(str: String): String
 
+@MustBeDocumented
+@RequiresOptIn("Experimental reverse engineered cache API, there are probably bugs.")
+public annotation class ExperimentalCacheAPI
+
+@ExperimentalCacheAPI
 public external interface CacheEntry {
     public val cacheKey: String
     public val scope: String
@@ -26,15 +31,18 @@ public external interface CacheEntry {
     public val cacheVersion: String
 }
 
+@ExperimentalCacheAPI
 private external interface ReserveRequest {
     var key: String
     var version: String
 }
 
+@ExperimentalCacheAPI
 private external interface ReserveCacheResponse {
     val cacheId: Int
 }
 
+@ExperimentalCacheAPI
 private external interface CommitCacheRequest {
     var size: Long
 }
@@ -42,10 +50,12 @@ private external interface CommitCacheRequest {
 /**
  * Cache accessors, similar to `@actions/cache`
  */
+@ExperimentalCacheAPI
 public class CacheClient(private val userAgent: String = "Kotlin/JS Github Action wrapper") {
 
     private fun Number.isSuccess() = this in 200..299
 
+    @ExperimentalCacheAPI
     public fun getCacheApiUrl(resource: String): String {
         val baseUrl = env["ACTIONS_CACHE_URL"] ?: env["ACTIONS_RUNTIME_URL"] ?: error("Can't find cache service url")
         return baseUrl.replace("pipelines", "artifactcache") + "_apis/artifactcache/$resource"
@@ -80,6 +90,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
     /**
      * Get a cache entry for the keys and version, or null if none exists
      */
+    @ExperimentalCacheAPI
     public suspend fun getCacheEntry(keys: List<String>, version: String): CacheEntry? {
         val resource = "cache?keys=${encodeURIComponent(keys.joinToString(","))}&version=$version"
         val url = getCacheApiUrl(resource)
@@ -102,11 +113,13 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
     /**
      * Get whether a cache exists for these keys and version
      */
+    @ExperimentalCacheAPI
     public suspend fun hasCache(keys: List<String>, version: String): Boolean = getCacheEntry(keys, version) != null
 
     /**
      * Download a file
      */
+    @ExperimentalCacheAPI
     public suspend fun downloadFile(url: String, destination: Path): Unit = coroutineScope {
         val client = HttpClient(userAgent)
         destination.parent.mkdir()
@@ -130,6 +143,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
      * Try to download a cache entry
      * @return true if the cache was found
      */
+    @ExperimentalCacheAPI
     public suspend fun downloadCacheEntry(destination: Path, keys: List<String>, version: String): Boolean {
         val entry = getCacheEntry(keys, version) ?: return false
         downloadFile(entry.archiveLocation, destination)
@@ -139,6 +153,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
     /**
      * Read text from a url
      */
+    @ExperimentalCacheAPI
     public suspend fun readUrl(url: String): String {
         val client = HttpClient(userAgent)
         return client.get(url).await().readBody().await()
@@ -148,6 +163,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
      * Read a cache entry
      * @return null if no cache was found
      */
+    @ExperimentalCacheAPI
     public suspend fun readCacheEntry(keys: List<String>, version: String): String? =
         getCacheEntry(keys, version)?.let {
             readUrl(it.archiveLocation)
@@ -157,6 +173,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
      * Reserve a cache key
      * @return the cacheId if successfully reserved, or null otherwise
      */
+    @ExperimentalCacheAPI
     public suspend fun reserveCache(key: String, version: String): Int? {
         val request = JsObject<ReserveRequest> {
             this.key = key
@@ -176,6 +193,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
      *
      * Unlike `@actions/cache`, [end] is exclusive
      */
+    @ExperimentalCacheAPI
     public suspend fun uploadChunk(cacheId: Int, openStream: () -> ReadableStream, start: Long, end: Long) {
         val additionalHeaders = JsObject<IHeaders> {
             this["Content-Type"] = "application/octet-stream"
@@ -199,6 +217,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
     /**
      * Upload text to a reserved cache id.
      */
+    @ExperimentalCacheAPI
     public suspend fun uploadText(cacheId: Int, text: String) {
         val additionalHeaders = JsObject<IHeaders> {
             this["Content-Type"] = "application/octet-stream"
@@ -221,6 +240,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
     /**
      * Upload a file to a reserved cache id, using concurrency.
      */
+    @ExperimentalCacheAPI
     public suspend fun uploadFile(
         cacheId: Int,
         file: Path,
@@ -259,6 +279,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
     /**
      * Commit a cache
      */
+    @ExperimentalCacheAPI
     public suspend fun commitCache(cacheId: Int, dataSize: Long) {
         val request = JsObject<CommitCacheRequest> {
             this.size = dataSize
@@ -272,6 +293,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
     /**
      * Upload a file to the cache and then commit it
      */
+    @ExperimentalCacheAPI
     public suspend fun saveFile(cacheId: Int, file: Path, concurrency: Int = 4, maxChunkSize: Long = 32 * 1024 * 1024) {
         uploadFile(cacheId, file, concurrency, maxChunkSize)
         val size = file.stats!!.size.toLong()
@@ -281,6 +303,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS Github Actio
     /**
      * Upload text to the cache and then commit it
      */
+    @ExperimentalCacheAPI
     public suspend fun saveText(cacheId: Int, text: String) {
         uploadText(cacheId, text)
         commitCache(cacheId, text.length.toLong())
