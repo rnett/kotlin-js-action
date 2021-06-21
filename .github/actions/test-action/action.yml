@@ -13,4 +13,4 @@ inputs:
     default: "Test"
 runs:
   using: 'node12'
-  main: 'test-action/build/dist/index.js'
+  main: '../../../test-action/build/dist/index.js'
