@@ -23,9 +23,21 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         /**
          * The current working directory.
          */
-        public val cwd: Path get() = Path(currentProcess.cwd())
+        public var cwd: Path
+            get() = Path(currentProcess.cwd())
+            set(value) {
+                cd(value)
+            }
 
+        /**
+         * The current user's home dir.
+         */
         public val userHome: Path get() = Path(os.homedir())
+
+        /**
+         * The current OS's path separator.
+         */
+        public val pathSeparator: String get() = OperatingSystem.pathSeperator
 
         /**
          * Change the working directory

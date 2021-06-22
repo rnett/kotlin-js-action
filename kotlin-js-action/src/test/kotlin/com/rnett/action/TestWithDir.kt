@@ -15,17 +15,19 @@ abstract class TestWithDir {
     @BeforeTest
     internal fun before() {
         val name = Random.nextLong().toString(20) + Random.nextLong().toString(20)
-        testDir = globalTestDir / "test-$name"
+        val dir = globalTestDir / "test-$name"
 
-        if (testDir.exists) {
-            fs.rmdirSync(testDir.path, JsObject {
+        if (dir.exists) {
+            fs.rmdirSync(dir.path, JsObject {
                 this.recursive = true
             })
         }
 
-        testDir.mkdir()
-        testDir.initDir()
-        Path.cd(testDir)
+        dir.mkdir()
+        dir.initDir()
+        println("Made dir $dir: ${dir.isDir}")
+        Path.cd(dir)
+        testDir = dir
     }
 
     open fun Path.initDir() {
@@ -34,8 +36,10 @@ abstract class TestWithDir {
 
     @AfterTest
     internal fun after() {
-        fs.rmdirSync(testDir.path, JsObject {
-            this.recursive = true
-        })
+        //TODO do cleanup.  I'm returning promises, so sometimes they would be executed after the cleanup
+//        Path.cd(globalTestDir)
+//        fs.rmdirSync(testDir.path, JsObject {
+//            this.recursive = true
+//        })
     }
 }
