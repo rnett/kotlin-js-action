@@ -20,11 +20,11 @@ val sourceLinkBranch: String by project
 
 subprojects {
     afterEvaluate {
+        val project = this
 
         apply(plugin = "org.jetbrains.dokka")
         apply(plugin = "org.gradle.maven-publish")
         apply(plugin = "com.vanniktech.maven.publish")
-        val project = this
 
         extensions.getByType<com.vanniktech.maven.publish.MavenPublishBaseExtension>().apply {
             if (!version.toString().toLowerCase().endsWith("snapshot")) {
@@ -97,9 +97,9 @@ subprojects {
                         append("https://github.com/rnett/krosstalk/blob/")
                         append(sourceLinkBranch)
 
-                        val dir = projectDir.relativeTo(rootProject.projectDir).path.trim('/')
+                        val dir = project.projectDir.relativeTo(rootProject.projectDir).path.trim('/')
 
-                        append("/$dir/")
+                        append("/$dir")
                     }
 
                     remoteUrl.set(java.net.URL("$githubRoot/src/$sourceSet/kotlin"))
