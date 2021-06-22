@@ -8,6 +8,7 @@ import kotlin.reflect.KProperty
  * Accessors for input variables.
  *
  * Can be delegated from.  Property names will be converted to snake-case unless name is specified.
+ * Delegating from [inputs] treats the input as required.
  */
 public object inputs : Delegatable(true), ReadOnlyProperty<Any?, String> {
 
@@ -23,10 +24,13 @@ public object inputs : Delegatable(true), ReadOnlyProperty<Any?, String> {
     public override fun getOptional(name: String): String? = core.getOptionalInput(name)
 
     /**
-     * Get the input passed for [name].  Treats it as required, see [getRequired].
+     * Get the input passed for [name].  Treats it as optional, see [getOptional].
      */
-    public operator fun get(name: String): String = getRequired(name)
+    public operator fun get(name: String): String? = getOptional(name)
 
+    /**
+     * A delegate based on the property name converted to snake case, for a required input.
+     */
     override fun getValue(thisRef: Any?, property: KProperty<*>): String {
         return getRequired(property.name.delegateName())
     }

@@ -11,6 +11,7 @@ import kotlin.reflect.KProperty
  * Environment variable accessors, that by default exports if [defaultExport] is `true`.
  *
  * Can be delegated from.
+ * Delegating from [Environment] treats the input as optional.
  */
 public abstract class Environment(private val defaultExport: Boolean) : MutableDelegatable(),
     ReadWriteProperty<Any?, String?> {
@@ -89,10 +90,16 @@ public abstract class Environment(private val defaultExport: Boolean) : MutableD
 
     private val selfDelegate by lazy { optionalDelegate(null) }
 
+    /**
+     * A delegate based on the property name, for an optional state.
+     */
     override fun getValue(thisRef: Any?, property: KProperty<*>): String? {
         return selfDelegate.getValue(thisRef, property)
     }
 
+    /**
+     * A delegate based on the property name, for an optional state.
+     */
     public override fun setValue(thisRef: Any?, property: KProperty<*>, value: String?) {
         selfDelegate.setValue(thisRef, property, value)
     }

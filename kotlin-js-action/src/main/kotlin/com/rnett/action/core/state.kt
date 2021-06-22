@@ -7,6 +7,7 @@ import kotlin.reflect.KProperty
 
 /**
  * Accessors for state.  State is action-specific, and only useful when set in one phase and read in another (i.e. post).
+ * Delegating from [state] treats the input as required.
  */
 public object state : MutableDelegatable(), ReadWriteProperty<Any?, String> {
     /**
@@ -29,14 +30,18 @@ public object state : MutableDelegatable(), ReadWriteProperty<Any?, String> {
      */
     public override operator fun set(name: String, value: String): Unit = core.saveState(name, value)
 
-    private val selfDelegate by lazy { delegate(null) }
-
+    /**
+     * A delegate based on the property name, for a required state.
+     */
     override fun getValue(thisRef: Any?, property: KProperty<*>): String {
-        return selfDelegate.getValue(thisRef, property)
+        return getRequired(property.name.delegateName())
     }
 
+    /**
+     * A delegate based on the property name, for a required state.
+     */
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
-        selfDelegate.setValue(thisRef, property, value)
+        set(property.name.delegateName(), value)
     }
 
     /**

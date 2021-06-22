@@ -19,12 +19,12 @@ class TestExec : TestWithDir() {
 
     @Test
     fun testExec() = GlobalScope.promise {
-        exec.execCommand("javac", "--version", cwd = testDir)
+        exec.execCommand("javac", "--version")
     }
 
     @Test
     fun testExecAndCapture() = GlobalScope.promise {
-        assertTrue(exec.execCommandAndCapture("javac", "--version", cwd = testDir).stdout.startsWith("javac"))
+        assertTrue(exec.execCommandAndCapture("javac", "--version").stdout.startsWith("javac"))
     }
 
     @Test

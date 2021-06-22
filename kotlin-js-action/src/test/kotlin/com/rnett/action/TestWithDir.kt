@@ -12,11 +12,9 @@ abstract class TestWithDir {
     lateinit var testDir: Path
         private set
 
-    private val random = Random
-
     @BeforeTest
     internal fun before() {
-        val name = Random.nextLong().toString(16)
+        val name = Random.nextLong().toString(20) + Random.nextLong().toString(20)
         testDir = globalTestDir / "test-$name"
 
         if (testDir.exists) {
@@ -26,8 +24,8 @@ abstract class TestWithDir {
         }
 
         testDir.mkdir()
-        Path.cd(testDir)
         testDir.initDir()
+        Path.cd(testDir)
     }
 
     open fun Path.initDir() {

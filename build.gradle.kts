@@ -90,7 +90,7 @@ subprojects {
                 includes.from(listOf(file("module.md"), file("packages.md"), file("README.md")).filter { it.exists() })
                 includeNonPublic.set(false)
                 suppressObviousFunctions.set(true)
-                suppressInheritedMembers.set(true)
+                suppressInheritedMembers.set(false)
                 skipDeprecated.set(false)
                 skipEmptyPackages.set(true)
                 jdkVersion.set(8)

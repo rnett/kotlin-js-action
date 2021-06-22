@@ -68,7 +68,7 @@ public abstract class MutableDelegatable(camelToSnake: Boolean = false) : Delega
     }
 
     /**
-     * Get [name] from the environment, or set [default] for [name] and return it.
+     * Get [name], or set [default] for [name] and return it.
      */
     public fun getOrPut(name: String, default: () -> String): String =
         getOptional(name) ?: default().also {
