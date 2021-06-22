@@ -30,7 +30,7 @@ internal class BasicTest {
     @Test
     fun testEnv() {
         val json = Json { }
-        var envData: TestData? by env.deserialize(json)
+        var envData: TestData? by env.deserializeNotNull(json)
         envData = null
         assertNull(envData)
         envData = original
