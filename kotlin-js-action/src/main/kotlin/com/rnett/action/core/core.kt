@@ -74,42 +74,28 @@ public object core {
     @Deprecated("Use PATH", ReplaceWith("PATH += inputPath", "com.rnett.action.core.PATH"))
     public fun addPath(inputPath: String): Unit = internal.core.addPath(inputPath)
 
-    private fun getInput(name: String, required: Boolean = false): String? {
-        return try {
-            internal.core.getInput(name, JsObject {
-                this.required = true
-            })
-        } catch (error: Throwable) {
-            if (required) {
-                throw error
-            } else {
-                if (error.message == "Input required and not supplied: $name")
-                    null
-                else
-                    throw error
-            }
-        }
-    }
-
     /**
      * Gets the input, or throws [IllegalStateException].
      */
     @Deprecated("Use inputs", ReplaceWith("inputs.getRequired(name)", "com.rnett.action.core.inputs"))
-    public fun getRequiredInput(name: String): String {
+    public fun getRequiredInput(name: String, trimWhitespace: Boolean = true): String {
+        return getOptionalInput(name, trimWhitespace) ?: kotlin.error("No input found for $name")
+    }
+
+    @Deprecated("Use inputs", ReplaceWith("inputs.getOptional(name)", "com.rnett.action.core.inputs"))
+    public fun getOptionalInput(name: String, trimWhitespace: Boolean = true): String? {
         return try {
             internal.core.getInput(name, JsObject {
                 this.required = true
+                this.trimWhitespace = trimWhitespace
             })
         } catch (error: Throwable) {
             if (error.message == "Input required and not supplied: $name")
-                throw IllegalStateException("No input found for $name", cause = error)
+                return null
             else
                 throw error
         }
     }
-
-    @Deprecated("Use inputs", ReplaceWith("inputs[name]", "com.rnett.action.core.inputs"))
-    public fun getOptionalInput(name: String): String? = getInput(name, false)
 
     @Deprecated("Use outputs", ReplaceWith("outputs[name] = value", "com.rnett.action.core.outputs"))
     public fun setOutput(name: String, value: String): Unit = internal.core.setOutput(name, value)

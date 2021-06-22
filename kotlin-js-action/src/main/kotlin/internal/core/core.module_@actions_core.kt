@@ -1,13 +1,21 @@
-@file:Suppress("INTERFACE_WITH_SUPERCLASS", "OVERRIDING_FINAL_MEMBER", "RETURN_TYPE_MISMATCH_ON_OVERRIDE", "CONFLICTING_OVERLOADS")
+@file:Suppress(
+    "INTERFACE_WITH_SUPERCLASS",
+    "OVERRIDING_FINAL_MEMBER",
+    "RETURN_TYPE_MISMATCH_ON_OVERRIDE",
+    "CONFLICTING_OVERLOADS"
+)
 @file:JsModule("@actions/core")
 @file:JsNonModule
 
 package internal.core
 
-import kotlin.js.*
+import kotlin.js.Promise
 
 internal external interface InputOptions {
     var required: Boolean?
+        get() = definedExternally
+        set(value) = definedExternally
+    var trimWhitespace: Boolean?
         get() = definedExternally
         set(value) = definedExternally
 }
@@ -24,6 +32,10 @@ internal external fun setSecret(secret: String)
 internal external fun addPath(inputPath: String)
 
 internal external fun getInput(name: String, options: InputOptions = definedExternally): String
+
+internal external fun getMultilineInput(name: String, options: InputOptions = definedExternally): Array<String>
+
+internal external fun getBooleanInput(name: String, options: InputOptions = definedExternally): Boolean
 
 internal external fun setOutput(name: String, value: Any)
 

@@ -85,7 +85,7 @@ public inline fun <D, T, R> ReadOnlyProperty<D, T>.map(crossinline read: (T) -> 
 /**
  * Map reads from a delegate if the delegate's value is non-null.
  */
-public inline fun <D, T, R> ReadOnlyProperty<D, T?>.mapNonNull(crossinline read: (T) -> R): ReadOnlyProperty<D, R?> =
+public inline fun <D, T : Any, R> ReadOnlyProperty<D, T?>.mapNonNull(crossinline read: (T) -> R): ReadOnlyProperty<D, R?> =
     ReadOnlyProperty { thisRef, prop -> this@mapNonNull.getValue(thisRef, prop)?.let(read) }
 
 /**
@@ -154,7 +154,7 @@ public inline fun <D, T, R> ReadWriteProperty<D, T>.map(
 /**
  * Map reads from a delegate if the value is non-null
  */
-public inline fun <D, T> ReadWriteProperty<D, T?>.mapNonNull(
+public inline fun <D, T : Any> ReadWriteProperty<D, T?>.mapNonNull(
     crossinline read: (T) -> T
 ): ReadWriteProperty<D, T?> {
     return object : ReadWriteProperty<D, T?> {
@@ -171,7 +171,7 @@ public inline fun <D, T> ReadWriteProperty<D, T?>.mapNonNull(
 /**
  * Map reads from and writes to a delegate if the value is non-null
  */
-public inline fun <D, T> ReadWriteProperty<D, T?>.mapBothNonNull(
+public inline fun <D, T : Any> ReadWriteProperty<D, T?>.mapBothNonNull(
     crossinline both: (T) -> T
 ): ReadWriteProperty<D, T?> {
     return object : ReadWriteProperty<D, T?> {
@@ -188,7 +188,7 @@ public inline fun <D, T> ReadWriteProperty<D, T?>.mapBothNonNull(
 /**
  * Map reads from and writes to a delegate if the value is non-null
  */
-public inline fun <D, T, R> ReadWriteProperty<D, T?>.mapNonNull(
+public inline fun <D, T : Any, R> ReadWriteProperty<D, T?>.mapNonNull(
     crossinline read: (T) -> R,
     crossinline write: (R) -> T
 ): ReadWriteProperty<D, R?> {

@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.targets.js.npm.NpmDependency
 import java.net.URL
 
 plugins {
@@ -10,22 +11,42 @@ ext["pomName"] = "Kotlin JS GitHub Action SDK"
 
 val generateExternals = false
 
+private val latestVersionRegex = Regex("\"dist-tags\":\\{\"latest\":\"([^\"]+)\"\\}")
+
+
+fun DependencyHandlerScope.latestNpm(
+    name: String,
+    version: String,
+    generate: Boolean = generateExternals
+): NpmDependency {
+    val url = "https://registry.npmjs.org/$name/"
+    val latest = latestVersionRegex.find(URL(url).readText())?.groupValues?.get(1) ?: error("Version not found in $url")
+
+    if (latest != version) {
+        val message = "Using old version of npm library $name: Using $version, but latest was $latest"
+        if ((findProperty("enforceLatest")?.toString()?.toLowerCase() ?: "false") != "false")
+            error(message)
+        logger.warn(message)
+    }
+    return npm(name, version, generate)
+}
+
 dependencies {
     testImplementation(kotlin("test"))
 
     api("org.jetbrains.kotlinx:kotlinx-nodejs:0.0.7")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
 
-    implementation(npm("@actions/core", "1.3.0", generateExternals))
-    implementation(npm("@actions/exec", "1.0.4", generateExternals))
-    implementation(npm("@actions/glob", "0.2.0", generateExternals))
-    implementation(npm("@actions/io", "1.1.1", generateExternals))
+    implementation(latestNpm("@actions/core", "1.4.0"))
+    implementation(latestNpm("@actions/exec", "1.0.4"))
+    implementation(latestNpm("@actions/glob", "0.2.0"))
+    implementation(latestNpm("@actions/io", "1.1.1"))
     //TODO breaks dukat
 //    implementation(npm("@actions/tool-cache", "1.6.1"))
-    implementation(npm("@actions/github", "5.0.0", generateExternals))
-    implementation(npm("@actions/artifact", "0.5.1", generateExternals))
-    implementation(npm("@actions/cache", "1.0.7", generateExternals))
-    implementation(npm("@actions/http-client", "1.0.11", generateExternals))
+    implementation(latestNpm("@actions/github", "5.0.0"))
+    implementation(latestNpm("@actions/artifact", "0.5.1"))
+    implementation(latestNpm("@actions/cache", "1.0.7"))
+    implementation(latestNpm("@actions/http-client", "1.0.11"))
 }
 
 kotlin {
