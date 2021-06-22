@@ -1,1 +1,1 @@
-sourceset_dependencies='{":kotlin-js-action:dokkaHtml/main":[]}'
+sourceset_dependencies = '{":kotlin-js-action:dokkaHtmlPartial/main":[],":serialization:dokkaHtmlPartial/main":[],":kotlin-js-action-plugin:dokkaHtmlPartial/main":[]}'
