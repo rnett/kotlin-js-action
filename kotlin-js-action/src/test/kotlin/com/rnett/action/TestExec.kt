@@ -16,7 +16,7 @@ class TestExec {
         div("testFile3").touch().write("Testing file")
     }
 
-    val diff = if (OperatingSystem.isWindows) "\r\n" else ""
+    val diff = if (OperatingSystem.isWindows) "\r\n" else "\n"
 
     @Test
     fun testExec() = GlobalScope.promise {
