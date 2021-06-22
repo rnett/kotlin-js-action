@@ -1,3 +1,5 @@
+import java.net.URL
+
 plugins {
     kotlin("js")
     id("org.jetbrains.dokka")
@@ -35,13 +37,18 @@ kotlin {
 
 val sourceLinkBranch: String by project
 
-tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaTask>() {
-    val (moduleName, moduleVersion, dokkaSourceSets) = when (this) {
-        is org.jetbrains.dokka.gradle.DokkaTask -> Triple(moduleName, moduleVersion, dokkaSourceSets)
-        is org.jetbrains.dokka.gradle.DokkaTaskPartial -> Triple(moduleName, moduleVersion, dokkaSourceSets)
-        else -> return@withType
-    }
-    dokkaSourceSets.configureEach {
-        platform.set(org.jetbrains.dokka.Platform.js)
+afterEvaluate {
+    tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaTask>() {
+        val dokkaSourceSets = when (this) {
+            is org.jetbrains.dokka.gradle.DokkaTask -> dokkaSourceSets
+            is org.jetbrains.dokka.gradle.DokkaTaskPartial -> dokkaSourceSets
+            else -> return@withType
+        }
+        dokkaSourceSets.configureEach {
+            platform.set(org.jetbrains.dokka.Platform.js)
+            externalDocumentationLink {
+                url.set(URL("https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-json/kotlinx-serialization-json/"))
+            }
+        }
     }
 }

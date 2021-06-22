@@ -98,7 +98,6 @@ subprojects {
                         append(sourceLinkBranch)
 
                         val dir = project.projectDir.relativeTo(rootProject.projectDir).path.trim('/')
-                        println("Project: ${project.path}, Dir: $dir")
 
                         append("/$dir")
                     }
@@ -117,7 +116,7 @@ allprojects {
 
 tasks.withType<org.jetbrains.dokka.gradle.DokkaMultiModuleTask>().configureEach {
     this.fileLayout.set(org.jetbrains.dokka.gradle.DokkaMultiModuleFileLayout.CompactInParent)
-    this.includes.from("README.md")
+    this.includes.from("DOCS.md")
     this.moduleName.set("Kotlin/JS Github Actions SDK")
     this.moduleVersion.set(version.toString())
 }
