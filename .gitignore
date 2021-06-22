@@ -2,7 +2,7 @@
 /.gradle/
 /build/
 /testdir/
-
+/docs/
 
 log
 **/build
