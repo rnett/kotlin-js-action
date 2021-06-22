@@ -184,7 +184,7 @@ jobs:
         run: ls -l past-docs/old-releases
 
       - name: Generate HTML Docs
-        run: ./gradlew htmlMultiModule -PsourceLinkBranch=$GITHUB_SHA -PoldVersionsDir=past-docs/old-releases
+        run: ./gradlew dokkaHtmlMultiModule -PsourceLinkBranch=$GITHUB_SHA -PoldVersionsDir=past-docs/old-releases
 
       - name: Generate publishable readme
         run: ./gradlew generateReadme
