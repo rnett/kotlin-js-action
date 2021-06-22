@@ -64,12 +64,12 @@ public fun <D> ReadWriteProperty<D, String?>.toFloat(): ReadWriteProperty<D, Flo
 private fun String.linesHelper() = lineSequence().filter(String::isNotBlank).map(String::trim).toList()
 
 /**
- * Get the lines of the string.  Trims each lines, does not include blank lines.
+ * Get the lines of the string.  Trims each line, does not include blank lines.
  */
 public fun <D> ReadOnlyProperty<D, String>.lines(): ReadOnlyProperty<D, List<String>> = map(String::linesHelper)
 
 /**
- * Get the lines of the string.  Trims each lines, does not include blank lines.
+ * Get the lines of the string.  Trims each line, does not include blank lines.
  *
  * @param writeSeparator the separator to join the lines with, on write
  */
@@ -77,13 +77,13 @@ public fun <D> ReadWriteProperty<D, String>.lines(writeSeparator: String = "\n")
     map(String::linesHelper) { it.joinToString(writeSeparator) }
 
 /**
- * Get the lines of the string.  Trims each lines, does not inclued blank lines.
+ * Get the lines of the string.  Trims each line, does not inclued blank lines.
  */
 public fun <D> ReadOnlyProperty<D, String?>.lines(): ReadOnlyProperty<D, List<String>?> =
     mapNonNull(String::linesHelper)
 
 /**
- * Get the lines of the string.  Trims each lines, does not include blank lines.
+ * Get the lines of the string.  Trims each line, does not include blank lines.
  *
  * @param writeSeparator the separator to join the lines with, on write
  */

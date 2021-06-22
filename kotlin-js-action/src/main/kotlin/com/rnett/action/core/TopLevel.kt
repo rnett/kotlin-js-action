@@ -63,7 +63,7 @@ public inline fun runAction(flush: Boolean = true, block: () -> Unit) {
 }
 
 /**
- * Runs [block], logging (as [log.error]) any exceptions that are not caught within [block].
+ * Runs [block], logging (as [logger.error]) any exceptions that are not caught within [block].
  *
  * Runs [finally] in the try-catch's `finally` block.  If [flush] is `true`, prints a newline in the finally block.
  */
@@ -72,7 +72,7 @@ public inline fun <R> runOrLogException(finally: () -> Unit = {}, flush: Boolean
     return try {
         Result.success(block())
     } catch (e: Throwable) {
-        log.error(e)
+        logger.error(e)
         Result.failure(e)
     } finally {
         finally()

@@ -11,7 +11,7 @@ import kotlin.contracts.contract
  *
  * See [https://github.com/actions/toolkit/tree/main/packages/core#styling-output](https://github.com/actions/toolkit/tree/main/packages/core#styling-output)
  */
-public object log {
+public object logger {
 
     /**
      * Get whether the action is running in debug mode.
