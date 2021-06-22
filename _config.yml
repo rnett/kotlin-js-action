@@ -1,0 +1,9 @@
+name: Kotlin/JS Github Action SDK
+title: null
+
+tagline: 'GitHub Pages for the Kotlin/JS Github Action SDK'
+description: "A SDK for writing GitHub Actions in Kotlin/JS"
+google_site_verification: NX_Zv2QuIMO-ZCDQmYsSc1jtCHtzu49xCJybqomzc_s
+
+plugins:
+  - jekyll-seo-tag
