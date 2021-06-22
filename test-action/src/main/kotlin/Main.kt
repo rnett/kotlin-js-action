@@ -24,21 +24,24 @@ const val noEnvKey = "no-env"
 
 suspend fun main() = runAction {
     assertEquals(requiredInputValue, inputs[requiredInputKey])
+    assertEquals(requiredInputValue, inputs.getRequired(requiredInputKey))
     assertEquals(requiredInputValue, inputs.getOptional(requiredInputKey))
     val requiredInput by inputs
     assertEquals(requiredInputValue, requiredInput)
 
-    assertFails { inputs[optionalNoDefaultKey] }
+    assertFails { inputs.getRequired(optionalNoDefaultKey) }
     assertNull(inputs.getOptional(optionalNoDefaultKey))
     val optionalNoDefault by inputs.optional
     assertNull(optionalNoDefault)
 
     assertEquals(withDefaultValue, inputs[withDefaultKey])
+    assertEquals(withDefaultValue, inputs.getRequired(withDefaultKey))
     assertEquals(withDefaultValue, inputs.getOptional(withDefaultKey))
     val withDefault by inputs
     assertEquals(withDefaultValue, withDefault)
 
-    assertEquals(multilineValue, inputs[multilineKey].split("\n"))
+    assertEquals(multilineValue, inputs[multilineKey]?.split("\n"))
+    assertEquals(multilineValue, inputs.getRequired(multilineKey).split("\n"))
     assertEquals(multilineValue, inputs.getOptional(multilineKey)?.split("\n"))
     val multiline by inputs.lines()
     assertEquals(multilineValue, multiline)
