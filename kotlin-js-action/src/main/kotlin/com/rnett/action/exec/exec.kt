@@ -5,7 +5,6 @@ import com.rnett.action.JsObject
 import com.rnett.action.OperatingSystem
 import com.rnett.action.Path
 import com.rnett.action.core.runOrFail
-import com.rnett.action.currentOS
 import internal.exec.ExecOptions
 import internal.exec.ExecOutput
 import kotlinx.coroutines.await
@@ -16,26 +15,26 @@ import kotlinx.coroutines.await
 public object exec {
     private suspend fun execCommand(
         command: String,
-        args: List<String> = emptyList(),
+        args: Array<out String>,
         options: ExecOptions? = null,
     ): Int = runOrFail {
         val promise = if (options == null) {
-            internal.exec.exec(command, args.toTypedArray())
+            internal.exec.exec(command, args as Array<String>)
         } else {
-            internal.exec.exec(command, args.toTypedArray(), options)
+            internal.exec.exec(command, args as Array<String>, options)
         }
         return promise.await().toInt()
     }
 
     private suspend fun execCommandAndCapture(
         command: String,
-        args: List<String> = emptyList(),
+        args: Array<out String>,
         options: ExecOptions? = null,
     ): ExecOutput = runOrFail {
         val promise = if (options == null) {
-            internal.exec.getExecOutput(command, args.toTypedArray())
+            internal.exec.getExecOutput(command, args as Array<String>)
         } else {
-            internal.exec.getExecOutput(command, args.toTypedArray(), options)
+            internal.exec.getExecOutput(command, args as Array<String>, options)
         }
         return promise.await()
     }
@@ -114,7 +113,7 @@ public object exec {
      */
     public suspend fun execCommand(
         command: String,
-        args: List<String> = emptyList(),
+        vararg args: String,
         cwd: Path = Path("."),
         env: Map<String, String>? = null,
         input: Buffer? = null,
@@ -158,7 +157,7 @@ public object exec {
      * The default shell for the current OS.  Powershell for windows, `/bin/bash` for linux or mac.
      */
     public val defaultShell: Shell
-        get() = if (currentOS == OperatingSystem.Windows) {
+        get() = if (OperatingSystem.isWindows) {
             Shell.powershell
         } else {
             Shell.bash
@@ -207,23 +206,22 @@ public object exec {
         debugListener: ((data: String) -> Unit)? = null,
     ) {
         execCommand(
-            shell.withCommand(command),
-            emptyList(),
-            cwd,
-            env,
-            input,
-            silent,
-            outStream,
-            errStream,
-            windowsVerbatimArguments,
-            failOnStdErr,
-            ignoreReturnCode,
-            delay,
-            stdoutListener,
-            stderrListener,
-            stdoutLineListener,
-            stderrLineListener,
-            debugListener
+            command = shell.withCommand(command),
+            cwd = cwd,
+            env = env,
+            input = input,
+            silent = silent,
+            outStream = outStream,
+            errStream = errStream,
+            windowsVerbatimArguments = windowsVerbatimArguments,
+            failOnStdErr = failOnStdErr,
+            ignoreReturnCode = ignoreReturnCode,
+            delay = delay,
+            stdoutListener = stdoutListener,
+            stderrListener = stderrListener,
+            stdoutLineListener = stdoutLineListener,
+            stderrLineListener = stderrLineListener,
+            debugListener = debugListener
         )
     }
 
@@ -256,7 +254,7 @@ public object exec {
      */
     public suspend fun execCommandAndCapture(
         command: String,
-        args: List<String> = emptyList(),
+        vararg args: String,
         cwd: Path = Path("."),
         env: Map<String, String>? = null,
         input: Buffer? = null,
@@ -340,23 +338,22 @@ public object exec {
         debugListener: ((data: String) -> Unit)? = null,
     ): ExecResult {
         return execCommandAndCapture(
-            shell.withCommand(command),
-            emptyList(),
-            cwd,
-            env,
-            input,
-            silent,
-            outStream,
-            errStream,
-            windowsVerbatimArguments,
-            failOnStdErr,
-            ignoreReturnCode,
-            delay,
-            stdoutListener,
-            stderrListener,
-            stdoutLineListener,
-            stderrLineListener,
-            debugListener
+            command = shell.withCommand(command),
+            cwd = cwd,
+            env = env,
+            input = input,
+            silent = silent,
+            outStream = outStream,
+            errStream = errStream,
+            windowsVerbatimArguments = windowsVerbatimArguments,
+            failOnStdErr = failOnStdErr,
+            ignoreReturnCode = ignoreReturnCode,
+            delay = delay,
+            stdoutListener = stdoutListener,
+            stderrListener = stderrListener,
+            stdoutLineListener = stdoutLineListener,
+            stderrLineListener = stderrLineListener,
+            debugListener = debugListener
         )
     }
 }

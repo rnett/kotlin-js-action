@@ -45,11 +45,6 @@ public class Path(rawPath: String, resolve: Boolean = true) {
 
             return platformPath.resolve(newRawPath)!!
         }
-
-        /**
-         * Get the current OS's path seperator
-         */
-        public val seperator: String get() = platformPath.sep
     }
 
     /**
@@ -90,7 +85,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Get the path segments of this path.
      */
-    public val segments: List<String> by lazy { path.split(seperator).filter { it.isNotEmpty() } }
+    public val segments: List<String> by lazy { path.split(OperatingSystem.pathSeperator).filter { it.isNotEmpty() } }
 
     /**
      * See if this path contains a segment.  Will return false if [Path.seperator] is in [segment].
@@ -413,7 +408,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @see append
      */
     public fun appendLine(data: String, encoding: String = "utf8", createParents: Boolean = true) {
-        append(data + lineSeparator, encoding, createParents)
+        append(data + OperatingSystem.lineSeparator, encoding, createParents)
     }
 
     /**

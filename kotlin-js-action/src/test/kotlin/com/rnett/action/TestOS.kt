@@ -6,6 +6,6 @@ import kotlin.test.assertEquals
 class TestOS {
     @Test
     fun current() {
-        assertEquals(TestEnv.os.lowercase(), currentOS.name.lowercase())
+        assertEquals(TestEnv.os.lowercase(), OperatingSystem.current.name.lowercase())
     }
 }

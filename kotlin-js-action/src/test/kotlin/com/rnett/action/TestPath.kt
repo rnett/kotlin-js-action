@@ -4,14 +4,25 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
 import kotlin.test.*
 
+
+val globalTestDir by lazy { Path(TestEnv.testCwd.trimEnd('/') + "/testdir") }
+
 class TestPath {
 
-    val testDir by lazy { Path(TestEnv.testCwd.trimEnd('/') + "/testdir") }
+    val testDir by lazy { globalTestDir / "pathTests" }
 
     val oldCwd = Path.cwd
 
     init {
         Path.cd(Path(TestEnv.testCwd))
+    }
+
+    @BeforeTest
+    @AfterTest
+    fun clear() {
+        fs.rmdirSync(testDir.path, JsObject {
+            this.recursive = true
+        })
     }
 
     @Test
@@ -248,6 +259,14 @@ class TestPath {
         sourceDir.moveChildrenInto(dest)
         assertEquals("test3", (dest / "file2").readText())
         assertFalse((sourceDir / "file2").exists)
+    }
+
+    @Test
+    fun testPresetRead() = GlobalScope.promise {
+        assertEquals(
+            "# Project exclude paths",
+            Path(TestEnv.testCwd).descendant(".gitignore").readText().lines().first()
+        )
     }
 
     @Test
