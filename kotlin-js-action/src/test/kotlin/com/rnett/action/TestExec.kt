@@ -13,7 +13,7 @@ import kotlin.test.assertTrue
 class TestExec {
     val testDir = globalTestDir.descendant("execTestDir").apply {
         mkdir()
-        div("testFile3").touch().write("Testing file")
+        descendant("testFile3").touch().write("Testing file")
     }
 
     val diff = if (OperatingSystem.isWindows) "\r\n" else "\n"
@@ -37,12 +37,12 @@ class TestExec {
 
     @Test
     fun testExecAndCaptureShell() = GlobalScope.promise {
-        assertEquals("Testing file$diff", exec.execShellAndCapture("cat testFile3 | echo", cwd = testDir).stdout)
+        assertEquals("Testing file$diff", exec.execShellAndCapture("cat testFile3 | cat", cwd = testDir).stdout)
     }
 
     @Test
     fun testInputRedirect() = GlobalScope.promise {
-        val output = exec.execShellAndCapture("echo", input = Buffer("Test"))
+        val output = exec.execShellAndCapture("cat", input = Buffer.from("Test"))
         assertEquals("Test", output.stdout)
     }
 
