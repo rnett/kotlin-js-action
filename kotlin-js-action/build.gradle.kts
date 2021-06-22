@@ -44,7 +44,7 @@ dependencies {
     //TODO breaks dukat
 //    implementation(npm("@actions/tool-cache", "1.6.1"))
     implementation(latestNpm("@actions/github", "5.0.0"))
-    implementation(latestNpm("@actions/artifact", "0.5.1"))
+    implementation(latestNpm("@actions/artifact", "0.5.2"))
     implementation(latestNpm("@actions/cache", "1.0.7"))
     implementation(latestNpm("@actions/http-client", "1.0.11"))
 }
