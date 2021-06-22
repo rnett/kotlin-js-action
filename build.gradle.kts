@@ -94,10 +94,11 @@ subprojects {
                     localDirectory.set(file("src/$sourceSet/kotlin"))
 
                     val githubRoot = buildString {
-                        append("https://github.com/rnett/krosstalk/blob/")
+                        append("https://github.com/rnett/kotlin-js-action/blob/")
                         append(sourceLinkBranch)
 
                         val dir = project.projectDir.relativeTo(rootProject.projectDir).path.trim('/')
+                        println("Project: ${project.path}, Dir: $dir")
 
                         append("/$dir")
                     }
