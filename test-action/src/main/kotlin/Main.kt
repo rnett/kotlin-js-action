@@ -51,7 +51,7 @@ suspend fun main() = runAction {
     assertNull(env[noEnvKey])
     assertFails { env.getRequired(noEnvKey) }
     var noEnv by env(noEnvKey)
-    assertNull(noEnvKey)
+    assertNull(noEnv)
     noEnv = "test"
     assertEquals("test", noEnv)
     assertEquals("test", env.getRequired(noEnvKey))
