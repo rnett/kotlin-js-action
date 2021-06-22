@@ -1,9 +1,13 @@
 package com.rnett.action.exec
 
 import Buffer
-import com.rnett.action.*
+import com.rnett.action.JsObject
+import com.rnett.action.OperatingSystem
+import com.rnett.action.Path
 import com.rnett.action.core.runOrFail
+import com.rnett.action.currentOS
 import internal.exec.ExecOptions
+import internal.exec.ExecOutput
 import kotlinx.coroutines.await
 
 /**
@@ -23,12 +27,68 @@ public object exec {
         return promise.await().toInt()
     }
 
+    private suspend fun execCommandAndCapture(
+        command: String,
+        args: List<String> = emptyList(),
+        options: ExecOptions? = null,
+    ): ExecOutput = runOrFail {
+        val promise = if (options == null) {
+            internal.exec.getExecOutput(command, args.toTypedArray())
+        } else {
+            internal.exec.getExecOutput(command, args.toTypedArray(), options)
+        }
+        return promise.await()
+    }
+
+    private fun execOptions(
+        cwd: Path,
+        env: Map<String, String>?,
+        input: Buffer?,
+        silent: Boolean,
+        outStream: stream.internal.Writable?,
+        errStream: stream.internal.Writable?,
+        windowsVerbatimArguments: Boolean,
+        failOnStdErr: Boolean,
+        ignoreReturnCode: Boolean,
+        delay: Long,
+        stdoutListener: ((data: Buffer) -> Unit)?,
+        stderrListener: ((data: Buffer) -> Unit)?,
+        stdoutLineListener: ((data: String) -> Unit)?,
+        stderrLineListener: ((data: String) -> Unit)?,
+        debugListener: ((data: String) -> Unit)?,
+    ): ExecOptions = JsObject {
+        this.cwd = cwd.path
+        this.env = env?.let {
+            JsObject {
+                it.forEach { (k, v) ->
+                    this[k] = v
+                }
+            }
+        }
+        this.ignoreReturnCode = ignoreReturnCode
+        this.silent = silent
+        this.outStream = outStream
+        this.errStream = errStream
+        this.windowsVerbatimArguments = windowsVerbatimArguments
+        this.failOnStdErr = failOnStdErr
+        this.ignoreReturnCode = true
+        this.delay = delay
+        this.input = input
+        listeners = JsObject {
+            this.stdout = stdoutListener
+            this.stderr = stderrListener
+            stdline = stdoutLineListener
+            errline = stderrLineListener
+            debug = debugListener
+        }
+    }
+
 
     /**
      * Execute a command.
      *
      * Output redirection and pipes do not appear to be supported, but you can set [outStream] using [Path.readStream]
-     * (see [actions/toolkit#359](https://github.com/actions/toolkit/issues/359).
+     * (see [actions/toolkit#346](https://github.com/actions/toolkit/issues/346).
      * However, this will write the command as the first line (see [actions/toolkit#649](https://github.com/actions/toolkit/issues/649)).
      *
      * To workaround, you can use [execShell].
@@ -59,8 +119,8 @@ public object exec {
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
-        outStream: stream.internal.Writable = currentProcess.stdout.asDynamic() as stream.internal.Writable,
-        errStream: stream.internal.Writable = currentProcess.stderr.asDynamic() as stream.internal.Writable,
+        outStream: stream.internal.Writable? = null,
+        errStream: stream.internal.Writable? = null,
         windowsVerbatimArguments: Boolean = false,
         failOnStdErr: Boolean = false,
         ignoreReturnCode: Boolean = false,
@@ -71,25 +131,27 @@ public object exec {
         stderrLineListener: ((data: String) -> Unit)? = null,
         debugListener: ((data: String) -> Unit)? = null,
     ): Int {
-        return execCommandAndCapture(
+        return execCommand(
             command,
             args,
-            cwd,
-            env,
-            input,
-            silent,
-            outStream,
-            errStream,
-            windowsVerbatimArguments,
-            failOnStdErr,
-            ignoreReturnCode,
-            delay,
-            stdoutListener,
-            stderrListener,
-            stdoutLineListener,
-            stderrLineListener,
-            debugListener
-        ).returnCode
+            execOptions(
+                cwd = cwd,
+                env = env,
+                input = input,
+                silent = silent,
+                outStream = outStream,
+                errStream = errStream,
+                windowsVerbatimArguments = windowsVerbatimArguments,
+                failOnStdErr = failOnStdErr,
+                ignoreReturnCode = ignoreReturnCode,
+                delay = delay,
+                stdoutListener = stdoutListener,
+                stderrListener = stderrListener,
+                stdoutLineListener = stdoutLineListener,
+                stderrLineListener = stderrLineListener,
+                debugListener = debugListener
+            )
+        )
     }
 
     /**
@@ -132,8 +194,8 @@ public object exec {
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
-        outStream: stream.internal.Writable = currentProcess.stdout.asDynamic() as stream.internal.Writable,
-        errStream: stream.internal.Writable = currentProcess.stderr.asDynamic() as stream.internal.Writable,
+        outStream: stream.internal.Writable? = null,
+        errStream: stream.internal.Writable? = null,
         windowsVerbatimArguments: Boolean = false,
         failOnStdErr: Boolean = false,
         ignoreReturnCode: Boolean = false,
@@ -184,7 +246,7 @@ public object exec {
      * @param errStream the error stream to use.  Defaults to process.stderr.
      * @param windowsVerbatimArguments whether to skip escaping arguments for Windows
      * @param failOnStdErr whether to fail if output is send to stderr
-     * @param ignoreReturnCode whether to not fail the process if the subprocess fails.  Default throws an exception for non-0 return codes.
+     * @param ignoreReturnCode whether to not fail the process if the subprocess fails.  False by default.
      * @param delay How long in ms to wait for STDIO streams to close after the exit event of the process before terminating
      * @param stdoutListener listener for stdout output
      * @param stderrListener listener for stderr output
@@ -199,58 +261,40 @@ public object exec {
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
-        outStream: stream.internal.Writable = currentProcess.stdout.asDynamic() as stream.internal.Writable,
-        errStream: stream.internal.Writable = currentProcess.stderr.asDynamic() as stream.internal.Writable,
+        outStream: stream.internal.Writable? = null,
+        errStream: stream.internal.Writable? = null,
         windowsVerbatimArguments: Boolean = false,
         failOnStdErr: Boolean = false,
-        ignoreReturnCode: Boolean = false,
+        ignoreReturnCode: Boolean = true,
         delay: Long = 10000,
         stdoutListener: ((data: Buffer) -> Unit)? = null,
         stderrListener: ((data: Buffer) -> Unit)? = null,
         stdoutLineListener: ((data: String) -> Unit)? = null,
         stderrLineListener: ((data: String) -> Unit)? = null,
-        debugListener: ((data: String) -> Unit)? = null,
-        encoding: String = "utf8",
+        debugListener: ((data: String) -> Unit)? = null
     ): ExecResult {
-        val stdout = StringBuilder()
-        val stderr = StringBuilder()
-        val returnCode = execCommand(command = command,
-            args = args,
-            options = JsObject {
-                this.cwd = cwd.path
-                this.env = env?.let {
-                    JsObject {
-                        it.forEach { (k, v) ->
-                            this[k] = v
-                        }
-                    }
-                }
-                this.silent = silent
-                this.outStream = outStream
-                this.errStream = errStream
-                this.windowsVerbatimArguments = windowsVerbatimArguments
-                this.failOnStdErr = failOnStdErr
-                this.ignoreReturnCode = true
-                this.delay = delay
-                this.input = input
-                listeners = JsObject {
-                    this.stdout = { it: Buffer ->
-                        stdout.append(it.toString(encoding))
-                        stdoutListener?.invoke(it)
-                    }
-                    this.stderr = { it: Buffer ->
-                        stderr.append(it.toString(encoding))
-                        stderrListener?.invoke(it)
-                    }
-                    stdline = stdoutLineListener
-                    errline = stderrLineListener
-                    debug = debugListener
-                }
-            })
-        return ExecResult(command, returnCode, stdout.toString(), stderr.toString()).also {
-            if(!ignoreReturnCode)
-                it.throwIfFailure()
-        }
+        val result = execCommandAndCapture(
+            command,
+            args,
+            execOptions(
+                cwd = cwd,
+                env = env,
+                input = input,
+                silent = silent,
+                outStream = outStream,
+                errStream = errStream,
+                windowsVerbatimArguments = windowsVerbatimArguments,
+                failOnStdErr = failOnStdErr,
+                ignoreReturnCode = ignoreReturnCode,
+                delay = delay,
+                stdoutListener = stdoutListener,
+                stderrListener = stderrListener,
+                stdoutLineListener = stdoutLineListener,
+                stderrLineListener = stderrLineListener,
+                debugListener = debugListener
+            )
+        )
+        return ExecResult(command, result.exitCode.toInt(), result.stdout, result.stderr)
     }
 
     /**
@@ -268,7 +312,7 @@ public object exec {
      * @param errStream the error stream to use.  Defaults to process.stderr.
      * @param windowsVerbatimArguments whether to skip escaping arguments for Windows
      * @param failOnStdErr whether to fail if output is send to stderr
-     * @param ignoreReturnCode whether to not fail the process if the subprocess fails.  Default throws an exception for non-0 return codes.
+     * @param ignoreReturnCode whether to not fail the process if the subprocess fails.  False by default.
      * @param delay How long in ms to wait for STDIO streams to close after the exit event of the process before terminating
      * @param stdoutListener listener for stdout output
      * @param stderrListener listener for stderr output
@@ -283,11 +327,11 @@ public object exec {
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
-        outStream: stream.internal.Writable = currentProcess.stdout.asDynamic() as stream.internal.Writable,
-        errStream: stream.internal.Writable = currentProcess.stderr.asDynamic() as stream.internal.Writable,
+        outStream: stream.internal.Writable? = null,
+        errStream: stream.internal.Writable? = null,
         windowsVerbatimArguments: Boolean = false,
         failOnStdErr: Boolean = false,
-        ignoreReturnCode: Boolean = false,
+        ignoreReturnCode: Boolean = true,
         delay: Long = 10000,
         stdoutListener: ((data: Buffer) -> Unit)? = null,
         stderrListener: ((data: Buffer) -> Unit)? = null,

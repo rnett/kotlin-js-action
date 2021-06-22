@@ -1,4 +1,9 @@
-@file:Suppress("INTERFACE_WITH_SUPERCLASS", "OVERRIDING_FINAL_MEMBER", "RETURN_TYPE_MISMATCH_ON_OVERRIDE", "CONFLICTING_OVERLOADS")
+@file:Suppress(
+    "INTERFACE_WITH_SUPERCLASS",
+    "OVERRIDING_FINAL_MEMBER",
+    "RETURN_TYPE_MISMATCH_ON_OVERRIDE",
+    "CONFLICTING_OVERLOADS"
+)
 @file:JsModule("@actions/exec")
 @file:JsNonModule
 
@@ -67,4 +72,10 @@ internal external interface ExecOptions {
     var listeners: ExecListeners?
         get() = definedExternally
         set(value) = definedExternally
+}
+
+internal external interface ExecOutput {
+    var exitCode: Number
+    var stdout: String
+    var stderr: String
 }
