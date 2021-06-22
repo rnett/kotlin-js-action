@@ -12,4 +12,5 @@ object TestEnv {
     val os by this
     val testCwd by this
     val userHome by this
+    val cwd get() = Path(testCwd)
 }

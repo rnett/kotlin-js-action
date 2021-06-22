@@ -10,9 +10,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @OptIn(DelicateCoroutinesApi::class)
-class TestExec {
-    val testDir = globalTestDir.descendant("execTestDir").apply {
-        mkdir()
+class TestExec : TestWithDir() {
+    override fun Path.initDir() {
         descendant("testFile3").touch().write("Testing file")
     }
 

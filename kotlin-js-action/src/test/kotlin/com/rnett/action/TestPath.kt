@@ -1,29 +1,13 @@
 package com.rnett.action
 
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
 import kotlin.test.*
 
 
-val globalTestDir by lazy { Path(TestEnv.testCwd.trimEnd('/') + "/testdir") }
-
-class TestPath {
-
-    val testDir by lazy { globalTestDir / "pathTests" }
-
-    val oldCwd = Path.cwd
-
-    init {
-        Path.cd(Path(TestEnv.testCwd))
-    }
-
-    @BeforeTest
-    @AfterTest
-    fun clear() {
-        fs.rmdirSync(testDir.path, JsObject {
-            this.recursive = true
-        })
-    }
+@OptIn(DelicateCoroutinesApi::class)
+class TestPath : TestWithDir() {
 
     @Test
     fun testCwd() {
@@ -39,18 +23,18 @@ class TestPath {
 
     @Test
     fun testExists() {
-        assertTrue(Path(".gitignore").exists)
-        assertTrue(Path("./.gitignore").exists)
+        assertTrue((TestEnv.cwd / ".gitignore").exists)
+        assertTrue((TestEnv.cwd / "./.gitignore").exists)
 
-        assertFalse(Path("nonexistant").exists)
-        assertFalse(Path("./nonexistant").exists)
+        assertFalse((TestEnv.cwd / "nonexistant").exists)
+        assertFalse((TestEnv.cwd / "./nonexistant").exists)
     }
 
     @Test
     fun testStat() {
         assertNull(Path("nonexistant").stats)
 
-        val file = Path("LICENSE")
+        val file = TestEnv.cwd / "LICENSE"
         val fileStats = file.stats
         assertNotNull(fileStats)
 
@@ -62,7 +46,7 @@ class TestPath {
 
         assertEquals(11, (fileStats.size.toDouble() / 1000).toInt())
 
-        val dir = Path("kotlin-js-action")
+        val dir = TestEnv.cwd / "kotlin-js-action"
         val dirStats = dir.stats
         assertNotNull(dirStats)
 
@@ -75,7 +59,7 @@ class TestPath {
 
     @Test
     fun testManipulation() {
-        val dir = Path("./kotlin-js-action/src")
+        val dir = TestEnv.cwd / "./kotlin-js-action/src"
         val child = dir / "main"
         val parent = dir.parent
 
@@ -87,12 +71,12 @@ class TestPath {
         assertTrue(child.isDescendantOf(dir))
         assertTrue(dir.isDescendantOf(parent))
 
-        assertEquals(Path("."), dir.ancestor(2))
+        assertEquals(TestEnv.cwd, dir.ancestor(2))
     }
 
     @Test
     fun testWalking() {
-        val dir = Path("./kotlin-js-action/src")
+        val dir = (TestEnv.cwd / "./kotlin-js-action/src")
         assertFalse(dir.isDirEmpty)
         assertEquals(listOf(dir / "main", dir / "test"), dir.children)
     }
