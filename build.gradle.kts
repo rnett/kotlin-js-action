@@ -1,3 +1,8 @@
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.dokka:versioning-plugin:1.4.32")
+    }
+}
 plugins {
     kotlin("js") version "1.5.10" apply false
     kotlin("jvm") version "1.5.10" apply false
@@ -17,6 +22,8 @@ allprojects {
 }
 
 val sourceLinkBranch: String by project
+
+val oldVersionsDir: String? by project
 
 subprojects {
     afterEvaluate {
@@ -119,4 +126,25 @@ tasks.withType<org.jetbrains.dokka.gradle.DokkaMultiModuleTask>().configureEach 
     this.includes.from("DOCS.md")
     this.moduleName.set("Kotlin/JS Github Actions SDK")
     this.moduleVersion.set(version.toString())
+    if (oldVersionsDir != null && "snapshot" !in project.version.toString().toLowerCase()) {
+        val resolved = rootDir.resolve(oldVersionsDir!!)
+        println("Using older versions from $resolved")
+        pluginConfiguration<org.jetbrains.dokka.versioning.VersioningPlugin, org.jetbrains.dokka.versioning.VersioningConfiguration> {
+            version = project.version.toString()
+            olderVersionsDir = resolved
+        }
+    }
+}
+
+val header = "Kotlin JS GitHub Action SDK"
+
+tasks.create<Copy>("generateReadme") {
+    from("README.md")
+    into(buildDir)
+    filter {
+        it.replace(
+            "# $header",
+            "# [$header](https://github.com/rnett/kotlin-js-action)"
+        )
+    }
 }

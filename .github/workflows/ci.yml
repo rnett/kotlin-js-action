@@ -167,8 +167,27 @@ jobs:
             ${{ runner.os }}-publish-gradle-
             ${{ runner.os }}-test-gradle-
 
+      - name: Clone past docs for release
+        if: needs.find-version.outputs.snapshot == 'false'
+        run: |
+          git fetch
+          git clone --depth 1 https://github.com/rnett/kotlin-js-action.git --branch gh-pages --single-branch past-docs
+          mkdir -p past-docs/old-releases/
+
+      - name: Remove current docs from old docs
+        run: |
+          rm -rf past-docs/old-releases/${{ needs.find-version.outputs.version }}
+          rm -rf past-docs/old-releases/*/older
+
+      - name: List old versions
+        if: needs.find-version.outputs.snapshot == 'false'
+        run: ls -l past-docs/old-releases
+
       - name: Generate HTML Docs
-        run: ./gradlew htmlMultiModule -PsourceLinkBranch=$GITHUB_SHA
+        run: ./gradlew htmlMultiModule -PsourceLinkBranch=$GITHUB_SHA -PoldVersionsDir=past-docs/old-releases
+
+      - name: Generate publishable readme
+        run: ./gradlew generateReadme
 
       - name: Publish
         if: github.ref == 'refs/heads/main'
@@ -178,18 +197,27 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           ORG_GRADLE_PROJECT_sonatypeRepositoryId: ${{ needs.create_staging_repository.outputs.repository_id }}
           GRADLE_OPTS: -Xmx2048m -XX:MaxPermSize=512m
-        run: ./gradlew publish --no-daemon --no-parallel --info
+        run: ./gradlew publish
+
+      - name: Stop gradle daemon
+        run: ./gradlew --stop
 
       - name: Publish docs
         if: github.ref == 'refs/heads/main'
         uses: rnett/publish-docs@v2.6
         with:
           from: ./build/dokka/htmlMultiModule
-          publish-to: $version,$latest
+          publish-to: $latest,!old-releases/$version
           version: ${{ needs.find-version.outputs.version }}
 
-      - name: Stop gradle daemon
-        run: ./gradlew --stop
+      - name: Publish README
+        uses: rnett/publish-docs@v2.6
+        with:
+          from-file: ./build/README.md
+          publish-to: '$latest,!.'
+          version: ${{ needs.find-version.outputs.version }}
+          restore: true
+          message: Update README for $version
 
       - name: Cleanup Gradle Cache
         run: |
