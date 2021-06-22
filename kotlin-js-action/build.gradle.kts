@@ -56,8 +56,6 @@ kotlin {
     }
 }
 
-rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = "12.20.2"
-
 val sourceLinkBranch: String by project
 
 tasks.dokkaHtml {

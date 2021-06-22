@@ -14,7 +14,7 @@ public object github {
         public val job: String get() = internal.github.context.job
         public val runId: Int get() = internal.github.context.runId.toInt()
         public val runNumber: Int get() = internal.github.context.runNumber.toInt()
-        public val workspace: String by env("GITHUB_WORKSPACE")
+        public val workspace: String by env.required("GITHUB_WORKSPACE")
         public val workspacePath: Path get() = Path(workspace)
     }
 }

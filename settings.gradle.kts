@@ -19,4 +19,4 @@ kotlinFutureTesting {
 
 rootProject.name = "kotlin-js-action-parent"
 
-include("kotlin-js-action", "kotlin-js-action-plugin")
+include("kotlin-js-action", "serialization", "kotlin-js-action-plugin")
