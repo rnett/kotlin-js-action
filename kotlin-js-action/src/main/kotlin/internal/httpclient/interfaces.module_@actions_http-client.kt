@@ -15,129 +15,129 @@ import http.RequestOptions
 import org.w3c.dom.url.URL
 import kotlin.js.Promise
 
-public external interface IHeaders {
+internal external interface IHeaders {
     @nativeGetter
-    public operator fun get(key: String): Any?
+    operator fun get(key: String): Any?
 
     @nativeSetter
-    public operator fun set(key: String, value: Any)
+    operator fun set(key: String, value: Any)
 }
 
-public external interface IHttpClient {
-    public fun options(
+internal external interface IHttpClient {
+    fun options(
         requestUrl: String,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<IHttpClientResponse>
 
-    public fun get(requestUrl: String, additionalHeaders: IHeaders = definedExternally): Promise<IHttpClientResponse>
-    public fun del(requestUrl: String, additionalHeaders: IHeaders = definedExternally): Promise<IHttpClientResponse>
-    public fun post(
-        requestUrl: String,
-        data: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
-
-    public fun patch(
+    fun get(requestUrl: String, additionalHeaders: IHeaders = definedExternally): Promise<IHttpClientResponse>
+    fun del(requestUrl: String, additionalHeaders: IHeaders = definedExternally): Promise<IHttpClientResponse>
+    fun post(
         requestUrl: String,
         data: String,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<IHttpClientResponse>
 
-    public fun put(
+    fun patch(
         requestUrl: String,
         data: String,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<IHttpClientResponse>
 
-    public fun sendStream(
+    fun put(
+        requestUrl: String,
+        data: String,
+        additionalHeaders: IHeaders = definedExternally
+    ): Promise<IHttpClientResponse>
+
+    fun sendStream(
         verb: String,
         requestUrl: String,
         stream: ReadableStream,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<IHttpClientResponse>
 
-    public fun request(verb: String, requestUrl: String, data: String, headers: IHeaders): Promise<IHttpClientResponse>
-    public fun request(
+    fun request(verb: String, requestUrl: String, data: String, headers: IHeaders): Promise<IHttpClientResponse>
+    fun request(
         verb: String,
         requestUrl: String,
         data: ReadableStream,
         headers: IHeaders
     ): Promise<IHttpClientResponse>
 
-    public fun requestRaw(info: IRequestInfo, data: String): Promise<IHttpClientResponse>
-    public fun requestRaw(info: IRequestInfo, data: ReadableStream): Promise<IHttpClientResponse>
-    public fun requestRawWithCallback(
+    fun requestRaw(info: IRequestInfo, data: String): Promise<IHttpClientResponse>
+    fun requestRaw(info: IRequestInfo, data: ReadableStream): Promise<IHttpClientResponse>
+    fun requestRawWithCallback(
         info: IRequestInfo,
         data: String,
         onResult: (err: Any, res: IHttpClientResponse) -> Unit
     )
 
-    public fun requestRawWithCallback(
+    fun requestRawWithCallback(
         info: IRequestInfo,
         data: ReadableStream,
         onResult: (err: Any, res: IHttpClientResponse) -> Unit
     )
 }
 
-public external interface IRequestHandler {
-    public fun prepareRequest(options: RequestOptions)
-    public fun canHandleAuthentication(response: IHttpClientResponse): Boolean
-    public fun handleAuthentication(
+internal external interface IRequestHandler {
+    fun prepareRequest(options: RequestOptions)
+    fun canHandleAuthentication(response: IHttpClientResponse): Boolean
+    fun handleAuthentication(
         httpClient: IHttpClient,
         requestInfo: IRequestInfo,
         objs: Any
     ): Promise<IHttpClientResponse>
 }
 
-public external interface IHttpClientResponse {
-    public var message: IncomingMessage
-    public fun readBody(): Promise<String>
+internal external interface IHttpClientResponse {
+    var message: IncomingMessage
+    fun readBody(): Promise<String>
 }
 
-public external interface IRequestInfo {
-    public var options: RequestOptions
-    public var parsedUrl: URL
-    public var httpModule: Any
+internal external interface IRequestInfo {
+    var options: RequestOptions
+    var parsedUrl: URL
+    var httpModule: Any
 }
 
-public external interface IRequestOptions {
-    public var headers: IHeaders?
+internal external interface IRequestOptions {
+    var headers: IHeaders?
         get() = definedExternally
         set(value) = definedExternally
-    public var socketTimeout: Number?
+    var socketTimeout: Number?
         get() = definedExternally
         set(value) = definedExternally
-    public var ignoreSslError: Boolean?
+    var ignoreSslError: Boolean?
         get() = definedExternally
         set(value) = definedExternally
-    public var allowRedirects: Boolean?
+    var allowRedirects: Boolean?
         get() = definedExternally
         set(value) = definedExternally
-    public var allowRedirectDowngrade: Boolean?
+    var allowRedirectDowngrade: Boolean?
         get() = definedExternally
         set(value) = definedExternally
-    public var maxRedirects: Number?
+    var maxRedirects: Number?
         get() = definedExternally
         set(value) = definedExternally
-    public var maxSockets: Number?
+    var maxSockets: Number?
         get() = definedExternally
         set(value) = definedExternally
-    public var keepAlive: Boolean?
+    var keepAlive: Boolean?
         get() = definedExternally
         set(value) = definedExternally
-    public var deserializeDates: Boolean?
+    var deserializeDates: Boolean?
         get() = definedExternally
         set(value) = definedExternally
-    public var allowRetries: Boolean?
+    var allowRetries: Boolean?
         get() = definedExternally
         set(value) = definedExternally
-    public var maxRetries: Number?
+    var maxRetries: Number?
         get() = definedExternally
         set(value) = definedExternally
 }
 
-public external interface ITypedResponse<T> {
-    public var statusCode: Number
-    public var result: T?
-    public var headers: Any
+internal external interface ITypedResponse<T> {
+    var statusCode: Number
+    var result: T?
+    var headers: Any
 }

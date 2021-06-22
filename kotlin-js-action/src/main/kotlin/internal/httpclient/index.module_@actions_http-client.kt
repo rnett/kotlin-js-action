@@ -14,7 +14,7 @@ import http.Agent
 import http.IncomingMessage
 import kotlin.js.Promise
 
-public external enum class HttpCodes {
+internal external enum class HttpCodes {
     OK /* = 200 */,
     MultipleChoices /* = 300 */,
     MovedPermanently /* = 301 */,
@@ -44,141 +44,141 @@ public external enum class HttpCodes {
     GatewayTimeout /* = 504 */
 }
 
-public external enum class Headers {
+internal external enum class Headers {
     Accept /* = "accept" */,
     ContentType /* = "content-type" */
 }
 
-public external enum class MediaTypes {
+internal external enum class MediaTypes {
     ApplicationJson /* = "application/json" */
 }
 
-public external fun getProxyUrl(serverUrl: String): String
+internal external fun getProxyUrl(serverUrl: String): String
 
-public external open class HttpClientResponse(message: IncomingMessage) : IHttpClientResponse {
+internal external open class HttpClientResponse(message: IncomingMessage) : IHttpClientResponse {
     override var message: IncomingMessage
     override fun readBody(): Promise<String>
 }
 
-public external fun isHttps(requestUrl: String): Boolean
+internal external fun isHttps(requestUrl: String): Boolean
 
-public external open class HttpClient(
+internal external open class HttpClient(
     userAgent: String = definedExternally,
     handlers: Array<IRequestHandler> = definedExternally,
     requestOptions: IRequestOptions = definedExternally
 ) {
-    internal open var userAgent: String?
-    internal open var handlers: Array<IRequestHandler>
-    internal open var requestOptions: IRequestOptions
-    internal open var _ignoreSslError: Any
-    internal open var _socketTimeout: Any
-    internal open var _allowRedirects: Any
-    internal open var _allowRedirectDowngrade: Any
-    internal open var _maxRedirects: Any
-    internal open var _allowRetries: Any
-    internal open var _maxRetries: Any
-    internal open var _agent: Any
-    internal open var _proxyAgent: Any
-    internal open var _keepAlive: Any
-    internal open var _disposed: Any
-    public open fun options(
+    open var userAgent: String?
+    open var handlers: Array<IRequestHandler>
+    open var requestOptions: IRequestOptions
+    open var _ignoreSslError: Any
+    open var _socketTimeout: Any
+    open var _allowRedirects: Any
+    open var _allowRedirectDowngrade: Any
+    open var _maxRedirects: Any
+    open var _allowRetries: Any
+    open var _maxRetries: Any
+    open var _agent: Any
+    open var _proxyAgent: Any
+    open var _keepAlive: Any
+    open var _disposed: Any
+    open fun options(
         requestUrl: String,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<IHttpClientResponse>
 
-    public open fun get(
+    open fun get(
         requestUrl: String,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<IHttpClientResponse>
 
-    public open fun del(
+    open fun del(
         requestUrl: String,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<IHttpClientResponse>
 
-    public open fun post(
-        requestUrl: String,
-        data: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
-
-    public open fun patch(
+    open fun post(
         requestUrl: String,
         data: String,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<IHttpClientResponse>
 
-    public open fun put(
+    open fun patch(
         requestUrl: String,
         data: String,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<IHttpClientResponse>
 
-    public open fun head(
+    open fun put(
+        requestUrl: String,
+        data: String,
+        additionalHeaders: IHeaders = definedExternally
+    ): Promise<IHttpClientResponse>
+
+    open fun head(
         requestUrl: String,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<IHttpClientResponse>
 
-    public open fun sendStream(
+    open fun sendStream(
         verb: String,
         requestUrl: String,
         stream: ReadableStream,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<IHttpClientResponse>
 
-    public open fun <T> getJson(
+    open fun <T> getJson(
         requestUrl: String,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<ITypedResponse<T>>
 
-    public open fun <T> postJson(
-        requestUrl: String,
-        obj: Any,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<ITypedResponse<T>>
-
-    public open fun <T> putJson(
+    open fun <T> postJson(
         requestUrl: String,
         obj: Any,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<ITypedResponse<T>>
 
-    public open fun <T> patchJson(
+    open fun <T> putJson(
         requestUrl: String,
         obj: Any,
         additionalHeaders: IHeaders = definedExternally
     ): Promise<ITypedResponse<T>>
 
-    public open fun request(
+    open fun <T> patchJson(
+        requestUrl: String,
+        obj: Any,
+        additionalHeaders: IHeaders = definedExternally
+    ): Promise<ITypedResponse<T>>
+
+    open fun request(
         verb: String,
         requestUrl: String,
         data: String,
         headers: IHeaders
     ): Promise<IHttpClientResponse>
 
-    public open fun request(
+    open fun request(
         verb: String,
         requestUrl: String,
         data: ReadableStream,
         headers: IHeaders
     ): Promise<IHttpClientResponse>
 
-    public open fun dispose()
-    public open fun requestRaw(info: IRequestInfo, data: String): Promise<IHttpClientResponse>
-    public open fun requestRaw(info: IRequestInfo, data: ReadableStream): Promise<IHttpClientResponse>
-    public open fun requestRawWithCallback(
+    open fun dispose()
+    open fun requestRaw(info: IRequestInfo, data: String): Promise<IHttpClientResponse>
+    open fun requestRaw(info: IRequestInfo, data: ReadableStream): Promise<IHttpClientResponse>
+    open fun requestRawWithCallback(
         info: IRequestInfo,
         data: String,
         onResult: (err: Any, res: IHttpClientResponse) -> Unit
     )
 
-    public open fun requestRawWithCallback(
+    open fun requestRawWithCallback(
         info: IRequestInfo,
         data: ReadableStream,
         onResult: (err: Any, res: IHttpClientResponse) -> Unit
     )
 
-    public open fun getAgent(serverUrl: String): Agent
+    open fun getAgent(serverUrl: String): Agent
     internal open var _prepareRequest: Any
     internal open var _mergeHeaders: Any
     internal open var _getExistingOrDefaultHeader: Any
@@ -186,7 +186,7 @@ public external open class HttpClient(
     internal open var _performExponentialBackoff: Any
     internal open var _processResponse: Any
 
-    public companion object {
+    companion object {
         internal var dateTimeDeserializer: Any
     }
 }

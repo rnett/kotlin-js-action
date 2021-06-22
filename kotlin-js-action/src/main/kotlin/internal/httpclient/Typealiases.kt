@@ -1,3 +1,3 @@
 package internal.httpclient
 
-public typealias HttpClientError = Error
+internal typealias HttpClientError = Error
