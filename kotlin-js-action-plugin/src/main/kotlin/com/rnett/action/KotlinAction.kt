@@ -9,7 +9,7 @@ import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
 /**
- * Add a task to create the custom webpack config necessary for packing GitHub actions.  Done by automatically in [githubAction].
+ * Add a task to create the custom webpack config necessary for packing GitHub actions.  Done automatically in [githubAction].
  */
 fun Project.addWebpackGenTask(): TaskProvider<Task> = tasks.register(Constants.createWebpackTaskName) {
     group = Constants.taskGroup
