@@ -18,6 +18,9 @@ import kotlin.math.min
 
 private external fun encodeURIComponent(str: String): String
 
+/**
+ * Experimental reverse engineered cache API, there are probably bugs.
+ */
 @MustBeDocumented
 @RequiresOptIn("Experimental reverse engineered cache API, there are probably bugs.")
 public annotation class ExperimentalCacheAPI

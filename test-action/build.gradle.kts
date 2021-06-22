@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
     implementation("com.github.rnett.ktjs-github-action:kotlin-js-action")
+    implementation("com.github.rnett.ktjs-github-action:serialization")
     implementation(kotlin("test"))
 }
 

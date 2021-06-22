@@ -1,5 +1,6 @@
-package com.rnett.action
+package com.rnett.action.delegates
 
+import com.rnett.action.camelToSnakeCase
 import com.rnett.action.core.inputs
 import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty

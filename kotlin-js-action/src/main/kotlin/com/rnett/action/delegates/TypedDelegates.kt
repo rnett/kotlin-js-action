@@ -1,4 +1,4 @@
-package com.rnett.action
+package com.rnett.action.delegates
 
 import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty

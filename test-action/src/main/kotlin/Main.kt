@@ -1,7 +1,7 @@
 import com.rnett.action.core.env
 import com.rnett.action.core.inputs
 import com.rnett.action.core.runAction
-import com.rnett.action.lines
+import com.rnett.action.delegates.lines
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertNull

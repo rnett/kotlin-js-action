@@ -6,7 +6,7 @@ import java.io.File
 
 
 /**
- * Adds a task to generate a GitHub action workflow to build and commit `dist/` on each push, if the updates one wasn't build locally.
+ * Adds a task to generate a GitHub action workflow to build (with `gradlew assemble`) and commit `dist/` on each push, if the updates one wasn't build locally.
  *
  * Adds the task as a dependency of `wrapper` and `build`.
  *
@@ -28,6 +28,7 @@ fun Project.useAutoBuildWorkflow(
             }
 
             file.writeText(
+                // language=yml
                 """
 name: Auto-update dist
 
@@ -44,14 +45,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: $javaVersion
+          
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+        
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew assemble
+        
       - name: Commit dist
         uses: EndBug/add-and-commit@v7
         with:

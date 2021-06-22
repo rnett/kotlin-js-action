@@ -1,6 +1,6 @@
 package com.rnett.action.core
 
-import com.rnett.action.Delegatable
+import com.rnett.action.delegates.Delegatable
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

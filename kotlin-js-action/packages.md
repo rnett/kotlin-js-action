@@ -1,7 +1,10 @@
-
 # Package com.rnett.action
 
-The main package, with a few utilities and Path.
+`Path`, OS, and utilities.
+
+# Package com.rnett.action.delegates
+
+Delegate helpers.
 
 # Package com.rnett.action.artifact
 

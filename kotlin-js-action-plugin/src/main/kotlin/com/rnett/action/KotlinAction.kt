@@ -3,17 +3,13 @@ package com.rnett.action
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.TaskProvider
-import org.gradle.language.base.plugins.LifecycleBasePlugin
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
 /**
- * Add a task to create the custom webpack config necessary for packing GitHub actions.  Done by automatically in [githubAction]
- * Adds it as a dependency of `compileKotlinJs` (always) and `browserProductionWebpack` (if [addDependency] is set).
- *
- * @param addDependency whether to add the created task as a dependency of `browserProductionWebpack`.
+ * Add a task to create the custom webpack config necessary for packing GitHub actions.  Done by automatically in [githubAction].
  */
 fun Project.addWebpackGenTask(): TaskProvider<Task> = tasks.register(Constants.createWebpackTaskName) {
     group = Constants.taskGroup
@@ -30,9 +26,9 @@ fun Project.addWebpackGenTask(): TaskProvider<Task> = tasks.register(Constants.c
 }
 
 /**
- * Adds a JS target for GitHub actions (browser commonJs w/ node libraries) and configures necessary tasks for packing.
+ * Adds a JS target for GitHub actions (browser commonJs w/ node libraries) that run using `node12` and configures necessary tasks for packing.
  *
- * Running `build` will generate the compiled GitHub task in [outputFile], which by default is `dist/index.js`.
+ * Running the production webpack task will generate the compiled GitHub task in [outputFile], which by default is `dist/index.js`.
  */
 fun KotlinJsTargetDsl.githubAction(
     outputFile: File = File("${project.projectDir}/dist/index.js")
@@ -45,7 +41,7 @@ fun KotlinJsTargetDsl.githubAction(
 
     browser {
         webpackTask {
-            if(mode == org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION) {
+            if (mode == org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION) {
                 output.globalObject = "this" // NodeJS mode
                 sourceMaps = false
 
@@ -66,8 +62,9 @@ fun KotlinJsTargetDsl.githubAction(
     }
 
     var current: Project? = project
-    while(current != null) {
-        current.extensions.findByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class.java)?.nodeVersion = "12.20.2"
+    while (current != null) {
+        current.extensions.findByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class.java)?.nodeVersion =
+            "12.20.2"
         current = current.parent
     }
 }

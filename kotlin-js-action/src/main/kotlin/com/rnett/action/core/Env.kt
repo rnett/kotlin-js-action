@@ -2,8 +2,8 @@ package com.rnett.action.core
 
 import NodeJS.get
 import NodeJS.set
-import com.rnett.action.MutableDelegatable
 import com.rnett.action.currentProcess
+import com.rnett.action.delegates.MutableDelegatable
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 

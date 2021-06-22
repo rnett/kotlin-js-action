@@ -2,7 +2,7 @@ plugins {
     kotlin("js") version "1.5.10" apply false
     kotlin("jvm") version "1.5.10" apply false
     id("com.vanniktech.maven.publish") version "0.15.1" apply false
-    id("org.jetbrains.dokka") version "1.4.32" apply false
+    id("org.jetbrains.dokka") version "1.4.32"
     kotlin("plugin.serialization") version "1.5.10" apply false
 }
 
@@ -15,6 +15,8 @@ allprojects {
         jcenter()
     }
 }
+
+val sourceLinkBranch: String by project
 
 subprojects {
     afterEvaluate {
@@ -65,9 +67,56 @@ subprojects {
                 exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
             }
         }
+
+        tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaTask>() {
+
+            val (moduleName, moduleVersion, dokkaSourceSets) = when (this) {
+                is org.jetbrains.dokka.gradle.DokkaTask -> Triple(moduleName, moduleVersion, dokkaSourceSets)
+                is org.jetbrains.dokka.gradle.DokkaTaskPartial -> Triple(moduleName, moduleVersion, dokkaSourceSets)
+                else -> return@withType
+            }
+
+            moduleName.set(project.ext["pomName"].toString())
+            moduleVersion.set(version.toString())
+
+            dokkaSourceSets.configureEach {
+                includes.from(listOf(file("module.md"), file("packages.md"), file("README.md")).filter { it.exists() })
+                includeNonPublic.set(false)
+                suppressObviousFunctions.set(true)
+                suppressInheritedMembers.set(true)
+                skipDeprecated.set(false)
+                skipEmptyPackages.set(true)
+                jdkVersion.set(8)
+
+                val sourceSet = this.sourceSetID.sourceSetName
+
+                sourceLink {
+                    localDirectory.set(file("src/$sourceSet/kotlin"))
+
+                    val githubRoot = buildString {
+                        append("https://github.com/rnett/krosstalk/blob/")
+                        append(sourceLinkBranch)
+
+                        val dir = projectDir.relativeTo(rootProject.projectDir).path.trim('/')
+
+                        append("/$dir/")
+                    }
+
+                    remoteUrl.set(java.net.URL("$githubRoot/src/$sourceSet/kotlin"))
+                    remoteLineSuffix.set("#L")
+                }
+            }
+        }
     }
 }
 
 allprojects {
     convention.findByType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>()?.nodeVersion = "12.20.2"
+}
+
+tasks.withType<org.jetbrains.dokka.gradle.DokkaMultiModuleTask>().configureEach {
+    this.fileLayout.set(org.jetbrains.dokka.gradle.DokkaMultiModuleFileLayout.CompactInParent)
+    this.includes.from("README.md")
+    this.moduleName.set("Kotlin/JS Github Actions SDK")
+    this.moduleVersion.set(version.toString())
 }

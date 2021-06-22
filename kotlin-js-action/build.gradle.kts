@@ -58,25 +58,17 @@ kotlin {
 
 val sourceLinkBranch: String by project
 
-tasks.dokkaHtml {
-    moduleName.set("Kotlin JS GitHub Action SDK")
-    moduleVersion.set(version.toString())
+tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaTask>() {
+    val (moduleName, moduleVersion, dokkaSourceSets) = when (this) {
+        is org.jetbrains.dokka.gradle.DokkaTask -> Triple(moduleName, moduleVersion, dokkaSourceSets)
+        is org.jetbrains.dokka.gradle.DokkaTaskPartial -> Triple(moduleName, moduleVersion, dokkaSourceSets)
+        else -> return@withType
+    }
+    dokkaSourceSets.configureEach {
+        platform.set(org.jetbrains.dokka.Platform.js)
 
-    dokkaSourceSets {
-        val main by getting {
-            includes.from("packages.md", "module.md")
-
-            platform.set(org.jetbrains.dokka.Platform.js)
-
-            sourceLink {
-                localDirectory.set(file("src/main/kotlin"))
-                remoteUrl.set(URL("https://github.com/rnett/kotlin-js-action/blob/$sourceLinkBranch/kotlin-js-action/src/main/kotlin"))
-                remoteLineSuffix.set("#L")
-            }
-
-            externalDocumentationLink {
-                url.set(URL("https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/"))
-            }
+        externalDocumentationLink {
+            url.set(URL("https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/"))
         }
     }
 }
