@@ -25,7 +25,6 @@ abstract class TestWithDir {
 
         dir.mkdir()
         dir.initDir()
-        println("Made dir $dir: ${dir.isDir}")
         Path.cd(dir)
         testDir = dir
     }

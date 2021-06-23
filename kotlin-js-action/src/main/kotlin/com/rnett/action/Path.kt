@@ -411,6 +411,8 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     public fun readStream(encoding: String? = "utf8"): ReadStream {
         requireFile()
         return fs.createReadStream(path, JsObject<fs.`T$50`> {
+            this.autoClose = true
+            this.emitClose = true
             this.encoding = encoding
         })
     }

@@ -31,6 +31,16 @@ public inline fun <T : Any> JsObject(block: T.() -> Unit = {}): T {
 }
 
 /**
+ * Get the entries of a JS object, using `Object.entries`.
+ */
+public inline fun jsEntries(jsObject: dynamic): Map<String, dynamic> = js("Object")
+    .entries(jsObject)
+    .unsafeCast<Array<Array<dynamic>>>()
+    .map {
+        it[0].unsafeCast<String>() to it[1]
+    }.toMap()
+
+/**
  * Get the current process.  Alias for [process] that doesn't have name conflicts.
  */
 public val currentProcess: Process get() = nodeProcess
