@@ -1,7 +1,7 @@
 import com.rnett.action.githubAction
 
 plugins {
-    kotlin("js") version "1.5.10"
+    kotlin("js") version "1.5.20"
     id("com.github.rnett.ktjs-github-action")
 }
 
