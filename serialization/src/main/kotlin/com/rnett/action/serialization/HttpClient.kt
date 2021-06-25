@@ -7,13 +7,10 @@ import com.rnett.action.httpclient.HttpResponse
 import com.rnett.action.httpclient.IHttpResponse
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import stream.internal
 
 /**
  * A HTTP response that you can get typed data from.
@@ -115,15 +112,11 @@ public class JsonHttpClient(@PublishedApi internal val json: Json = Json, builde
         data: Flow<T>,
         headers: HeaderProvider = HeaderProvider {}
     ): TypedHttpResponse = coroutineScope {
-        val stream = internal.PassThrough()
-        launch {
-            data.onCompletion { stream.end() }
-                .collect {
-                    stream.write(json.encodeToString(it))
-                }
-        }
-        val response = request(verb, url, stream, headers + { add("content-type", "application/json") })
-        stream.destroy()
+        val response = request(
+            verb,
+            url,
+            data.map { json.encodeToString(it) },
+            headers + { add("content-type", "application/json") })
         TypedHttpResponse(response, json)
     }
 }

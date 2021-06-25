@@ -3,6 +3,7 @@ package com.rnett.action.httpclient
 import NodeJS.ReadableStream
 import com.rnett.action.JsObject
 import com.rnett.action.jsEntries
+import com.rnett.action.toStream
 import http.ClientRequestArgs
 import http.IncomingMessage
 import http.RequestOptions
@@ -18,6 +19,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.await
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.promise
 import org.w3c.dom.url.URL
 import stream.internal
@@ -276,6 +278,13 @@ public interface BasicHttpClient {
     ): HttpResponse =
         request("post", url, data, headers = headers)
 
+    public suspend fun post(
+        url: String,
+        data: Flow<String>,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("post", url, data, headers = headers)
+
     public suspend fun put(
         url: String,
         data: String,
@@ -286,6 +295,13 @@ public interface BasicHttpClient {
     public suspend fun put(
         url: String,
         data: ReadableStream,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("put", url, data, headers = headers)
+
+    public suspend fun put(
+        url: String,
+        data: Flow<String>,
         headers: HeaderProvider = HeaderProvider { }
     ): HttpResponse =
         request("put", url, data, headers = headers)
@@ -304,6 +320,13 @@ public interface BasicHttpClient {
     ): HttpResponse =
         request("patch", url, data, headers = headers)
 
+    public suspend fun patch(
+        url: String,
+        data: Flow<String>,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("patch", url, data, headers = headers)
+
     public suspend fun request(
         verb: String,
         url: String,
@@ -317,6 +340,15 @@ public interface BasicHttpClient {
         data: ReadableStream,
         headers: HeaderProvider = HeaderProvider {}
     ): HttpResponse
+
+    public suspend fun request(
+        verb: String,
+        url: String,
+        data: Flow<String>,
+        headers: HeaderProvider = HeaderProvider {}
+    ): HttpResponse = coroutineScope {
+        request(verb, url, data.toStream(this), headers)
+    }
 }
 
 internal class WrappedInterfaceClient(private val client: IHttpClient) : BasicHttpClient {
