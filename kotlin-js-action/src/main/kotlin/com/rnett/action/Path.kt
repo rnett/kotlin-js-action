@@ -408,11 +408,10 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @see readText
      * @see readBytes
      */
-    public fun readStream(encoding: String? = "utf8"): ReadStream {
+    public fun readStream(encoding: String? = "utf8", emitClose: Boolean = true): ReadStream {
         requireFile()
         return fs.createReadStream(path, JsObject<fs.`T$50`> {
-            this.autoClose = true
-            this.emitClose = true
+            this.emitClose = emitClose
             this.encoding = encoding
         })
     }

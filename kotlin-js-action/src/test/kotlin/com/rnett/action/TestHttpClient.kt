@@ -2,12 +2,13 @@ package com.rnett.action
 
 import com.rnett.action.httpclient.BasicAuthHandler
 import com.rnett.action.httpclient.BearerAuthHandler
-import com.rnett.action.httpclient.EmptyMethodRequester
+import com.rnett.action.httpclient.HeaderProvider
 import com.rnett.action.httpclient.HttpClient
 import com.rnett.action.httpclient.HttpResponse
 import com.rnett.action.httpclient.PersonalAccessTokenAuthHandler
 import com.rnett.action.httpclient.decodeBase64
 import com.rnett.action.httpclient.encodeBase64
+import com.rnett.action.httpclient.use
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
@@ -21,7 +22,7 @@ class TestHttpClient : TestWithDir() {
 
     private suspend fun testHelper(
         code: Int,
-        method: EmptyMethodRequester,
+        method: suspend (String, HeaderProvider) -> HttpResponse,
         json: Boolean = false,
         checkBody: Boolean = true,
         addJsonHeader: Boolean = false
@@ -46,9 +47,13 @@ class TestHttpClient : TestWithDir() {
     }
 
     suspend fun testHelper(
-        method: HttpClient.() -> EmptyMethodRequester,
+        method: suspend HttpClient.(String, HeaderProvider) -> HttpResponse,
         checkBody: Boolean = true
     ) {
+
+        fun HttpClient.method(): suspend (String, HeaderProvider) -> HttpResponse =
+            { url, headers -> this.method(url, headers) }
+
         HttpClient().use { client ->
             testHelper(200, client.method(), checkBody = checkBody)
             testHelper(404, client.method(), checkBody = checkBody)
@@ -62,6 +67,13 @@ class TestHttpClient : TestWithDir() {
         }.use { client ->
             testHelper(200, client.method(), true, checkBody = checkBody)
         }
+    }
+
+    suspend fun testHelper(
+        method: suspend HttpClient.(String, String, HeaderProvider) -> HttpResponse,
+        checkBody: Boolean = true
+    ) {
+        testHelper({ url, headers -> method(url, "", headers) }, checkBody)
     }
 
     @Test
@@ -86,7 +98,7 @@ class TestHttpClient : TestWithDir() {
                 it["test3"] = "testData3"
             }
         }.use { client ->
-            client.get("https://httpbin.org/headers", mapOf("test2" to "testData2")).let {
+            client.get("https://httpbin.org/headers") { +mapOf("test2" to "testData2") }.let {
                 val body = it.readBody()
                 assertContains(body, "\"Test1\": \"testData1\"")
                 assertContains(body, "\"Test2\": \"testData2\"")
@@ -123,6 +135,18 @@ class TestHttpClient : TestWithDir() {
         HttpClient().use { client ->
             client.post("https://httpbin.org/post", "testing").let {
                 assertContains(it.readBody(), "\"data\": \"testing\"")
+            }
+        }
+    }
+
+    @Test
+    fun testPostStreaming() = GlobalScope.promise {
+        HttpClient().use { client ->
+            val file = testDir / "file"
+            file.write("Test")
+
+            client.post("https://httpbin.org/post", file.readStream()).let {
+                assertContains(it.readBody(), "\"data\": \"Test\"")
             }
         }
     }

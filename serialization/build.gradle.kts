@@ -22,7 +22,9 @@ kotlin {
         nodejs {
             binaries.library()
             testTask {
-                useMocha()
+                useMocha {
+                    timeout = "20s"
+                }
             }
         }
     }

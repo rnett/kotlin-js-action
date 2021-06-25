@@ -55,7 +55,9 @@ kotlin {
         nodejs {
             binaries.library()
             testTask {
-                useMocha()
+                useMocha {
+                    timeout = "20s"
+                }
 
                 val dir = rootProject.file("testdir")
                 doFirst {

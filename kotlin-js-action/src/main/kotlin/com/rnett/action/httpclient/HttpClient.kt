@@ -15,29 +15,42 @@ import internal.httpclient.ITypedResponse
 import internal.httpclient.getProxyUrl
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.await
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.promise
 import org.w3c.dom.url.URL
+import stream.internal
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import kotlin.js.Promise
 import internal.httpclient.HttpClient as JsHttpClient
 
+public interface IHttpResponse {
+    public suspend fun readBody(): String
+
+    public val message: IncomingMessage
+    public val headers: Headers
+    public val statusCode: Int
+    public val statusMessage: String
+    public fun isSuccess(): Boolean
+}
+
 /**
  * The response from a HTTP request.
  */
-public class HttpResponse internal constructor(internal val internal: IHttpClientResponse) {
-    public suspend fun readBody(): String = internal.readBody().await()
+public open class HttpResponse internal constructor(internal val internal: IHttpClientResponse) : IHttpResponse {
+    public override suspend fun readBody(): String = internal.readBody().await()
 
-    public val message: IncomingMessage get() = internal.message
+    public override val message: IncomingMessage get() = internal.message
 
     //TODO use Headers type for non-case sensitive-ness?
-    public val headers: Headers = message.rawHeaders.asSequence().chunked(2) {
+    public override val headers: Headers = message.rawHeaders.asSequence().chunked(2) {
         it[0] to it[1]
     }.toMap().let { MapHeaders(it) }
-    public val statusCode: Int = message.statusCode.toInt()
-    public val statusMessage: String get() = message.statusMessage
-    public fun isSuccess(): Boolean = statusCode in 200..299
+    public override val statusCode: Int = message.statusCode.toInt()
+    public override val statusMessage: String get() = message.statusMessage
+    public override fun isSuccess(): Boolean = statusCode in 200..299
 }
 
 /**
@@ -99,15 +112,15 @@ private fun RequestHandler.toInternal() = object : IRequestHandler {
 
 }
 
-private fun Map<String, String>.toHeaders(): IHeaders = JsObject {
-    this@toHeaders.forEach {
+private fun Map<String, String>.toIHeaders(): IHeaders = JsObject {
+    this@toIHeaders.forEach {
         this[it.key] = it.value
     }
 }
 
 private fun buildHttpClient(
     handlers: List<RequestHandler>,
-    userAgent: String,
+    userAgent: String?,
     defaultHeaders: Map<String, String>,
     socketTimeout: Int?,
     ignoreSslError: Boolean?,
@@ -119,19 +132,20 @@ private fun buildHttpClient(
     deserializeDates: Boolean?,
     allowRetries: Boolean?,
     maxRetries: Int?
-): JsHttpClient = JsHttpClient(userAgent, handlers.map { it.toInternal() }.toTypedArray(), requestOptions = JsObject {
-    this.headers = defaultHeaders.toHeaders()
-    this.socketTimeout = socketTimeout
-    this.ignoreSslError = ignoreSslError
-    this.allowRedirects = allowRedirects
-    this.allowRedirectDowngrade = allowRedirectDowngrade
-    this.maxRedirects = maxRedirects
-    this.maxSockets = maxSockets
-    this.keepAlive = keepAlive
-    this.deserializeDates = deserializeDates
-    this.allowRetries = allowRetries
-    this.maxRetries = maxRetries
-})
+): JsHttpClient =
+    JsHttpClient(userAgent.asDynamic(), handlers.map { it.toInternal() }.toTypedArray(), requestOptions = JsObject {
+        this.headers = defaultHeaders.toIHeaders()
+        this.socketTimeout = socketTimeout
+        this.ignoreSslError = ignoreSslError
+        this.allowRedirects = allowRedirects
+        this.allowRedirectDowngrade = allowRedirectDowngrade
+        this.maxRedirects = maxRedirects
+        this.maxSockets = maxSockets
+        this.keepAlive = keepAlive
+        this.deserializeDates = deserializeDates
+        this.allowRetries = allowRetries
+        this.maxRetries = maxRetries
+    })
 
 public fun githubProxyUrl(url: String): String = getProxyUrl(url)
 
@@ -146,7 +160,7 @@ public class HttpClientBuilder internal constructor() {
      * The headers added to every request.
      */
     public val defaultHeaders: MutableHeaders = mapHeaders
-    public var userAgent: String = "Github Actions"
+    public var userAgent: String? = null
     public var socketTimeout: Int? = null
     public var ignoreSslError: Boolean? = null
     public var allowRedirects: Boolean? = null
@@ -221,164 +235,88 @@ public class HttpClientBuilder internal constructor() {
 }
 
 /**
- * Helpers for HTTP methods
- */
-public open class EmptyMethodRequester internal constructor(
-    protected val method: String,
-    protected val client: BasicHttpClient
-) {
-    public suspend operator fun invoke(url: String, additionalHeaders: Map<String, String> = emptyMap()): HttpResponse =
-        client.request(method, url, "", additionalHeaders)
-
-
-    public suspend operator fun invoke(url: String, vararg additionalHeaders: Pair<String, String>): HttpResponse =
-        client.request(method, url, "", *additionalHeaders)
-
-
-    public suspend operator fun invoke(
-        url: String,
-        vararg additionalHeaders: HeaderProvider,
-        oneMore: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
-        client.request(method, url, "", *additionalHeaders, oneMore = oneMore)
-}
-
-/**
- * Helpers for HTTP methods
- */
-public class MethodRequester internal constructor(method: String, client: BasicHttpClient) :
-    EmptyMethodRequester(method, client) {
-    public suspend operator fun invoke(
-        url: String,
-        data: String,
-        additionalHeaders: Map<String, String> = emptyMap()
-    ): HttpResponse =
-        client.request(method, url, data, additionalHeaders)
-
-
-    public suspend operator fun invoke(
-        url: String,
-        data: String,
-        vararg additionalHeaders: Pair<String, String>
-    ): HttpResponse =
-        client.request(method, url, data, *additionalHeaders)
-
-
-    public suspend operator fun invoke(
-        url: String,
-        data: String,
-        vararg additionalHeaders: HeaderProvider,
-        oneMore: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
-        client.request(method, url, data, *additionalHeaders, oneMore = oneMore)
-
-    public suspend operator fun invoke(
-        url: String,
-        data: ReadableStream,
-        additionalHeaders: Map<String, String> = emptyMap()
-    ): HttpResponse =
-        client.request(method, url, data, additionalHeaders)
-
-
-    public suspend operator fun invoke(
-        url: String,
-        data: ReadableStream,
-        vararg additionalHeaders: Pair<String, String>
-    ): HttpResponse =
-        client.request(method, url, data, *additionalHeaders)
-
-
-    public suspend operator fun invoke(
-        url: String,
-        data: ReadableStream,
-        vararg additionalHeaders: HeaderProvider,
-        oneMore: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
-        client.request(method, url, data, *additionalHeaders, oneMore = oneMore)
-}
-
-/**
  * A minimal HTTP client, based on [`@actions/httpclient`](https://github.com/actions/http-client).
  */
 public interface BasicHttpClient {
-    public val head: EmptyMethodRequester
-        get() = EmptyMethodRequester("head", this)
+    public suspend fun head(
+        url: String,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("head", url, "", headers = headers)
 
-    public val get: EmptyMethodRequester
-        get() = EmptyMethodRequester("get", this)
+    public suspend fun get(
+        url: String,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("get", url, "", headers = headers)
 
-    public val options: EmptyMethodRequester
-        get() = EmptyMethodRequester("options", this)
+    public suspend fun options(
+        url: String,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("options", url, "", headers = headers)
 
-    public val del: EmptyMethodRequester
-        get() = EmptyMethodRequester("del", this)
+    public suspend fun del(
+        url: String,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("del", url, "", headers = headers)
 
-    public val post: MethodRequester
-        get() = MethodRequester("post", this)
+    public suspend fun post(
+        url: String,
+        data: String,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("post", url, data, headers = headers)
 
-    public val put: MethodRequester
-        get() = MethodRequester("put", this)
+    public suspend fun post(
+        url: String,
+        data: ReadableStream,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("post", url, data, headers = headers)
 
-    public val patch: MethodRequester
-        get() = MethodRequester("patch", this)
+    public suspend fun put(
+        url: String,
+        data: String,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("put", url, data, headers = headers)
+
+    public suspend fun put(
+        url: String,
+        data: ReadableStream,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("put", url, data, headers = headers)
+
+    public suspend fun patch(
+        url: String,
+        data: String,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("patch", url, data, headers = headers)
+
+    public suspend fun patch(
+        url: String,
+        data: ReadableStream,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("patch", url, data, headers = headers)
 
     public suspend fun request(
         verb: String,
         url: String,
         data: String,
-        additionalHeaders: Map<String, String> = emptyMap()
+        headers: HeaderProvider = HeaderProvider {}
     ): HttpResponse
 
     public suspend fun request(
         verb: String,
         url: String,
-        data: String,
-        vararg additionalHeaders: HeaderProvider,
-        oneMore: HeaderProvider = HeaderProvider {}
-    ): HttpResponse {
-        val headers = MapHeaders()
-        additionalHeaders.forEach {
-            headers += it
-        }
-        headers += oneMore
-        return request(verb, url, data, headers.toMap())
-    }
-
-    public suspend fun request(
-        verb: String,
-        url: String,
-        data: String,
-        vararg additionalHeaders: Pair<String, String>
-    ): HttpResponse = request(verb, url, data, additionalHeaders.toMap())
-
-    public suspend fun request(
-        verb: String,
-        url: String,
         data: ReadableStream,
-        additionalHeaders: Map<String, String> = emptyMap()
+        headers: HeaderProvider = HeaderProvider {}
     ): HttpResponse
-
-    public suspend fun request(
-        verb: String,
-        url: String,
-        data: ReadableStream,
-        vararg additionalHeaders: Pair<String, String>
-    ): HttpResponse = request(verb, url, data, additionalHeaders.toMap())
-
-    public suspend fun request(
-        verb: String,
-        url: String,
-        data: ReadableStream,
-        vararg additionalHeaders: HeaderProvider,
-        oneMore: HeaderProvider = HeaderProvider {}
-    ): HttpResponse {
-        val headers = MapHeaders()
-        additionalHeaders.forEach {
-            headers += it
-        }
-        headers += oneMore
-        return request(verb, url, data, headers.toMap())
-    }
 }
 
 internal class WrappedInterfaceClient(private val client: IHttpClient) : BasicHttpClient {
@@ -386,24 +324,24 @@ internal class WrappedInterfaceClient(private val client: IHttpClient) : BasicHt
         verb: String,
         url: String,
         data: String,
-        additionalHeaders: Map<String, String>
+        headers: HeaderProvider
     ): HttpResponse =
-        client.request(verb.uppercase(), url, data, additionalHeaders.toHeaders()).await().let(::HttpResponse)
+        client.request(verb.uppercase(), url, data, headers.toIHeaders()).await().let(::HttpResponse)
 
     public override suspend fun request(
         verb: String,
         url: String,
         data: ReadableStream,
-        additionalHeaders: Map<String, String>
+        headers: HeaderProvider
     ): HttpResponse =
-        client.sendStream(verb.uppercase(), url, data, additionalHeaders.toHeaders()).await().let(::HttpResponse)
+        client.sendStream(verb.uppercase(), url, data, headers.toIHeaders()).await().let(::HttpResponse)
 }
 
 /**
  * A typed HTTP response.  All casting is done in JS, so this is not type safe.
  */
-@Deprecated("This method is not type safe, Kotlin serialization methods should be used instead")
-public class TypedHttpResponse<T> internal constructor(response: ITypedResponse<T>) {
+@Deprecated("This method is not type safe, JsonHttpClient (in the serialization artifact) should be used instead")
+public class JSTypedHttpResponse<T> internal constructor(response: ITypedResponse<T>) {
     public val statusCode: Int = response.statusCode.toInt()
     public val result: T? = response.result
     public val headers: Map<String, String> = jsEntries(response.headers).mapValues {
@@ -418,36 +356,47 @@ public class TypedHttpResponse<T> internal constructor(response: ITypedResponse<
 /**
  * A HTTP client, based on [`@actions/httpclient`](https://github.com/actions/http-client).
  */
-public class HttpClient internal constructor(private val client: JsHttpClient) : BasicHttpClient {
+public open class HttpClient internal constructor(private val client: JsHttpClient) : BasicHttpClient {
     public constructor(builder: HttpClientBuilder.() -> Unit = {}) : this(HttpClientBuilder().apply(builder).build())
 
     public override suspend fun request(
         verb: String,
         url: String,
         data: String,
-        additionalHeaders: Map<String, String>
+        headers: HeaderProvider
     ): HttpResponse =
-        client.request(verb.uppercase(), url, data, additionalHeaders.toHeaders()).await().let(::HttpResponse)
+        client.request(verb.uppercase(), url, data, headers.toIHeaders()).await().let(::HttpResponse)
 
+    @Suppress("RedundantAsync")
     public override suspend fun request(
         verb: String,
         url: String,
         data: ReadableStream,
-        additionalHeaders: Map<String, String>
-    ): HttpResponse =
-        client.request(verb.uppercase(), url, data, additionalHeaders.toHeaders()).await().let(::HttpResponse)
+        headers: HeaderProvider
+    ): HttpResponse = coroutineScope {
+        async { // hangs if removed
+            val sendStream = internal.PassThrough()
+            data.pipe(sendStream.asDynamic(), JsObject {
+                this.end = false
+            })
+            data.on("close") { sendStream.destroy() }
+            data.on("end") { sendStream.destroy() }
+            client.request(verb.uppercase(), url, sendStream, headers.toIHeaders()).await()
+                .let(::HttpResponse)
+        }.await()
+    }
 
     /**
      * GET a JSON response, casting it to the requested type in JS.  [T] should be an external interface, **no type checking is done**.
      *
      * 404 will be mapped to `null`.
      */
-    @Deprecated("This method is not type safe, Kotlin serialization methods should be used instead")
+    @Deprecated("This method is not type safe, JsonHttpClient (in the serialization artifact) should be used instead")
     public suspend fun <T> getExternalTypedJson(
         url: String,
         additionalHeaders: Map<String, String> = emptyMap()
-    ): TypedHttpResponse<T> =
-        client.getJson<T>(url, additionalHeaders.toHeaders()).await().let(::TypedHttpResponse)
+    ): JSTypedHttpResponse<T> =
+        client.getJson<T>(url, additionalHeaders.toIHeaders()).await().let(::JSTypedHttpResponse)
 
     /**
      * POST JSON stringified data and get a JSON response, casting it to the requested type in JS.  [T] should be an external interface, **no type checking is done**.
@@ -456,13 +405,13 @@ public class HttpClient internal constructor(private val client: JsHttpClient) :
      *
      * 404 will be mapped to `null`.
      */
-    @Deprecated("This method is not type safe, Kotlin serialization methods should be used instead")
+    @Deprecated("This method is not type safe, JsonHttpClient (in the serialization artifact) should be used instead")
     public suspend fun <T> postExternalTypedJson(
         url: String,
         data: Any,
         additionalHeaders: Map<String, String> = emptyMap()
-    ): TypedHttpResponse<T> =
-        client.postJson<T>(url, data, additionalHeaders.toHeaders()).await().let(::TypedHttpResponse)
+    ): JSTypedHttpResponse<T> =
+        client.postJson<T>(url, data, additionalHeaders.toIHeaders()).await().let(::JSTypedHttpResponse)
 
     /**
      * PUT JSON stringified data and get a JSON response, casting it to the requested type in JS.  [T] should be an external interface, **no type checking is done**.
@@ -471,13 +420,13 @@ public class HttpClient internal constructor(private val client: JsHttpClient) :
      *
      * 404 will be mapped to `null`.
      */
-    @Deprecated("This method is not type safe, Kotlin serialization methods should be used instead")
+    @Deprecated("This method is not type safe, JsonHttpClient (in the serialization artifact) should be used instead")
     public suspend fun <T> putExternalTypedJson(
         url: String,
         data: Any,
         additionalHeaders: Map<String, String> = emptyMap()
-    ): TypedHttpResponse<T> =
-        client.putJson<T>(url, data, additionalHeaders.toHeaders()).await().let(::TypedHttpResponse)
+    ): JSTypedHttpResponse<T> =
+        client.putJson<T>(url, data, additionalHeaders.toIHeaders()).await().let(::JSTypedHttpResponse)
 
     /**
      * PATCH JSON stringified data and get a JSON response, casting it to the requested type in JS.  [T] should be an external interface, **no type checking is done**.
@@ -486,22 +435,22 @@ public class HttpClient internal constructor(private val client: JsHttpClient) :
      *
      * 404 will be mapped to `null`.
      */
-    @Deprecated("This method is not type safe, Kotlin serialization methods should be used instead")
+    @Deprecated("This method is not type safe, JsonHttpClient (in the serialization artifact) should be used instead")
     public suspend fun <T> patchExternalTypedJson(
         url: String,
         data: Any,
         additionalHeaders: Map<String, String> = emptyMap()
-    ): TypedHttpResponse<T> =
-        client.patchJson<T>(url, data, additionalHeaders.toHeaders()).await().let(::TypedHttpResponse)
-
-    public inline fun <R> use(block: (HttpClient) -> R): R {
-        contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
-        val result = block(this)
-        close()
-        return result
-    }
+    ): JSTypedHttpResponse<T> =
+        client.patchJson<T>(url, data, additionalHeaders.toIHeaders()).await().let(::JSTypedHttpResponse)
 
     public fun close() {
         client.dispose()
     }
+}
+
+public inline fun <R, T : HttpClient> T.use(block: (T) -> R): R {
+    contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+    val result = block(this)
+    close()
+    return result
 }

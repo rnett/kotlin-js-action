@@ -6,6 +6,7 @@ import com.rnett.action.JsObject
 import com.rnett.action.jsEntries
 import http.ClientRequestArgs
 import http.OutgoingHttpHeaders
+import internal.httpclient.IHeaders
 
 internal fun Any?.headerToString() = when (val value = this) {
     null -> null
@@ -22,12 +23,20 @@ public fun interface HeaderProvider : RequestHandler {
     override fun ClientRequestArgs.prepareRequest(headers: MutableHeaders) {
         headers.headers()
     }
+
+    public operator fun plus(other: HeaderProvider): HeaderProvider = HeaderProvider {
+        +this@HeaderProvider
+        +other
+    }
 }
 
 public operator fun Map<String, String>.plus(header: HeaderProvider): Map<String, String> =
     this + MapHeaders().apply { +header }.toMap()
 
 public fun HeaderProvider.toMap(): Map<String, String> = MapHeaders().apply { headers() }.toMap()
+
+internal fun HeaderProvider.toIHeaders(): IHeaders =
+    JsObject<IHeaders>().apply { WrappedIHeaders(this).apply { headers() } }
 
 public sealed interface Headers {
 
@@ -165,6 +174,20 @@ internal class MapHeaders private constructor(private val map: MutableMap<String
         map[name.lowercase()] = value
     }
 }
+
+internal class WrappedIHeaders(private val headers: IHeaders) :
+    MutableHeaders {
+    override fun get(name: String): String? = headers[name.lowercase()].headerToString()
+
+    override fun toMap(): Map<String, String> = jsEntries(headers).mapNotNull { (key, value) ->
+        value.unsafeCast<Any?>().headerToString()?.let { key to it }
+    }.toMap()
+
+    override fun set(name: String, value: String) {
+        headers[name.lowercase()] = value
+    }
+}
+
 
 internal class OutgoingJsHeaders(private val internal: ClientRequestArgs) : MutableHeaders {
 
