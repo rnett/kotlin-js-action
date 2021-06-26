@@ -199,6 +199,13 @@ public class HttpClientBuilder internal constructor() {
     }
 
     /**
+     * Add default headers.
+     */
+    public fun headers(builder: HeaderProvider) {
+        defaultHeaders += builder
+    }
+
+    /**
      * Add a request handler.
      */
     public fun handler(handler: RequestHandler) {
