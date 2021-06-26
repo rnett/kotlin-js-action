@@ -1,20 +1,5 @@
 package com.rnett.action.exec
 
-private fun String.escapePowershell() =
-    replace("`", "``")
-        .replace("\"", "`\"")
-        .replace("\'", "`\'")
-        .replace("#", "`#")
-        .replace("\n", "`n")
-        .replace("\r", "`r")
-        .replace("\t", "`t")
-
-private fun String.escapeCmd() =
-    replace("^", "^^")
-        .replace("\"", "^\"")
-        .replace("\'", "^\'")
-        .replace("`", "^`")
-
 /**
  * Represents a shell used to run commands.
  */

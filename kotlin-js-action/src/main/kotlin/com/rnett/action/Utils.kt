@@ -1,5 +1,6 @@
 package com.rnett.action
 
+import Buffer
 import NodeJS.Process
 import NodeJS.WritableStream
 import org.khronos.webgl.ArrayBuffer
@@ -74,3 +75,15 @@ public fun Int8Array.asByteArray(): ByteArray = this.unsafeCast<ByteArray>()
  * Non-copying conversion to a Kotlin [ByteArray].
  */
 public fun Uint8Array.asByteArray(): ByteArray = Int8Array(buffer, byteOffset, length).asByteArray()
+
+/**
+ * Non-copying conversion to a [Int8Array].
+ */
+public fun ByteArray.asInt8Array(): Int8Array = this.unsafeCast<Int8Array>()
+
+/**
+ * Non-copying conversion to a [Buffer].
+ */
+public fun ByteArray.asBuffer(): Buffer = this.asInt8Array().let {
+    Buffer(Uint8Array(it.buffer, it.byteOffset, it.length))
+}

@@ -1,5 +1,6 @@
 package com.rnett.action
 
+import Buffer
 import NodeJS.ErrnoException
 import com.rnett.action.io.io
 import fs.*
@@ -563,13 +564,26 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Write to this file, truncating it if it exists, and creating it if not.
      */
-    public suspend fun write(data: ByteArray, encoding: String? = "utf8", createParents: Boolean = true) {
+    public suspend fun write(data: ByteArray, createParents: Boolean = true) {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
         suspendCancellableCoroutine<Unit> {
-            fs.writeFile(path, data, writeOptions(encoding), it::cancelIfError)
+            fs.writeFile(path, data, writeOptions(null), it::cancelIfError)
+        }
+    }
+
+    /**
+     * Write to this file, truncating it if it exists, and creating it if not.
+     */
+    public suspend fun write(data: Buffer, createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
+        requireFile(false)
+        suspendCancellableCoroutine<Unit> {
+            fs.writeFile(path, data, writeOptions(null), it::cancelIfError)
         }
     }
 
@@ -587,12 +601,23 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Write to this file, truncating it if it exists, and creating it if not.
      */
-    public fun writeSync(data: ByteArray, encoding: String? = "utf8", createParents: Boolean = true) {
+    public fun writeSync(data: ByteArray, createParents: Boolean = true) {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
-        fs.writeFileSync(path, data, writeOptions(encoding))
+        fs.writeFileSync(path, data, writeOptions(null))
+    }
+
+    /**
+     * Write to this file, truncating it if it exists, and creating it if not.
+     */
+    public fun writeSync(data: Buffer, createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
+        requireFile(false)
+        fs.writeFileSync(path, data, writeOptions(null))
     }
 
     /**
