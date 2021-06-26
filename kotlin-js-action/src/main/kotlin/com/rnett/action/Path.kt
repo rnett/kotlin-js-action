@@ -1,8 +1,19 @@
 package com.rnett.action
 
+import NodeJS.ErrnoException
 import com.rnett.action.io.io
 import fs.*
+import kotlinx.coroutines.CancellableContinuation
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 import path.path as platformPath
+
+internal fun CancellableContinuation<Unit>.cancelIfError(err: ErrnoException?) {
+    if (err != null)
+        cancel(err)
+    else
+        resume(Unit)
+}
 
 /**
  * Path handling utilities modeled after Python's `pathlib`.  By default resolves paths on creation.  Disabling this may lead to errors.
@@ -56,6 +67,16 @@ public class Path(rawPath: String, resolve: Boolean = true) {
                 rawPath
 
             return platformPath.resolve(newRawPath)!!
+        }
+
+        private fun appendOptions(encoding: String?): `T$45` = JsObject {
+            this.flag = "a"
+            this.encoding = encoding
+        }
+
+        private fun writeOptions(encoding: String?): `T$45` = JsObject {
+            this.flag = "w"
+            this.encoding = encoding
         }
     }
 
@@ -259,7 +280,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         }
 
         parent.mkdir()
-        write("")
+        writeSync("")
         return this
     }
 
@@ -364,10 +385,14 @@ public class Path(rawPath: String, resolve: Boolean = true) {
                 error("Destination $dest exists, but force is false.")
         }
 
-
-        fs.renameSync(path, dest.path)
+        suspendCancellableCoroutine<Unit> {
+            fs.rename(path, dest.path, it::cancelIfError)
+        }
     }
 
+    /**
+     * Synchronously rename the file or directory, erring if a file or directory already exists with the new name
+     */
     public fun rename(newName: String) {
         if (newName == name)
             return
@@ -381,7 +406,42 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Read this file.
      */
-    public fun readText(encoding: String = "utf8"): String {
+    public suspend fun readText(encoding: String = "utf8"): String {
+        requireFile()
+        return suspendCancellableCoroutine {
+            fs.readFile(path, JsObject<`T$43`> {
+                this.encoding = encoding
+            }) { err, data ->
+                if (err != null)
+                    it.cancel(err)
+                else
+                    it.resume(data)
+            }
+        }
+    }
+
+    /**
+     * Read this file.
+     */
+    public suspend fun readBytes(): ByteArray {
+        requireFile()
+        return suspendCancellableCoroutine {
+            fs.readFile(path) { err, data ->
+                if (err != null)
+                    it.cancel(err)
+                else {
+                    //FIXME duplicates memory, need a better way of doing this
+                    it.resume(data.asByteArray())
+                }
+
+            }
+        }
+    }
+
+    /**
+     * Read this file.
+     */
+    public fun readTextSync(encoding: String = "utf8"): String {
         requireFile()
         return fs.readFileSync(path, JsObject<`T$43`> {
             this.encoding = encoding
@@ -391,16 +451,9 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Read this file.
      */
-    public fun readBytes(): ByteArray {
+    public fun readBytesSync(): ByteArray {
         requireFile()
-        return fs.readFileSync(path, JsObject<`T$42`> {
-            this.encoding = encoding
-        }).let { buffer ->
-            //FIXME duplicates memory, need a better way of doing this
-            ByteArray(buffer.length) {
-                buffer.readUInt8(it).toByte()
-            }
-        }
+        return fs.readFileSync(path, JsObject<`T$42`>()).asByteArray()
     }
 
     /**
@@ -408,10 +461,9 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @see readText
      * @see readBytes
      */
-    public fun readStream(encoding: String? = "utf8", emitClose: Boolean = true): ReadStream {
+    public fun readStream(encoding: String? = "utf8"): ReadStream {
         requireFile()
         return fs.createReadStream(path, JsObject<fs.`T$50`> {
-            this.emitClose = emitClose
             this.encoding = encoding
         })
     }
@@ -420,36 +472,64 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * Append a line to this file (adds [lineSeparator] to [data]).
      * @see append
      */
-    public fun appendLine(data: String, encoding: String = "utf8", createParents: Boolean = true) {
+    public suspend fun appendLine(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
         append(data + OperatingSystem.lineSeparator, encoding, createParents)
     }
 
     /**
      * Append [data] to this file, creating it if it doesn't exist.
      */
-    public fun append(data: String, encoding: String = "utf8", createParents: Boolean = true) {
+    public suspend fun append(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
-        fs.writeFileSync(path, data, JsObject<`T$45`> {
-            this.encoding = encoding
-            flag = "a"
-        })
+        suspendCancellableCoroutine<Unit> {
+            fs.writeFile(path, data, appendOptions(encoding), it::cancelIfError)
+        }
     }
 
     /**
      * Append [data] to this file, creating it if it doesn't exist.
      */
-    public fun append(data: ByteArray, encoding: String = "utf8", createParents: Boolean = true) {
+    public suspend fun append(data: ByteArray, encoding: String? = "utf8", createParents: Boolean = true) {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
-        fs.writeFileSync(path, data, JsObject<`T$45`> {
-            this.encoding = encoding
-            flag = "a"
-        })
+        suspendCancellableCoroutine<Unit> {
+            fs.writeFile(path, data, appendOptions(encoding), it::cancelIfError)
+        }
+    }
+
+    /**
+     * Append a line to this file (adds [lineSeparator] to [data]).
+     * @see append
+     */
+    public fun appendLineSync(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
+        appendSync(data + OperatingSystem.lineSeparator, encoding, createParents)
+    }
+
+    /**
+     * Append [data] to this file, creating it if it doesn't exist.
+     */
+    public fun appendSync(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
+        requireFile(false)
+        fs.writeFileSync(path, data, appendOptions(encoding))
+    }
+
+    /**
+     * Append [data] to this file, creating it if it doesn't exist.
+     */
+    public fun appendSync(data: ByteArray, encoding: String? = "utf8", createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
+        requireFile(false)
+        fs.writeFileSync(path, data, appendOptions(encoding))
     }
 
     /**
@@ -470,29 +550,49 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Write to this file, truncating it if it exists, and creating it if not.
      */
-    public fun write(data: String, encoding: String = "utf8", createParents: Boolean = true) {
+    public suspend fun write(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
-        fs.writeFileSync(path, data, JsObject<`T$45`> {
-            this.encoding = encoding
-            flag = "w"
-        })
+        suspendCancellableCoroutine<Unit> {
+            fs.writeFile(path, data, writeOptions(encoding), it::cancelIfError)
+        }
     }
 
     /**
      * Write to this file, truncating it if it exists, and creating it if not.
      */
-    public fun write(data: ByteArray, encoding: String = "utf8", createParents: Boolean = true) {
+    public suspend fun write(data: ByteArray, encoding: String? = "utf8", createParents: Boolean = true) {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
-        fs.writeFileSync(path, data, JsObject<`T$45`> {
-            this.encoding = encoding
-            flag = "w"
-        })
+        suspendCancellableCoroutine<Unit> {
+            fs.writeFile(path, data, writeOptions(encoding), it::cancelIfError)
+        }
+    }
+
+    /**
+     * Write to this file, truncating it if it exists, and creating it if not.
+     */
+    public fun writeSync(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
+        requireFile(false)
+        fs.writeFileSync(path, data, writeOptions(encoding))
+    }
+
+    /**
+     * Write to this file, truncating it if it exists, and creating it if not.
+     */
+    public fun writeSync(data: ByteArray, encoding: String? = "utf8", createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
+        requireFile(false)
+        fs.writeFileSync(path, data, writeOptions(encoding))
     }
 
     /**

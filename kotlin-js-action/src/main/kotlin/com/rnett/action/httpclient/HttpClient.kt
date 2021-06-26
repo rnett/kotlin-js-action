@@ -46,10 +46,10 @@ public open class HttpResponse internal constructor(internal val internal: IHttp
 
     public override val message: IncomingMessage get() = internal.message
 
-    //TODO use Headers type for non-case sensitive-ness?
     public override val headers: Headers = message.rawHeaders.asSequence().chunked(2) {
-        it[0] to it[1]
+        it[0].lowercase() to it[1]
     }.toMap().let { MapHeaders(it) }
+
     public override val statusCode: Int = message.statusCode.toInt()
     public override val statusMessage: String get() = message.statusMessage
     public override fun isSuccess(): Boolean = statusCode in 200..299

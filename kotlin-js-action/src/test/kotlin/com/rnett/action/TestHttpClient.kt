@@ -126,8 +126,6 @@ class TestHttpClient : TestWithDir() {
         assertEquals(decoded, encoded.decodeBase64())
     }
 
-    //TODO test streaming.  httpbin hangs
-
     @Test
     fun testPost() = GlobalScope.promise {
         testHelper(HttpClient::post)

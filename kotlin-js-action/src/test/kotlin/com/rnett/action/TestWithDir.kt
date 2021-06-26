@@ -35,7 +35,8 @@ abstract class TestWithDir {
 
     @AfterTest
     internal fun after() {
-        //TODO do cleanup.  I'm returning promises, so sometimes they would be executed after the cleanup
+        //TODO do cleanup.  I'm returning promises, so sometimes they would be executed after the cleanup.
+        // Prob needs coroutines-test
 //        Path.cd(globalTestDir)
 //        fs.rmdirSync(testDir.path, JsObject {
 //            this.recursive = true

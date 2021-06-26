@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
 @OptIn(DelicateCoroutinesApi::class)
 class TestExec : TestWithDir() {
     override fun Path.initDir() {
-        descendant("testFile3").touch().write("Testing file")
+        descendant("testFile3").touch().writeSync("Testing file")
     }
 
     val diff = if (OperatingSystem.isWindows) "\r\n" else ""
