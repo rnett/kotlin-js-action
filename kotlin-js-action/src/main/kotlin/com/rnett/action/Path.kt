@@ -493,13 +493,26 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Append [data] to this file, creating it if it doesn't exist.
      */
-    public suspend fun append(data: ByteArray, encoding: String? = "utf8", createParents: Boolean = true) {
+    public suspend fun append(data: ByteArray, createParents: Boolean = true) {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
         suspendCancellableCoroutine<Unit> {
-            fs.writeFile(path, data, appendOptions(encoding), it::cancelIfError)
+            fs.writeFile(path, data, appendOptions(null), it::cancelIfError)
+        }
+    }
+
+    /**
+     * Append [data] to this file, creating it if it doesn't exist.
+     */
+    public suspend fun append(data: Buffer, createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
+        requireFile(false)
+        suspendCancellableCoroutine<Unit> {
+            fs.writeFile(path, data, appendOptions(null), it::cancelIfError)
         }
     }
 
@@ -525,12 +538,23 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Append [data] to this file, creating it if it doesn't exist.
      */
-    public fun appendSync(data: ByteArray, encoding: String? = "utf8", createParents: Boolean = true) {
+    public fun appendSync(data: ByteArray, createParents: Boolean = true) {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
-        fs.writeFileSync(path, data, appendOptions(encoding))
+        fs.writeFileSync(path, data, appendOptions(null))
+    }
+
+    /**
+     * Append [data] to this file, creating it if it doesn't exist.
+     */
+    public fun appendSync(data: Buffer, createParents: Boolean = true) {
+        if (createParents)
+            parent.mkdir()
+
+        requireFile(false)
+        fs.writeFileSync(path, data, appendOptions(null))
     }
 
     /**

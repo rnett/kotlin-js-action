@@ -3,7 +3,13 @@ package com.rnett.action
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFails
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 
 @OptIn(DelicateCoroutinesApi::class)
@@ -270,6 +276,10 @@ class TestPath : TestWithDir() {
         val bytesFile = testDir / "dir/writeBytesFile"
         bytesFile.write("testData".encodeToByteArray())
         assertEquals("testData", bytesFile.readBytes().decodeToString())
+
+        val bufferFile = testDir / "dir/writeBufferFile"
+        bufferFile.write("test".encodeToByteArray().asBuffer())
+        assertEquals("test", bufferFile.readText())
     }
 
     @Test
