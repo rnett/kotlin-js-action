@@ -17,7 +17,6 @@ private fun String.escapeCmd() =
 
 /**
  * Represents a shell used to run commands.
- * @param template The command to use.  '?' will be replaced by the command to run.  See examples in the companion object.
  */
 public abstract class Shell(public val shellCommand: String, public val escapeWindows: Boolean = true) {
     public abstract fun args(command: String): Array<String>

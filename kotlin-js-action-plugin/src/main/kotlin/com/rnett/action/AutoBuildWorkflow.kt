@@ -1,35 +1,49 @@
 package com.rnett.action
 
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.get
 import java.io.File
 
 
 /**
- * Adds a task to generate a GitHub action workflow to build (with `gradlew assemble`) and commit `dist/` on each push, if the updates one wasn't build locally.
+ * Generate sa GitHub action workflow to build (with `gradlew assemble`) and commit `dist/` on each push, if the updates one wasn't build locally.
  *
- * Adds the task as a dependency of `wrapper` and `build`.
+ * Generates the workflow file in `$rootDir/.github/workflows/`.
  *
  * @param add the arguments to `git add`.  `dist` by default.
  * @param message the commit message.
  * @param javaVersion The java version to use in the workflow (necessary for gradle).
  */
-fun Project.useAutoBuildWorkflow(
+fun Project.generateAutoBuildWorkflow(
     add: String = "dist",
     message: String = "Commit new $add",
     javaVersion: String = "15"
 ) {
-    val genTask = tasks.create(Constants.generateWorkflowTaskName) {
-        doLast {
-            val file = File("$projectDir/.github/workflows/auto_build.yml")
-            file.parentFile.apply {
-                if (!exists())
-                    mkdirs()
-            }
+    com.rnett.action.generateAutoBuildWorkflow(rootDir, add, message, javaVersion)
+}
 
-            file.writeText(
-                // language=yml
-                """
+/**
+ * Generate a GitHub action workflow to build (with `gradlew assemble`) and commit `dist/` on each push, if the updates one wasn't build locally.
+ *
+ * @param dir the directory to create `.github/workflows/auto_build_action.yml` in.
+ * @param add the arguments to `git add`.  `dist` by default.
+ * @param message the commit message.
+ * @param javaVersion The java version to use in the workflow (necessary for gradle).
+ */
+fun generateAutoBuildWorkflow(
+    dir: File,
+    add: String = "dist",
+    message: String = "Commit new $add",
+    javaVersion: String = "15"
+) {
+    val file = File("$dir/.github/workflows/auto_build_action.yml")
+    file.parentFile.apply {
+        if (!exists())
+            mkdirs()
+    }
+
+    file.writeText(
+        // language=yml
+        """
 name: Auto-update dist
 
 on:
@@ -63,9 +77,5 @@ jobs:
           add: '$add'
           message: '$message'
                 """.trimIndent()
-            )
-        }
-    }
-    tasks["wrapper"].dependsOn(genTask)
-    tasks["build"].dependsOn(genTask)
+    )
 }
