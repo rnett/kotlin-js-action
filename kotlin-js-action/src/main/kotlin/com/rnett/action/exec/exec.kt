@@ -204,7 +204,7 @@ public object exec {
         debugListener: ((data: String) -> Unit)? = null,
     ) {
         execCommand(
-            command = shell.shellCommand,
+            command = shell.shellCommand(command),
             args = shell.args(command),
             cwd = cwd,
             env = env,
@@ -337,7 +337,7 @@ public object exec {
         debugListener: ((data: String) -> Unit)? = null,
     ): ExecResult {
         return execCommandAndCapture(
-            command = shell.shellCommand,
+            command = shell.shellCommand(command),
             args = shell.args(command),
             cwd = cwd,
             env = env,
