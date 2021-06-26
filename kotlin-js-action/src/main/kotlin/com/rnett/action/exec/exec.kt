@@ -204,8 +204,8 @@ public object exec {
         debugListener: ((data: String) -> Unit)? = null,
     ) {
         execCommand(
-            command = shell.shellCommand(command),
-            args = shell.args(command),
+            command = shell.shellCommand(command).also { println("Shell command: $it") },
+            args = shell.args(command).also { println("Shell args: ${it.contentToString()}") },
             cwd = cwd,
             env = env,
             input = input,
@@ -335,8 +335,8 @@ public object exec {
         debugListener: ((data: String) -> Unit)? = null,
     ): ExecResult {
         return execCommandAndCapture(
-            command = shell.shellCommand(command),
-            args = shell.args(command),
+            command = shell.shellCommand(command).also { println("Shell command: $it") },
+            args = shell.args(command).also { println("Shell args: ${it.contentToString()}") },
             cwd = cwd,
             env = env,
             input = input,

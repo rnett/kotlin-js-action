@@ -6,7 +6,7 @@ buildscript {
 plugins {
     kotlin("js") version "1.5.20" apply false
     kotlin("jvm") version "1.5.20" apply false
-    id("com.vanniktech.maven.publish") version "0.15.1" apply false
+    id("com.vanniktech.maven.publish") version "0.16.0" apply false
     id("org.jetbrains.dokka") version "1.4.32"
     kotlin("plugin.serialization") version "1.5.20" apply false
 }
