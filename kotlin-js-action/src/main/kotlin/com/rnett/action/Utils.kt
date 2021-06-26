@@ -73,4 +73,4 @@ public fun Int8Array.asByteArray(): ByteArray = this.unsafeCast<ByteArray>()
 /**
  * Non-copying conversion to a Kotlin [ByteArray].
  */
-public fun Uint8Array.asByteArray(): ByteArray = this.unsafeCast<ByteArray>()
+public fun Uint8Array.asByteArray(): ByteArray = Int8Array(buffer, byteOffset, length).asByteArray()
