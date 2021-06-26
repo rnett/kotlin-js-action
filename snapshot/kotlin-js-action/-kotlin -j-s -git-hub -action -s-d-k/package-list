@@ -385,6 +385,9 @@ $dokka.location:com.rnett.action.io/io/which/#com.rnett.action.Path/PointingToDe
 $dokka.location:com.rnett.action.io/io/which/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.io/io/which.html
 $dokka.location:com.rnett.action////PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/index.html
 $dokka.location:com.rnett.action//JsObject/#kotlin.Function1[TypeParam(bounds=[kotlin.Any]),kotlin.Unit]/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-js-object.html
+$dokka.location:com.rnett.action//asByteArray/org.khronos.webgl.ArrayBuffer#kotlin.Int#kotlin.Int/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/as-byte-array.html
+$dokka.location:com.rnett.action//asByteArray/org.khronos.webgl.Int8Array#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/as-byte-array.html
+$dokka.location:com.rnett.action//asByteArray/org.khronos.webgl.Uint8Array#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/as-byte-array.html
 $dokka.location:com.rnett.action//camelToSnakeCase/kotlin.String#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/camel-to-snake-case.html
 $dokka.location:com.rnett.action//currentProcess/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/current-process.html
 $dokka.location:com.rnett.action//jsEntries/#kotlin.Any/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/js-entries.html
@@ -396,6 +399,8 @@ $dokka.location:com.rnett.action//toStream/Flow<Buffer>[Buffer]#CoroutineScope/P
 $dokka.location:com.rnett.action//toStream/Flow<String>[kotlin.String]#CoroutineScope/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/to-stream.html
 $dokka.location:com.rnett.action//writeLine/WritableStream#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/write-line.html
 $dokka.location:com.rnett.action//writeLine/internal.Duplex#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/write-line.html
+$dokka.location:com.rnett.action//writeSuspending/WritableStream#kotlin.String#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/write-suspending.html
+$dokka.location:com.rnett.action//writeSuspending/WritableStream#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/write-suspending.html
 $dokka.location:com.rnett.action/OperatingSystem.Companion///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-operating-system/-companion/index.html
 $dokka.location:com.rnett.action/OperatingSystem.Companion/current/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-operating-system/-companion/current.html
 $dokka.location:com.rnett.action/OperatingSystem.Companion/isLinux/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-operating-system/-companion/is-linux.html
@@ -423,10 +428,13 @@ $dokka.location:com.rnett.action/Path.Companion/userHome/#/PointingToDeclaration
 $dokka.location:com.rnett.action/Path///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/index.html
 $dokka.location:com.rnett.action/Path/Path/#kotlin.String#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/-path.html
 $dokka.location:com.rnett.action/Path/ancestor/#kotlin.Int/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/ancestor.html
-$dokka.location:com.rnett.action/Path/append/#kotlin.ByteArray#kotlin.String#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/append.html
-$dokka.location:com.rnett.action/Path/append/#kotlin.String#kotlin.String#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/append.html
-$dokka.location:com.rnett.action/Path/appendLine/#kotlin.String#kotlin.String#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/append-line.html
+$dokka.location:com.rnett.action/Path/append/#kotlin.ByteArray#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/append.html
+$dokka.location:com.rnett.action/Path/append/#kotlin.String#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/append.html
+$dokka.location:com.rnett.action/Path/appendLine/#kotlin.String#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/append-line.html
+$dokka.location:com.rnett.action/Path/appendLineSync/#kotlin.String#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/append-line-sync.html
 $dokka.location:com.rnett.action/Path/appendStream/#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/append-stream.html
+$dokka.location:com.rnett.action/Path/appendSync/#kotlin.ByteArray#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/append-sync.html
+$dokka.location:com.rnett.action/Path/appendSync/#kotlin.String#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/append-sync.html
 $dokka.location:com.rnett.action/Path/children/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/children.html
 $dokka.location:com.rnett.action/Path/contains/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/contains.html
 $dokka.location:com.rnett.action/Path/copy/#com.rnett.action.Path#kotlin.Boolean#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/copy.html
@@ -455,8 +463,10 @@ $dokka.location:com.rnett.action/Path/name/#/PointingToDeclaration/-kotlin -j-s
 $dokka.location:com.rnett.action/Path/parent/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/parent.html
 $dokka.location:com.rnett.action/Path/path/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/path.html
 $dokka.location:com.rnett.action/Path/readBytes/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/read-bytes.html
-$dokka.location:com.rnett.action/Path/readStream/#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/read-stream.html
+$dokka.location:com.rnett.action/Path/readBytesSync/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/read-bytes-sync.html
+$dokka.location:com.rnett.action/Path/readStream/#kotlin.String?/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/read-stream.html
 $dokka.location:com.rnett.action/Path/readText/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/read-text.html
+$dokka.location:com.rnett.action/Path/readTextSync/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/read-text-sync.html
 $dokka.location:com.rnett.action/Path/rename/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/rename.html
 $dokka.location:com.rnett.action/Path/requireDirectory/#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/require-directory.html
 $dokka.location:com.rnett.action/Path/requireFile/#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/require-file.html
@@ -465,9 +475,11 @@ $dokka.location:com.rnett.action/Path/segments/#/PointingToDeclaration/-kotlin 
 $dokka.location:com.rnett.action/Path/stats/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/stats.html
 $dokka.location:com.rnett.action/Path/toString/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/to-string.html
 $dokka.location:com.rnett.action/Path/touch/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/touch.html
-$dokka.location:com.rnett.action/Path/write/#kotlin.ByteArray#kotlin.String#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/write.html
-$dokka.location:com.rnett.action/Path/write/#kotlin.String#kotlin.String#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/write.html
+$dokka.location:com.rnett.action/Path/write/#kotlin.ByteArray#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/write.html
+$dokka.location:com.rnett.action/Path/write/#kotlin.String#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/write.html
 $dokka.location:com.rnett.action/Path/writeStream/#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/write-stream.html
+$dokka.location:com.rnett.action/Path/writeSync/#kotlin.ByteArray#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/write-sync.html
+$dokka.location:com.rnett.action/Path/writeSync/#kotlin.String#kotlin.String?#kotlin.Boolean/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action/-path/write-sync.html
 com.rnett.action
 com.rnett.action.artifact
 com.rnett.action.cache
