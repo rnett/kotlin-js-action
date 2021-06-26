@@ -365,8 +365,18 @@ internal class WrappedInterfaceClient(private val client: IHttpClient) : BasicHt
         url: String,
         data: ReadableStream,
         headers: HeaderProvider
-    ): HttpResponse =
-        client.sendStream(verb.uppercase(), url, data, headers.toIHeaders()).await().let(::HttpResponse)
+    ): HttpResponse = coroutineScope {
+        async { // hangs if removed
+            val sendStream = internal.PassThrough()
+            data.pipe(sendStream.asDynamic(), JsObject {
+                this.end = false
+            })
+            data.on("close") { sendStream.destroy() }
+            data.on("end") { sendStream.destroy() }
+            client.request(verb.uppercase(), url, sendStream, headers.toIHeaders()).await()
+                .let(::HttpResponse)
+        }.await()
+    }
 }
 
 /**
