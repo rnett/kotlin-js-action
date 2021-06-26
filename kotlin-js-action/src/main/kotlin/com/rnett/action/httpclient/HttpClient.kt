@@ -1,5 +1,6 @@
 package com.rnett.action.httpclient
 
+import Buffer
 import NodeJS.ReadableStream
 import com.rnett.action.JsObject
 import com.rnett.action.jsEntries
@@ -292,6 +293,13 @@ public interface BasicHttpClient {
     ): HttpResponse =
         request("post", url, data, headers = headers)
 
+    public suspend fun post(
+        url: String,
+        data: Flow<Buffer>,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("post", url, data, headers = headers)
+
     public suspend fun put(
         url: String,
         data: String,
@@ -313,6 +321,13 @@ public interface BasicHttpClient {
     ): HttpResponse =
         request("put", url, data, headers = headers)
 
+    public suspend fun put(
+        url: String,
+        data: Flow<Buffer>,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("put", url, data, headers = headers)
+
     public suspend fun patch(
         url: String,
         data: String,
@@ -330,6 +345,13 @@ public interface BasicHttpClient {
     public suspend fun patch(
         url: String,
         data: Flow<String>,
+        headers: HeaderProvider = HeaderProvider { }
+    ): HttpResponse =
+        request("patch", url, data, headers = headers)
+
+    public suspend fun patch(
+        url: String,
+        data: Flow<Buffer>,
         headers: HeaderProvider = HeaderProvider { }
     ): HttpResponse =
         request("patch", url, data, headers = headers)
@@ -352,6 +374,15 @@ public interface BasicHttpClient {
         verb: String,
         url: String,
         data: Flow<String>,
+        headers: HeaderProvider = HeaderProvider {}
+    ): HttpResponse = coroutineScope {
+        request(verb, url, data.toStream(this), headers)
+    }
+
+    public suspend fun request(
+        verb: String,
+        url: String,
+        data: Flow<Buffer>,
         headers: HeaderProvider = HeaderProvider {}
     ): HttpResponse = coroutineScope {
         request(verb, url, data.toStream(this), headers)
