@@ -40,7 +40,7 @@ public object exec {
     }
 
     private fun execOptions(
-        cwd: Path,
+        cwd: Path?,
         env: Map<String, String>?,
         input: Buffer?,
         silent: Boolean,
@@ -56,7 +56,7 @@ public object exec {
         stderrLineListener: ((data: String) -> Unit)?,
         debugListener: ((data: String) -> Unit)?,
     ): ExecOptions = JsObject {
-        this.cwd = cwd.path
+        this.cwd = cwd?.path
         this.env = env?.let {
             JsObject {
                 it.forEach { (k, v) ->
@@ -114,7 +114,7 @@ public object exec {
     public suspend fun execCommand(
         command: String,
         vararg args: String,
-        cwd: Path = Path("."),
+        cwd: Path? = null,
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
@@ -176,7 +176,6 @@ public object exec {
      * @param silent whether to hide output
      * @param outStream the output stream to use.  Defaults to process.stdout.
      * @param errStream the error stream to use.  Defaults to process.stderr.
-     * @param windowsVerbatimArguments whether to skip escaping arguments for Windows
      * @param failOnStdErr whether to fail if output is send to stderr
      * @param ignoreReturnCode whether to not fail the process if the subprocess fails.  Default throws an exception for non-0 return codes.
      * @param delay How long in ms to wait for STDIO streams to close after the exit event of the process before terminating
@@ -189,13 +188,12 @@ public object exec {
     public suspend fun execShell(
         command: String,
         shell: Shell = defaultShell,
-        cwd: Path = Path("."),
+        cwd: Path? = null,
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
         outStream: stream.internal.Writable? = null,
         errStream: stream.internal.Writable? = null,
-        windowsVerbatimArguments: Boolean = false,
         failOnStdErr: Boolean = false,
         ignoreReturnCode: Boolean = false,
         delay: Long = 10000,
@@ -206,14 +204,15 @@ public object exec {
         debugListener: ((data: String) -> Unit)? = null,
     ) {
         execCommand(
-            command = shell.withCommand(command),
+            command = shell.shellCommand,
+            args = shell.args(command),
             cwd = cwd,
             env = env,
             input = input,
             silent = silent,
             outStream = outStream,
             errStream = errStream,
-            windowsVerbatimArguments = windowsVerbatimArguments,
+            windowsVerbatimArguments = !shell.escapeWindows,
             failOnStdErr = failOnStdErr,
             ignoreReturnCode = ignoreReturnCode,
             delay = delay,
@@ -244,7 +243,7 @@ public object exec {
      * @param errStream the error stream to use.  Defaults to process.stderr.
      * @param windowsVerbatimArguments whether to skip escaping arguments for Windows
      * @param failOnStdErr whether to fail if output is send to stderr
-     * @param ignoreReturnCode whether to not fail the process if the subprocess fails.  False by default.
+     * @param ignoreReturnCode whether to not fail the process if the subprocess fails.  True by default.
      * @param delay How long in ms to wait for STDIO streams to close after the exit event of the process before terminating
      * @param stdoutListener listener for stdout output
      * @param stderrListener listener for stderr output
@@ -255,7 +254,7 @@ public object exec {
     public suspend fun execCommandAndCapture(
         command: String,
         vararg args: String,
-        cwd: Path = Path("."),
+        cwd: Path? = null,
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
@@ -295,6 +294,8 @@ public object exec {
         return ExecResult(command, result.exitCode.toInt(), result.stdout, result.stderr)
     }
 
+    //TODO look at using stdin rather than escaping
+
     /**
      * Execute a command using the given or default shell and capture the output.
      * Pipes and redirection are supported.
@@ -308,9 +309,8 @@ public object exec {
      * @param silent whether to hide output
      * @param outStream the output stream to use.  Defaults to process.stdout.
      * @param errStream the error stream to use.  Defaults to process.stderr.
-     * @param windowsVerbatimArguments whether to skip escaping arguments for Windows
      * @param failOnStdErr whether to fail if output is send to stderr
-     * @param ignoreReturnCode whether to not fail the process if the subprocess fails.  False by default.
+     * @param ignoreReturnCode whether to not fail the process if the subprocess fails.  True by default.
      * @param delay How long in ms to wait for STDIO streams to close after the exit event of the process before terminating
      * @param stdoutListener listener for stdout output
      * @param stderrListener listener for stderr output
@@ -321,13 +321,12 @@ public object exec {
     public suspend fun execShellAndCapture(
         command: String,
         shell: Shell = defaultShell,
-        cwd: Path = Path("."),
+        cwd: Path? = null,
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
         outStream: stream.internal.Writable? = null,
         errStream: stream.internal.Writable? = null,
-        windowsVerbatimArguments: Boolean = false,
         failOnStdErr: Boolean = false,
         ignoreReturnCode: Boolean = true,
         delay: Long = 10000,
@@ -338,14 +337,15 @@ public object exec {
         debugListener: ((data: String) -> Unit)? = null,
     ): ExecResult {
         return execCommandAndCapture(
-            command = shell.withCommand(command),
+            command = shell.shellCommand,
+            args = shell.args(command),
             cwd = cwd,
             env = env,
             input = input,
             silent = silent,
             outStream = outStream,
             errStream = errStream,
-            windowsVerbatimArguments = windowsVerbatimArguments,
+            windowsVerbatimArguments = !shell.escapeWindows,
             failOnStdErr = failOnStdErr,
             ignoreReturnCode = ignoreReturnCode,
             delay = delay,

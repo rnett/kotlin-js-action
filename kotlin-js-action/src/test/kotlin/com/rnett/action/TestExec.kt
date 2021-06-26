@@ -41,16 +41,30 @@ class TestExec : TestWithDir() {
 
     @Test
     fun testInputRedirect() = GlobalScope.promise {
-        val output = exec.execShellAndCapture("cat", input = Buffer.from("Test"))
-        assertEquals("Test", output.stdout)
+        if (!OperatingSystem.isWindows) {
+            val output = exec.execShellAndCapture("cat", input = Buffer.from("Test"))
+            assertEquals("Test", output.throwIfFailure().stdout)
+        }
     }
 
     @Test
     fun testOutputRedirect() = GlobalScope.promise {
-        val outputFile = (testDir / "testOut2")
+        val outputFile = (testDir / "testOut3")
         val stream = outputFile.writeStream()
         exec.execShell("echo \"Test\"", outStream = stream)
         stream.close()
-        assertEquals("Test", outputFile.readText().lines().drop(1).first())
+        assertEquals("Test", outputFile.readText().lines()[1])
+    }
+
+    @Test
+    fun testOutputInShellRedirect() = GlobalScope.promise {
+        val outputFile = (testDir / "testOut2")
+        exec.execShell("echo \"Test\" > \"$outputFile\"")
+        assertEquals("Test$diff", outputFile.readText(if (OperatingSystem.isWindows) "ucs2" else "utf8").let {
+            if (OperatingSystem.isWindows)
+                it.substring(1)
+            else
+                it
+        })
     }
 }

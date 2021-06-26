@@ -16,7 +16,7 @@ internal fun CancellableContinuation<Unit>.cancelIfError(err: ErrnoException?) {
 }
 
 /**
- * Path handling utilities modeled after Python's `pathlib`.  By default resolves paths on creation.  Disabling this may lead to errors.
+ * Path handling utilities modeled after JVM's `Path` and Python's `pathlib`.  By default resolves paths on creation.  Disabling this may lead to errors.
  */
 public class Path(rawPath: String, resolve: Boolean = true) {
 
@@ -32,7 +32,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
 
     public companion object {
         /**
-         * The current working directory.
+         * The current working directory.  Setting this calls [cd].
          */
         public var cwd: Path
             get() = Path(currentProcess.cwd())

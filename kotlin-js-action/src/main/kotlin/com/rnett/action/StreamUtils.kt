@@ -33,7 +33,26 @@ public suspend fun Flow<String>.toStream(scope: CoroutineScope = GlobalScope): i
     launch {
         this@toStream.onCompletion { stream.end() }
             .collect {
-                stream.write(it)
+                stream.writeSuspending(it)
+            }
+    }
+    stream
+}
+
+/**
+ * Convert a flow to a stream by writing the flow's elements to an [internal.PassThrough].
+ *
+ * Collects the flow in [GlobalScope] by default, eventually [scope] will become a context receiver.
+ *
+ * TODO make [scope] a context receiver.
+ */
+@OptIn(DelicateCoroutinesApi::class)
+public suspend fun Flow<ByteArray>.toStream(scope: CoroutineScope = GlobalScope): internal.Readable = scope.run {
+    val stream = internal.PassThrough()
+    launch {
+        this@toStream.onCompletion { stream.end() }
+            .collect {
+                stream.writeSuspending(it)
             }
     }
     stream
@@ -52,7 +71,7 @@ public suspend fun Flow<Buffer>.toStream(scope: CoroutineScope = GlobalScope): i
     launch {
         this@toStream.onCompletion { stream.end() }
             .collect {
-                stream.write(it)
+                stream.writeSuspending(it)
             }
     }
     stream
@@ -82,7 +101,7 @@ public suspend fun Flow<Any>.toObjectStream(scope: CoroutineScope = GlobalScope)
     launch {
         this@toObjectStream.onCompletion { stream.end() }
             .collect {
-                stream.write(it)
+                stream.writeSuspending(it)
             }
     }
     stream
@@ -154,15 +173,46 @@ public inline fun <reified T : Any> ReadableStream.toFlow(): Flow<T> =
         flowHelper(this@toFlow)
     }
 
-
+/**
+ * Write to a stream, suspending until the write completes.
+ */
 public suspend fun WritableStream.writeSuspending(buffer: String) {
     suspendCancellableCoroutine<Unit> {
         this.write(buffer, it::cancelIfError)
     }
 }
 
+/**
+ * Write to a stream, suspending until the write completes.
+ */
+public suspend fun WritableStream.writeSuspending(buffer: Buffer) {
+    suspendCancellableCoroutine<Unit> {
+        this.write(buffer, it::cancelIfError)
+    }
+}
 
+/**
+ * Write to a stream, suspending until the write completes.
+ */
 public suspend fun WritableStream.writeSuspending(buffer: String, encoding: String) {
+    suspendCancellableCoroutine<Unit> {
+        this.write(buffer, encoding, it::cancelIfError)
+    }
+}
+
+/**
+ * Write to a stream, suspending until the write completes.
+ */
+public suspend fun internal.Duplex.writeSuspending(buffer: Any) {
+    suspendCancellableCoroutine<Unit> {
+        this.write(buffer, it::cancelIfError)
+    }
+}
+
+/**
+ * Write to a stream, suspending until the write completes.
+ */
+public suspend fun internal.Duplex.writeSuspending(buffer: Any, encoding: String) {
     suspendCancellableCoroutine<Unit> {
         this.write(buffer, encoding, it::cancelIfError)
     }

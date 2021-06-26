@@ -1,29 +1,43 @@
 package com.rnett.action.exec
 
-private fun String.escapeQuotes() = replace("\"", "\\\"").replace("\'", "\\\'").replace("`", "\\`")
+private fun String.escapePowershell() =
+    replace("`", "``")
+        .replace("\"", "`\"")
+        .replace("\'", "`\'")
+        .replace("#", "`#")
+        .replace("\n", "`n")
+        .replace("\r", "`r")
+        .replace("\t", "`t")
+
+private fun String.escapeCmd() =
+    replace("^", "^^")
+        .replace("\"", "^\"")
+        .replace("\'", "^\'")
+        .replace("`", "^`")
 
 /**
  * Represents a shell used to run commands.
- * @param template The command to use.  '$' will be replaced by the command to run.  See examples in the companion object.  Only quotes and backticks are escaped.
+ * @param template The command to use.  '?' will be replaced by the command to run.  See examples in the companion object.
  */
-public data class Shell(public val template: String) {
-    public companion object {
-        public val bash: Shell = Shell("/bin/bash -c \"$\"")
-        public val cmd: Shell = Shell("cmd /c \"$\"")
-        public val powershell: Shell = Shell("powershell -c \"$\"")
+public abstract class Shell(public val shellCommand: String, public val escapeWindows: Boolean = true) {
+    public abstract fun args(command: String): Array<String>
+
+    public object bash : Shell("bash") {
+        override fun args(command: String): Array<String> = arrayOf(
+            "-c",
+            "$\'${command.replace("\'", "\\\'")}\'"
+        )
     }
 
-    init {
-        val replacements = template.count { it == '$' }
-        if (replacements > 1)
-            throw IllegalArgumentException("Can't have more than one $ in template")
-
-        if (replacements < 1)
-            throw IllegalArgumentException("Must have one $ in template")
+    public object cmd : Shell("cmd") {
+        override fun args(command: String): Array<String> = arrayOf("/c", command)
     }
 
-    public fun withCommand(command: String): String {
-        return template.replace("$", command.escapeQuotes())
+    /**
+     * **Note that output redirects with > will be written in utf16-le with a BOM**
+     */
+    public object powershell : Shell("powershell") {
+        override fun args(command: String): Array<String> = arrayOf("-c", command)
     }
 
 }
