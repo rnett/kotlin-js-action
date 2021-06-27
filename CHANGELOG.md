@@ -2,7 +2,10 @@
 
 # Next
 
-*
+Slightly breaking:
+
+* Restructure HttpClient types. Some classes were replaced by interfaces or typealiases, but breakage should be pretty
+  small.
 
 # 1.3.0
 

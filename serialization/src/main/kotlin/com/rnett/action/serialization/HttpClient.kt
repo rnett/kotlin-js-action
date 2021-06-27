@@ -1,101 +1,117 @@
 package com.rnett.action.serialization
 
+import NodeJS.ReadableStream
+import com.rnett.action.httpclient.BaseHttpClient
 import com.rnett.action.httpclient.HeaderProvider
 import com.rnett.action.httpclient.HttpClient
 import com.rnett.action.httpclient.HttpClientBuilder
 import com.rnett.action.httpclient.HttpResponse
-import com.rnett.action.httpclient.IHttpResponse
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 /**
- * A HTTP response that you can get typed data from.
+ * A HTTP response that you can get typed responses from.
  */
 public class TypedHttpResponse(response: HttpResponse, @PublishedApi internal val json: Json) :
-    IHttpResponse by response {
-    public suspend inline fun <reified T> readTypedBody(): T = json.decodeFromString(readBody())
+    HttpResponse by response {
+    public suspend inline fun <reified T> readJsonBody(): T = json.decodeFromString(readBody())
 }
 
 /**
- * A Http client that uses kotlinx serialization Json parsing and adds `Accept` and `Content-Type` headers.
+ * Get a Http client with json support wrapping this client.
+ *
+ * Closing the returned client will not close the wrapped client.
  */
-public class JsonHttpClient(@PublishedApi internal val json: Json = Json, builder: HttpClientBuilder.() -> Unit = {}) :
-    HttpClient({
-        builder()
-        addHeader("accept", "application/json")
-    }) {
+public fun HttpClient.json(json: Json = Json): JsonHttpClient = if (this is JsonHttpClient && this.json == json)
+    this
+else
+    JsonHttpClient(json, this, false)
 
-    public suspend inline fun headTyped(
+/**
+ * A [`@actions/http-client`](https://github.com/actions/http-client) based Http client that uses
+ * kotlinx serialization Json parsing and adds `Accept` (always) and `Content-Type` (*Json methods) headers.
+ */
+public inline fun JsonHttpClient(json: Json = Json, builder: HttpClientBuilder.() -> Unit = {}): JsonHttpClient {
+    contract { callsInPlace(builder, InvocationKind.EXACTLY_ONCE) }
+    return JsonHttpClient(
+        json,
+        HttpClient {
+            builder()
+            addHeader("accept", "application/json")
+        }
+    )
+}
+
+/**
+ * A [`@actions/http-client`](https://github.com/actions/http-client) based Http client that uses
+ * kotlinx serialization Json parsing and adds `Accept` (always) and `Content-Type` (*Json methods) headers.
+ */
+public class JsonHttpClient @PublishedApi internal constructor(
+    @PublishedApi internal val json: Json,
+    private val client: HttpClient,
+    private val closeClient: Boolean = true
+) :
+    BaseHttpClient<TypedHttpResponse> {
+
+    override suspend fun request(verb: String, url: String, data: String, headers: HeaderProvider): TypedHttpResponse =
+        TypedHttpResponse(client.request(verb, url, data, headers), json)
+
+    override suspend fun request(
+        verb: String,
         url: String,
-        headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
-        requestTyped("head", url, "", headers = headers)
+        data: ReadableStream,
+        headers: HeaderProvider
+    ): TypedHttpResponse = TypedHttpResponse(client.request(verb, url, data, headers), json)
 
-    public suspend inline fun getTyped(
-        url: String,
-        headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
-        requestTyped("get", url, "", headers = headers)
-
-    public suspend inline fun optionsTyped(
-        url: String,
-        headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
-        requestTyped("options", url, "", headers = headers)
-
-    public suspend inline fun delTyped(
-        url: String,
-        headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
-        requestTyped("del", url, "", headers = headers)
-
-    public suspend inline fun <reified T> postTyped(
-        url: String,
-        data: T,
-        headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
-        requestTyped("post", url, data, headers = headers)
-
-    public suspend inline fun <reified T> postTyped(
-        url: String,
-        data: Flow<T>,
-        headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
-        requestTyped("post", url, data, headers = headers)
-
-    public suspend inline fun <reified T> putTyped(
+    public suspend inline fun <reified T> postJson(
         url: String,
         data: T,
         headers: HeaderProvider = HeaderProvider { }
     ): TypedHttpResponse =
-        requestTyped("put", url, data, headers = headers)
+        requestJson("post", url, data, headers = headers)
 
-    public suspend inline fun <reified T> putTyped(
+    public suspend inline fun <reified T> postJson(
         url: String,
         data: Flow<T>,
         headers: HeaderProvider = HeaderProvider { }
     ): TypedHttpResponse =
-        requestTyped("put", url, data, headers = headers)
+        requestJson("post", url, data, headers = headers)
 
-    public suspend inline fun <reified T> patchTyped(
+    public suspend inline fun <reified T> putJson(
         url: String,
         data: T,
         headers: HeaderProvider = HeaderProvider { }
     ): TypedHttpResponse =
-        requestTyped("patch", url, data, headers = headers)
+        requestJson("put", url, data, headers = headers)
 
-    public suspend inline fun <reified T> patchTyped(
+    public suspend inline fun <reified T> putJson(
         url: String,
         data: Flow<T>,
         headers: HeaderProvider = HeaderProvider { }
     ): TypedHttpResponse =
-        requestTyped("patch", url, data, headers = headers)
+        requestJson("put", url, data, headers = headers)
 
-    public suspend inline fun <reified T> requestTyped(
+    public suspend inline fun <reified T> patchJson(
+        url: String,
+        data: T,
+        headers: HeaderProvider = HeaderProvider { }
+    ): TypedHttpResponse =
+        requestJson("patch", url, data, headers = headers)
+
+    public suspend inline fun <reified T> patchJson(
+        url: String,
+        data: Flow<T>,
+        headers: HeaderProvider = HeaderProvider { }
+    ): TypedHttpResponse =
+        requestJson("patch", url, data, headers = headers)
+
+    public suspend inline fun <reified T> requestJson(
         verb: String,
         url: String,
         data: T,
@@ -106,7 +122,7 @@ public class JsonHttpClient(@PublishedApi internal val json: Json = Json, builde
         return TypedHttpResponse(response, json)
     }
 
-    public suspend inline fun <reified T> requestTyped(
+    public suspend inline fun <reified T> requestJson(
         verb: String,
         url: String,
         data: Flow<T>,
@@ -118,5 +134,10 @@ public class JsonHttpClient(@PublishedApi internal val json: Json = Json, builde
             data.map { json.encodeToString(it) },
             headers + { add("content-type", "application/json") })
         TypedHttpResponse(response, json)
+    }
+
+    override fun close() {
+        if (closeClient)
+            client.close()
     }
 }

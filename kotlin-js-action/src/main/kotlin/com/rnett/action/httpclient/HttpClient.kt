@@ -5,121 +5,22 @@ import NodeJS.ReadableStream
 import com.rnett.action.JsObject
 import com.rnett.action.jsEntries
 import com.rnett.action.toStream
-import http.ClientRequestArgs
-import http.IncomingMessage
-import http.RequestOptions
-import internal.httpclient.IHeaders
 import internal.httpclient.IHttpClient
-import internal.httpclient.IHttpClientResponse
-import internal.httpclient.IRequestHandler
-import internal.httpclient.IRequestInfo
 import internal.httpclient.ITypedResponse
 import internal.httpclient.getProxyUrl
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.await
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.promise
-import org.w3c.dom.url.URL
 import stream.internal
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
-import kotlin.js.Promise
 import internal.httpclient.HttpClient as JsHttpClient
 
-public interface IHttpResponse {
-    public suspend fun readBody(): String
-
-    public val message: IncomingMessage
-    public val headers: Headers
-    public val statusCode: Int
-    public val statusMessage: String
-    public fun isSuccess(): Boolean
-}
-
 /**
- * The response from a HTTP request.
+ * Get the GitHub actions proxy URL.
  */
-public open class HttpResponse internal constructor(internal val internal: IHttpClientResponse) : IHttpResponse {
-    public override suspend fun readBody(): String = internal.readBody().await()
-
-    public override val message: IncomingMessage get() = internal.message
-
-    public override val headers: Headers = message.rawHeaders.asSequence().chunked(2) {
-        it[0].lowercase() to it[1]
-    }.toMap().let { MapHeaders(it) }
-
-    public override val statusCode: Int = message.statusCode.toInt()
-    public override val statusMessage: String get() = message.statusMessage
-    public override fun isSuccess(): Boolean = statusCode in 200..299
-}
-
-/**
- * A handler that modifies outgoing requests and optionally handles authentication.
- */
-public fun interface RequestHandler {
-
-    /**
-     * Modify an outgoing request.
-     */
-    public fun ClientRequestArgs.prepareRequest(headers: MutableHeaders)
-
-    /**
-     * If this returns `true`, [handleAuthentication] must be implemented.
-     */
-    public fun canHandleAuthentication(response: HttpResponse): Boolean {
-        return false
-    }
-
-    /**
-     * Will not be called unless [canHandleAuthentication] is `true`.
-     *
-     * [data] will be [ReadableStream] or [String].
-     */
-    public suspend fun handleAuthentication(
-        client: BasicHttpClient,
-        url: URL,
-        data: Any,
-        options: ClientRequestArgs
-    ): HttpResponse {
-        error("Can not handle authentication")
-    }
-}
-
-@OptIn(DelicateCoroutinesApi::class)
-private fun RequestHandler.toInternal() = object : IRequestHandler {
-    override fun prepareRequest(options: RequestOptions) {
-        options.prepareRequest(OutgoingJsHeaders(options))
-    }
-
-    override fun canHandleAuthentication(response: IHttpClientResponse): Boolean {
-        return this@toInternal.canHandleAuthentication(HttpResponse(response))
-    }
-
-    override fun handleAuthentication(
-        httpClient: IHttpClient,
-        requestInfo: IRequestInfo,
-        objs: Any
-    ): Promise<IHttpClientResponse> {
-        return GlobalScope.promise {
-            this@toInternal.handleAuthentication(
-                WrappedInterfaceClient(httpClient),
-                requestInfo.parsedUrl,
-                objs,
-                requestInfo.options
-            ).internal
-        }
-    }
-
-}
-
-private fun Map<String, String>.toIHeaders(): IHeaders = JsObject {
-    this@toIHeaders.forEach {
-        this[it.key] = it.value
-    }
-}
+public fun githubProxyUrl(url: String): String = getProxyUrl(url)
 
 private fun buildHttpClient(
     handlers: List<RequestHandler>,
@@ -150,12 +51,10 @@ private fun buildHttpClient(
         this.maxRetries = maxRetries
     })
 
-public fun githubProxyUrl(url: String): String = getProxyUrl(url)
-
 /**
  * A builder for http client configuration.
  */
-public class HttpClientBuilder internal constructor() {
+public class HttpClientBuilder @PublishedApi internal constructor() {
 
     private val mapHeaders = MapHeaders()
 
@@ -245,115 +144,115 @@ public class HttpClientBuilder internal constructor() {
 }
 
 /**
- * A minimal HTTP client, based on [`@actions/httpclient`](https://github.com/actions/http-client).
+ * A minimal HTTP client, based on [`@actions/http-client`](https://github.com/actions/http-client).
  */
-public interface BasicHttpClient {
+public interface BaseHttpClient<out T : HttpResponse> {
     public suspend fun head(
         url: String,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("head", url, "", headers = headers)
 
     public suspend fun get(
         url: String,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("get", url, "", headers = headers)
 
     public suspend fun options(
         url: String,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("options", url, "", headers = headers)
 
     public suspend fun del(
         url: String,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("del", url, "", headers = headers)
 
     public suspend fun post(
         url: String,
         data: String,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("post", url, data, headers = headers)
 
     public suspend fun post(
         url: String,
         data: ReadableStream,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("post", url, data, headers = headers)
 
     public suspend fun post(
         url: String,
         data: Flow<String>,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("post", url, data, headers = headers)
 
     public suspend fun post(
         url: String,
         data: Flow<Buffer>,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("post", url, data, headers = headers)
 
     public suspend fun put(
         url: String,
         data: String,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("put", url, data, headers = headers)
 
     public suspend fun put(
         url: String,
         data: ReadableStream,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("put", url, data, headers = headers)
 
     public suspend fun put(
         url: String,
         data: Flow<String>,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("put", url, data, headers = headers)
 
     public suspend fun put(
         url: String,
         data: Flow<Buffer>,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("put", url, data, headers = headers)
 
     public suspend fun patch(
         url: String,
         data: String,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("patch", url, data, headers = headers)
 
     public suspend fun patch(
         url: String,
         data: ReadableStream,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("patch", url, data, headers = headers)
 
     public suspend fun patch(
         url: String,
         data: Flow<String>,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("patch", url, data, headers = headers)
 
     public suspend fun patch(
         url: String,
         data: Flow<Buffer>,
         headers: HeaderProvider = HeaderProvider { }
-    ): HttpResponse =
+    ): T =
         request("patch", url, data, headers = headers)
 
     public suspend fun request(
@@ -361,21 +260,21 @@ public interface BasicHttpClient {
         url: String,
         data: String,
         headers: HeaderProvider = HeaderProvider {}
-    ): HttpResponse
+    ): T
 
     public suspend fun request(
         verb: String,
         url: String,
         data: ReadableStream,
         headers: HeaderProvider = HeaderProvider {}
-    ): HttpResponse
+    ): T
 
     public suspend fun request(
         verb: String,
         url: String,
         data: Flow<String>,
         headers: HeaderProvider = HeaderProvider {}
-    ): HttpResponse = coroutineScope {
+    ): T = coroutineScope {
         request(verb, url, data.toStream(this), headers)
     }
 
@@ -384,21 +283,24 @@ public interface BasicHttpClient {
         url: String,
         data: Flow<Buffer>,
         headers: HeaderProvider = HeaderProvider {}
-    ): HttpResponse = coroutineScope {
+    ): T = coroutineScope {
         request(verb, url, data.toStream(this), headers)
+    }
+
+    public fun close() {
     }
 }
 
-internal class WrappedInterfaceClient(private val client: IHttpClient) : BasicHttpClient {
-    public override suspend fun request(
+internal class WrappedInterfaceClient(private val client: IHttpClient) : BaseHttpClient<HttpResponse> {
+    override suspend fun request(
         verb: String,
         url: String,
         data: String,
         headers: HeaderProvider
     ): HttpResponse =
-        client.request(verb.uppercase(), url, data, headers.toIHeaders()).await().let(::HttpResponse)
+        client.request(verb.uppercase(), url, data, headers.toIHeaders()).await().let(::HttpResponseImpl)
 
-    public override suspend fun request(
+    override suspend fun request(
         verb: String,
         url: String,
         data: ReadableStream,
@@ -412,7 +314,7 @@ internal class WrappedInterfaceClient(private val client: IHttpClient) : BasicHt
             data.on("close") { sendStream.destroy() }
             data.on("end") { sendStream.destroy() }
             client.request(verb.uppercase(), url, sendStream, headers.toIHeaders()).await()
-                .let(::HttpResponse)
+                .let(::HttpResponseImpl)
         }.await()
     }
 }
@@ -434,21 +336,42 @@ public class JSTypedHttpResponse<T> internal constructor(response: ITypedRespons
 }
 
 /**
- * A HTTP client, based on [`@actions/httpclient`](https://github.com/actions/http-client).
+ * A HTTP client, based on [`@actions/http-client`](https://github.com/actions/http-client).
  */
-public open class HttpClient internal constructor(private val client: JsHttpClient) : BasicHttpClient {
-    public constructor(builder: HttpClientBuilder.() -> Unit = {}) : this(HttpClientBuilder().apply(builder).build())
+public typealias HttpClient = BaseHttpClient<*>
 
-    public override suspend fun request(
+/**
+ * A HTTP client, based on [`@actions/http-client`](https://github.com/actions/http-client).
+ */
+public inline fun HttpClient(builder: HttpClientBuilder.() -> Unit = {}): HttpClient {
+    contract {
+        callsInPlace(builder, InvocationKind.EXACTLY_ONCE)
+    }
+    return HttpClientImpl(HttpClientBuilder().apply(builder))
+}
+
+/**
+ * A HTTP client, based on [`@actions/http-client`](https://github.com/actions/http-client).
+ */
+@Deprecated(
+    "Should use HttpClient instead, the only reason to use this is the raw JS Json request methods",
+    replaceWith = ReplaceWith("HttpClient", "com.rnett.action.httpclient.HttpClient")
+)
+public class HttpClientImpl internal constructor(private val client: JsHttpClient) : BaseHttpClient<HttpResponse> {
+    @PublishedApi
+    internal constructor(builder: HttpClientBuilder) : this(builder.build())
+    public constructor(builder: HttpClientBuilder.() -> Unit = {}) : this(HttpClientBuilder().apply(builder))
+
+    override suspend fun request(
         verb: String,
         url: String,
         data: String,
         headers: HeaderProvider
     ): HttpResponse =
-        client.request(verb.uppercase(), url, data, headers.toIHeaders()).await().let(::HttpResponse)
+        client.request(verb.uppercase(), url, data, headers.toIHeaders()).await().let(::HttpResponseImpl)
 
     @Suppress("RedundantAsync")
-    public override suspend fun request(
+    override suspend fun request(
         verb: String,
         url: String,
         data: ReadableStream,
@@ -462,7 +385,7 @@ public open class HttpClient internal constructor(private val client: JsHttpClie
             data.on("close") { sendStream.destroy() }
             data.on("end") { sendStream.destroy() }
             client.request(verb.uppercase(), url, sendStream, headers.toIHeaders()).await()
-                .let(::HttpResponse)
+                .let(::HttpResponseImpl)
         }.await()
     }
 
@@ -523,14 +446,21 @@ public open class HttpClient internal constructor(private val client: JsHttpClie
     ): JSTypedHttpResponse<T> =
         client.patchJson<T>(url, data, additionalHeaders.toIHeaders()).await().let(::JSTypedHttpResponse)
 
-    public fun close() {
+
+    override fun close() {
         client.dispose()
     }
 }
 
-public inline fun <R, T : HttpClient> T.use(block: (T) -> R): R {
+/**
+ * Use a HTTP client, then close it in `finally` block.  Like JVM's `use`.
+ */
+public inline fun <R, T : BaseHttpClient<*>> T.use(block: (T) -> R): R {
     contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
-    val result = block(this)
-    close()
-    return result
+    try {
+        val result = block(this)
+        return result
+    } finally {
+        close()
+    }
 }

@@ -38,6 +38,9 @@ public fun HeaderProvider.toMap(): Map<String, String> = MapHeaders().apply { he
 internal fun HeaderProvider.toIHeaders(): IHeaders =
     JsObject<IHeaders>().apply { WrappedIHeaders(this).apply { headers() } }
 
+/**
+ * Read-only non case sensitive HTTP headers.
+ */
 public sealed interface Headers {
 
     /**
@@ -54,7 +57,7 @@ public sealed interface Headers {
 }
 
 /**
- * An interface allowing the setting of headers.
+ * Mutable non case sensitive HTTP headers.
  */
 public sealed interface MutableHeaders : Headers {
 
