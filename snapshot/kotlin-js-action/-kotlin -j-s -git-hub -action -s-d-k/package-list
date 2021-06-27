@@ -225,7 +225,6 @@ $dokka.location:com.rnett.action.exec/ExecResult/stdout/#/PointingToDeclaration/
 $dokka.location:com.rnett.action.exec/ExecResult/throwIfFailure/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-exec-result/throw-if-failure.html
 $dokka.location:com.rnett.action.exec/Shell.bash///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-shell/bash/index.html
 $dokka.location:com.rnett.action.exec/Shell.bash/args/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-shell/bash/args.html
-$dokka.location:com.rnett.action.exec/Shell.bash/shellCommand/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-shell/bash/shell-command.html
 $dokka.location:com.rnett.action.exec/Shell.cmd///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-shell/cmd/index.html
 $dokka.location:com.rnett.action.exec/Shell.cmd/args/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-shell/cmd/args.html
 $dokka.location:com.rnett.action.exec/Shell.powershell///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.exec/-shell/powershell/index.html
