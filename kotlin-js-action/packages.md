@@ -2,10 +2,6 @@
 
 `Path`, OS, and utilities.
 
-# Package com.rnett.action.delegates
-
-Delegate helpers.
-
 # Package com.rnett.action.artifact
 
 Wrappers for [@actions/artifact](https://github.com/actions/toolkit/blob/main/packages/artifact).
@@ -29,3 +25,11 @@ Wrappers for [@actions/glob](https://github.com/actions/toolkit/blob/main/packag
 # Package com.rnett.action.io
 
 Wrappers for [@actions/io](https://github.com/actions/toolkit/blob/main/packages/io).
+
+# Package com.rnett.action.httpclient
+
+Wrappers for [@actions/http-client](https://github.com/actions/http-client).
+
+# Package com.rnett.action.delegates
+
+Delegation base classes, utilities, and transforms.
