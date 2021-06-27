@@ -76,6 +76,8 @@ $dokka.location:com.rnett.action.core/Environment/set/#kotlin.String#kotlin.Bool
 $dokka.location:com.rnett.action.core/Environment/set/#kotlin.String#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/-environment/set.html
 $dokka.location:com.rnett.action.core/Environment/set/#kotlin.String#kotlin.String?/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/-environment/set.html
 $dokka.location:com.rnett.action.core/Environment/setValue/#kotlin.Any?#kotlin.reflect.KProperty[*]#kotlin.String?/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/-environment/set-value.html
+$dokka.location:com.rnett.action.core/Environment/withDefault/#kotlin.Function0[kotlin.String]/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/-environment/with-default.html
+$dokka.location:com.rnett.action.core/Environment/withDefault/#kotlin.String#kotlin.Function0[kotlin.String]/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/-environment/with-default.html
 $dokka.location:com.rnett.action.core/PATH///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/-p-a-t-h/index.html
 $dokka.location:com.rnett.action.core/PATH/plusAssign/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/-p-a-t-h/plus-assign.html
 $dokka.location:com.rnett.action.core/core///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/core/index.html
@@ -120,6 +122,8 @@ $dokka.location:com.rnett.action.core/inputs/getValue/#kotlin.Any?#kotlin.reflec
 $dokka.location:com.rnett.action.core/inputs/invoke/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/inputs/invoke.html
 $dokka.location:com.rnett.action.core/inputs/optional/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/inputs/optional.html
 $dokka.location:com.rnett.action.core/inputs/optional/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/inputs/optional.html
+$dokka.location:com.rnett.action.core/inputs/optionalWithDefault/#kotlin.Function0[kotlin.String]/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/inputs/optional-with-default.html
+$dokka.location:com.rnett.action.core/inputs/optionalWithDefault/#kotlin.String#kotlin.Function0[kotlin.String]/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/inputs/optional-with-default.html
 $dokka.location:com.rnett.action.core/logger///PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/logger/index.html
 $dokka.location:com.rnett.action.core/logger/debug/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/logger/debug.html
 $dokka.location:com.rnett.action.core/logger/echoCommands/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/logger/echo-commands.html
@@ -144,6 +148,8 @@ $dokka.location:com.rnett.action.core/state/getValue/#kotlin.Any?#kotlin.reflect
 $dokka.location:com.rnett.action.core/state/invoke/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/state/invoke.html
 $dokka.location:com.rnett.action.core/state/optional/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/state/optional.html
 $dokka.location:com.rnett.action.core/state/optional/#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/state/optional.html
+$dokka.location:com.rnett.action.core/state/optionalWithDefault/#kotlin.Function0[kotlin.String]/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/state/optional-with-default.html
+$dokka.location:com.rnett.action.core/state/optionalWithDefault/#kotlin.String#kotlin.Function0[kotlin.String]/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/state/optional-with-default.html
 $dokka.location:com.rnett.action.core/state/set/#kotlin.String#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/state/set.html
 $dokka.location:com.rnett.action.core/state/setValue/#kotlin.Any?#kotlin.reflect.KProperty[*]#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.core/state/set-value.html
 $dokka.location:com.rnett.action.delegates////PointingToDeclaration/-kotlin -j-s -git-hub -action -s-d-k/com.rnett.action.delegates/index.html
