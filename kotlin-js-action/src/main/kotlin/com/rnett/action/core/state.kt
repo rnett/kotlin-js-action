@@ -1,6 +1,7 @@
 package com.rnett.action.core
 
 import com.rnett.action.delegates.MutableDelegatable
+import com.rnett.action.delegates.ifNull
 import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -50,7 +51,7 @@ public object state : MutableDelegatable(), ReadWriteProperty<Any?, String> {
     public operator fun invoke(name: String): ReadOnlyProperty<Any?, String> = delegate(name)
 
     /**
-     * Get an optional delegate.  Property names will be converted to snake-case unless name is specified.
+     * Get an optional delegate.
      */
     public val optional: ReadOnlyProperty<Any?, String?> by lazy { optionalDelegate(null) }
 
@@ -58,4 +59,18 @@ public object state : MutableDelegatable(), ReadWriteProperty<Any?, String> {
      * Get an optional delegate for [name].
      */
     public fun optional(name: String): ReadOnlyProperty<Any?, String?> = optionalDelegate(name)
+
+    /**
+     * Get an optional delegate with a default value.
+     */
+    public fun optionalWithDefault(default: () -> String): ReadOnlyProperty<Any?, String> =
+        inputs.optional.ifNull(default)
+
+    /**
+     * Get an optional delegate with a default value for [name].
+     */
+    public fun optionalWithDefault(name: String, default: () -> String): ReadOnlyProperty<Any?, String> =
+        inputs.optional(
+            name
+        ).ifNull(default)
 }

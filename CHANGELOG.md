@@ -11,6 +11,7 @@ Slightly breaking:
 Non-breaking:
 
 * Add a plugin method to add a task to generate the auto-build workflow.
+* Builtin withDefault delegate methods
 
 # 1.3.0
 

@@ -4,6 +4,8 @@ import NodeJS.get
 import NodeJS.set
 import com.rnett.action.currentProcess
 import com.rnett.action.delegates.MutableDelegatable
+import com.rnett.action.delegates.ifNull
+import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -118,6 +120,18 @@ public abstract class Environment(private val defaultExport: Boolean) : MutableD
      * Optional delegate for [name].  Follows the the [Environment]'s export setting.
      */
     public fun required(name: String): ReadWriteProperty<Any?, String> = delegate(name)
+
+    /**
+     * Get an optional delegate with a default value.
+     */
+    public fun withDefault(default: () -> String): ReadOnlyProperty<Any?, String> = inputs.optional.ifNull(default)
+
+    /**
+     * Get an optional delegate with a default value for [name].
+     */
+    public fun withDefault(name: String, default: () -> String): ReadOnlyProperty<Any?, String> = inputs.optional(
+        name
+    ).ifNull(default)
 }
 
 /**

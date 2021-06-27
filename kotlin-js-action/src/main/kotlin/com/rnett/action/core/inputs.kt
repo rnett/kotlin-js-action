@@ -1,6 +1,7 @@
 package com.rnett.action.core
 
 import com.rnett.action.delegates.Delegatable
+import com.rnett.action.delegates.ifNull
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -49,4 +50,15 @@ public object inputs : Delegatable(true), ReadOnlyProperty<Any?, String> {
      * Get an optional delegate for [name].
      */
     public fun optional(name: String): ReadOnlyProperty<Any?, String?> = optionalDelegate(name)
+
+    /**
+     * Get an optional delegate with a default value.  Property names will be converted to snake-case unless name is specified.
+     */
+    public fun optionalWithDefault(default: () -> String): ReadOnlyProperty<Any?, String> = optional.ifNull(default)
+
+    /**
+     * Get an optional delegate with a default value for [name].
+     */
+    public fun optionalWithDefault(name: String, default: () -> String): ReadOnlyProperty<Any?, String> =
+        optional(name).ifNull(default)
 }
