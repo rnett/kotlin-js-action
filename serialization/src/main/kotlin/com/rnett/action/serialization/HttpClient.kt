@@ -16,9 +16,9 @@ import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
 /**
- * A HTTP response that you can get typed responses from.
+ * A HTTP response that you can get JSON deserialized responses from.
  */
-public class TypedHttpResponse(response: HttpResponse, @PublishedApi internal val json: Json) :
+public class JsonHttpResponse(response: HttpResponse, @PublishedApi internal val json: Json) :
     HttpResponse by response {
     public suspend inline fun <reified T> readJsonBody(): T = json.decodeFromString(readBody())
 }
@@ -57,58 +57,58 @@ public class JsonHttpClient @PublishedApi internal constructor(
     private val client: HttpClient,
     private val closeClient: Boolean = true
 ) :
-    BaseHttpClient<TypedHttpResponse> {
+    BaseHttpClient<JsonHttpResponse> {
 
-    override suspend fun request(verb: String, url: String, data: String, headers: HeaderProvider): TypedHttpResponse =
-        TypedHttpResponse(client.request(verb, url, data, headers), json)
+    override suspend fun request(verb: String, url: String, data: String, headers: HeaderProvider): JsonHttpResponse =
+        JsonHttpResponse(client.request(verb, url, data, headers), json)
 
     override suspend fun request(
         verb: String,
         url: String,
         data: ReadableStream,
         headers: HeaderProvider
-    ): TypedHttpResponse = TypedHttpResponse(client.request(verb, url, data, headers), json)
+    ): JsonHttpResponse = JsonHttpResponse(client.request(verb, url, data, headers), json)
 
     public suspend inline fun <reified T> postJson(
         url: String,
         data: T,
         headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
+    ): JsonHttpResponse =
         requestJson("post", url, data, headers = headers)
 
     public suspend inline fun <reified T> postJson(
         url: String,
         data: Flow<T>,
         headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
+    ): JsonHttpResponse =
         requestJson("post", url, data, headers = headers)
 
     public suspend inline fun <reified T> putJson(
         url: String,
         data: T,
         headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
+    ): JsonHttpResponse =
         requestJson("put", url, data, headers = headers)
 
     public suspend inline fun <reified T> putJson(
         url: String,
         data: Flow<T>,
         headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
+    ): JsonHttpResponse =
         requestJson("put", url, data, headers = headers)
 
     public suspend inline fun <reified T> patchJson(
         url: String,
         data: T,
         headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
+    ): JsonHttpResponse =
         requestJson("patch", url, data, headers = headers)
 
     public suspend inline fun <reified T> patchJson(
         url: String,
         data: Flow<T>,
         headers: HeaderProvider = HeaderProvider { }
-    ): TypedHttpResponse =
+    ): JsonHttpResponse =
         requestJson("patch", url, data, headers = headers)
 
     public suspend inline fun <reified T> requestJson(
@@ -116,10 +116,10 @@ public class JsonHttpClient @PublishedApi internal constructor(
         url: String,
         data: T,
         headers: HeaderProvider = HeaderProvider {}
-    ): TypedHttpResponse {
+    ): JsonHttpResponse {
         val response =
             request(verb, url, json.encodeToString(data), headers + { add("content-type", "application/json") })
-        return TypedHttpResponse(response, json)
+        return JsonHttpResponse(response, json)
     }
 
     public suspend inline fun <reified T> requestJson(
@@ -127,13 +127,13 @@ public class JsonHttpClient @PublishedApi internal constructor(
         url: String,
         data: Flow<T>,
         headers: HeaderProvider = HeaderProvider {}
-    ): TypedHttpResponse = coroutineScope {
+    ): JsonHttpResponse = coroutineScope {
         val response = request(
             verb,
             url,
             data.map { json.encodeToString(it) },
             headers + { add("content-type", "application/json") })
-        TypedHttpResponse(response, json)
+        JsonHttpResponse(response, json)
     }
 
     override fun close() {

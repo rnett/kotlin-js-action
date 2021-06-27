@@ -5,7 +5,7 @@
 Slightly breaking:
 
 * Restructure HttpClient types. Some classes were replaced by interfaces or typealiases, but breakage should be pretty
-  small.
+  small unless you used the Json client or the legacy json request methods.
 
 # 1.3.0
 

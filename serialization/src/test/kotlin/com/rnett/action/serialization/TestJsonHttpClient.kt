@@ -27,9 +27,9 @@ class HttpClientTest {
     @Test
     fun testGet() = GlobalScope.promise {
         JsonHttpClient().use { client ->
-            val response = client.getTyped("https://httpbin.org/json")
+            val response = client.get("https://httpbin.org/json")
             assertEquals(200, response.statusCode)
-            val data = response.readTypedBody<TestResponse>()
+            val data = response.readJsonBody<TestResponse>()
             assertEquals("Yours Truly", data.slideshow.author)
         }
     }
@@ -40,9 +40,9 @@ class HttpClientTest {
             this.ignoreUnknownKeys = true
         }).use { client ->
             val slide = Slide("Nothing", "all")
-            val response = client.postTyped("https://httpbin.org/post", slide)
+            val response = client.postJson("https://httpbin.org/post", slide)
             assertEquals(200, response.statusCode)
-            val data = response.readTypedBody<TestPostResponse<Slide>>().json
+            val data = response.readJsonBody<TestPostResponse<Slide>>().json
             assertEquals(slide, data)
         }
     }
@@ -54,9 +54,9 @@ class HttpClientTest {
         }).use { client ->
             val slide = Slide("Nothing", "all")
             val slides = flowOf(slide)
-            val response = client.postTyped("https://httpbin.org/post", slides)
+            val response = client.postJson("https://httpbin.org/post", slides)
             assertEquals(200, response.statusCode)
-            val data = response.readTypedBody<TestPostResponse<Slide>>().json
+            val data = response.readJsonBody<TestPostResponse<Slide>>().json
             assertEquals(slide, data)
         }
     }
