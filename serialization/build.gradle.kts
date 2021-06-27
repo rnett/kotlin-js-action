@@ -7,7 +7,7 @@ plugins {
 }
 
 description = "Support for Kotlinx serialization use with GitHub APIs"
-ext["pomName"] = "Kotlin JS GitHub Action SDK Serialization support"
+ext["niceName"] = "Kotlin JS GitHub Action SDK Serialization support"
 
 dependencies {
     testImplementation(kotlin("test"))

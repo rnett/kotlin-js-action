@@ -13,7 +13,7 @@ plugins {
 
 allprojects {
     group = "com.github.rnett.ktjs-github-action"
-    version = "1.4.0-RC"
+    version = "1.4.0-SNAPSHOT"
 
     repositories {
         mavenCentral()
@@ -40,7 +40,7 @@ subprojects {
             }
 
             pom {
-                name.set(project.ext["pomName"].toString())
+                name.set(project.ext["niceName"].toString())
                 description.set(project.description)
                 inceptionYear.set("2021")
                 url.set("https://github.com/rnett/github-actions-gradle-cache/")
@@ -83,7 +83,7 @@ subprojects {
                 else -> return@withType
             }
 
-            moduleName.set(project.ext["pomName"].toString())
+            moduleName.set(project.ext["niceName"].toString())
             moduleVersion.set(version.toString())
 
             dokkaSourceSets.configureEach {

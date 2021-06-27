@@ -7,7 +7,7 @@ plugins {
 }
 
 description = "Utilities for writing Kotlin JS GitHub actions, including wrappers around @actions/toolkit"
-ext["pomName"] = "Kotlin JS GitHub Action SDK"
+ext["niceName"] = "Kotlin JS GitHub Action SDK"
 
 val generateExternals = false
 
