@@ -8,7 +8,7 @@ public abstract class Shell(public val escapeWindows: Boolean = true) {
     public abstract fun args(command: String): Array<String>
 
     public object bash : Shell() {
-        override fun shellCommand(command: String): String = "bash -c \$'${command.replace("'", "\\'")}'"
+        override fun shellCommand(command: String): String = "bash -c \$\\'${command.replace("'", "\\'")}\\'"
         override fun args(command: String): Array<String> = arrayOf()
     }
 
