@@ -5,23 +5,53 @@ import kotlin.properties.ReadWriteProperty
 
 private fun String.toBooleanHelper() = lowercase().toBooleanStrict()
 
+/**
+ * `true` if the string is equal to `"true"`, non case sensitively.  Analogous to [String.toBoolean].
+ */
 public fun <D> ReadOnlyProperty<D, String>.isTrue(): ReadOnlyProperty<D, Boolean> = map(String::toBoolean)
+
+/**
+ * `true` if the string is equal to `"true"`, non case sensitively.  Analogous to [String.toBoolean].
+ */
 public fun <D> ReadWriteProperty<D, String>.isTrue(): ReadWriteProperty<D, Boolean> =
     map(String::toBoolean, Boolean::toString)
 
+/**
+ * `true` if the string is equal to `"true"`, non case sensitively.  Analogous to [String.toBoolean].
+ */
 public fun <D> ReadOnlyProperty<D, String?>.isTrue(): ReadOnlyProperty<D, Boolean?> = mapNonNull(String::toBoolean)
+
+/**
+ * `true` if the string is equal to `"true"`, non case sensitively.  Analogous to [String.toBoolean].
+ */
 public fun <D> ReadWriteProperty<D, String?>.isTrue(): ReadWriteProperty<D, Boolean?> =
     mapNonNull(String::toBoolean, Boolean::toString)
 
+/**
+ * `true` if the string is equal to `"true"` (non case sensitively),
+ * `false` if it is equal to `"false"`(non case sensitively), or else throws.  Analogous to [String.toBooleanStrict].
+ */
 public fun <D> ReadOnlyProperty<D, String>.toBoolean(): ReadOnlyProperty<D, Boolean> =
     map(String::toBooleanHelper)
 
+/**
+ * `true` if the string is equal to `"true"` (non case sensitively),
+ * `false` if it is equal to `"false"`(non case sensitively), or else throws.  Analogous to [String.toBooleanStrict].
+ */
 public fun <D> ReadWriteProperty<D, String>.toBoolean(): ReadWriteProperty<D, Boolean> =
     map(String::toBooleanHelper, Boolean::toString)
 
+/**
+ * `true` if the string is equal to `"true"` (non case sensitively),
+ * `false` if it is equal to `"false"`(non case sensitively), or else throws.  Analogous to [String.toBooleanStrict].
+ */
 public fun <D> ReadOnlyProperty<D, String?>.toBoolean(): ReadOnlyProperty<D, Boolean?> =
     mapNonNull(String::toBooleanHelper)
 
+/**
+ * `true` if the string is equal to `"true"` (non case sensitively),
+ * `false` if it is equal to `"false"`(non case sensitively), or else throws.  Analogous to [String.toBooleanStrict].
+ */
 public fun <D> ReadWriteProperty<D, String?>.toBoolean(): ReadOnlyProperty<D, Boolean?> =
     mapNonNull(String::toBooleanHelper, Boolean::toString)
 
@@ -61,7 +91,7 @@ public fun <D> ReadOnlyProperty<D, String?>.toFloat(): ReadOnlyProperty<D, Float
 public fun <D> ReadWriteProperty<D, String?>.toFloat(): ReadWriteProperty<D, Float?> =
     mapNonNull(String::toFloat, Float::toString)
 
-private fun String.linesHelper() = lineSequence().filter(String::isNotBlank).map(String::trim).toList()
+private fun String.linesHelper() = lineSequence().map(String::trim).filter(String::isNotBlank).toList()
 
 /**
  * Get the lines of the string.  Trims each line, does not include blank lines.

@@ -6,6 +6,11 @@ Slightly breaking:
 
 * Restructure HttpClient types. Some classes were replaced by interfaces or typealiases, but breakage should be pretty
   small unless you used the Json client or the legacy json request methods.
+* Make the auto-build workflow use the `build` task, by default.
+
+Non-breaking:
+
+* Add a plugin method to add a task to generate the auto-build workflow.
 
 # 1.3.0
 
