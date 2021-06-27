@@ -43,7 +43,7 @@ subprojects {
                 name.set(project.ext["niceName"].toString())
                 description.set(project.description)
                 inceptionYear.set("2021")
-                url.set("https://github.com/rnett/github-actions-gradle-cache/")
+                url.set("https://github.com/rnett/kotlin-js-action/")
 
                 licenses {
                     license {
@@ -54,9 +54,9 @@ subprojects {
                 }
 
                 scm {
-                    url.set("https://github.com/rnett/github-actions-gradle-cache.git")
-                    connection.set("scm:git:git://github.com/rnett/github-actions-gradle-cache.git")
-                    developerConnection.set("scm:git:ssh://git@github.com/rnett/github-actions-gradle-cache.git")
+                    url.set("https://github.com/rnett/kotlin-js-action.git")
+                    connection.set("scm:git:git://github.com/rnett/kotlin-js-action.git")
+                    developerConnection.set("scm:git:ssh://git@github.com/rnett/kotlin-js-action.git")
                 }
 
                 developers {
