@@ -94,6 +94,15 @@ jobs:
           rm -fo ~/.gradle/caches/*/*.lock
           rm -fo ~/.gradle/caches/*/gc.properties
 
+      - name: Archive test report
+        if: ${{ always() }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: test-report-${{ runner.os }}
+          path: "**/build/reports/tests/**"
+
+
   find-version:
     runs-on: ubuntu-latest
     outputs:
