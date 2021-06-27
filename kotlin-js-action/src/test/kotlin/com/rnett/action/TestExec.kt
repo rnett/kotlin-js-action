@@ -58,9 +58,11 @@ class TestExec : TestWithDir() {
 
     @Test
     fun testOutputInShellRedirect() = GlobalScope.promise {
+        val shellDiff = if (OperatingSystem.isWindows) "\r\n" else "\n"
+
         val outputFile = (testDir / "testOut2")
         exec.execShell("echo \"Test\" > \"$outputFile\"")
-        assertEquals("Test$diff", outputFile.readText(if (OperatingSystem.isWindows) "ucs2" else "utf8").let {
+        assertEquals("Test$shellDiff", outputFile.readText(if (OperatingSystem.isWindows) "ucs2" else "utf8").let {
             if (OperatingSystem.isWindows)
                 it.substring(1)
             else
