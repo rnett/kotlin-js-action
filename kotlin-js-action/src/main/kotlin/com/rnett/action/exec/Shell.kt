@@ -7,8 +7,7 @@ public abstract class Shell(public val escapeWindows: Boolean = true) {
     public abstract fun shellCommand(command: String): String
     public abstract fun args(command: String): Array<String>
 
-    public object bash : Shell() {
-        override fun shellCommand(command: String): String = "bash"
+    public object bash : ConstantShell("bash") {
         override fun args(command: String): Array<String> = arrayOf("-c", command)
     }
 
