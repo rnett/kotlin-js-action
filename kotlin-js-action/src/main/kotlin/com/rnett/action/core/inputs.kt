@@ -16,7 +16,6 @@ public object inputs : Delegatable(true), ReadOnlyProperty<Any?, String> {
     /**
      * Get the input passed for [name], or throws an error if it was not passed.
      */
-    @Deprecated("Use operator", ReplaceWith("this[name]"))
     public override fun getRequired(name: String): String = core.getRequiredInput(name)
 
     /**
