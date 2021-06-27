@@ -96,8 +96,7 @@ jobs:
 
       - name: Archive test report
         if: ${{ always() }}
-
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: test-report-${{ runner.os }}
           path: "**/build/reports/tests/**"
