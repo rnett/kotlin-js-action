@@ -5,7 +5,7 @@ plugins {
 }
 
 description = "A Gradle plugin to easily configure GitHub action packing"
-ext["pomName"] = "Kotlin JS Github Action Gradle Plugin"
+ext["pomName"] = "Kotlin JS GitHub Action Gradle Plugin"
 
 dependencies {
     compileOnly(kotlin("gradle-plugin"))
@@ -35,8 +35,8 @@ gradlePlugin {
     plugins {
         create("kotlinJsGithubActionPlugin") {
             id = "com.github.rnett.ktjs-github-action"
-            displayName = "Kotlin JS Github Action Gradle Plugin"
-            description = "Kotlin JS Github Action Gradle Plugin"
+            displayName = "Kotlin JS GitHub Action Gradle Plugin"
+            description = "Kotlin JS GitHub Action Gradle Plugin"
             implementationClass = "com.rnett.action.GithubActionPlugin"
         }
     }

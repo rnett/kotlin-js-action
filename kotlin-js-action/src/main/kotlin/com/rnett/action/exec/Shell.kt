@@ -24,6 +24,9 @@ public abstract class Shell(public val escapeWindows: Boolean = true) {
 
 }
 
+/**
+ * A shell where the shell command is constant.
+ */
 public abstract class ConstantShell(public val shellCommand: String, escapeWindows: Boolean = true) :
     Shell(escapeWindows) {
     override fun shellCommand(command: String): String = shellCommand

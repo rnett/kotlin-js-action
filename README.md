@@ -7,7 +7,7 @@
 
 * `com.github.rnett.ktjs-github-action:kotlin-js-action` - the SDK
 * `com.github.rnett.ktjs-github-action:serialization` - Kotlinx serialization support for the SDK
-* `com.github.rnett.ktjs-github-action` - the gradle plugin. The maven artifact
+* `com.github.rnett.ktjs-github-action` - a gradle plugin for building GitHub Actions. The maven artifact
   is `com.github.rnett.ktjs-github-action:kotlin-js-action-plugin`
   if you are not using the `plugins` block.
 
@@ -32,7 +32,7 @@ suspend fun main() = runAction {
 }
 ```
 
-This ensures that any uncaught exceptions are properly reported to the Github runtime.
+This ensures that any uncaught exceptions are properly reported to the GitHub runtime.
 
 Generally, most of the wrappers are thin and can be fully understood by reading the docs. We explain the more
 complicated ones below.
@@ -52,7 +52,7 @@ with `invoke(String)`, or whether the value is required with `optional`/`optiona
 `inputs` and `state` delegates are required by default and the objects have `optional` versions, where `env` is the
 opposite.
 
-`exportEnv`/`env.export` is another environment wrapper that exports set environment variables to the Github workflow.
+`exportEnv`/`env.export` is another environment wrapper that exports set environment variables to the GitHub workflow.
 
 ### Typesafe delegates
 

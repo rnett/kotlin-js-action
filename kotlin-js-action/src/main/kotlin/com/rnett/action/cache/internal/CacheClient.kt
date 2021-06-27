@@ -8,7 +8,13 @@ import com.rnett.action.Path
 import com.rnett.action.core.env
 import com.rnett.action.core.maskSecret
 import http.RequestOptions
-import internal.httpclient.*
+import internal.httpclient.HttpClient
+import internal.httpclient.IHeaders
+import internal.httpclient.IHttpClient
+import internal.httpclient.IHttpClientResponse
+import internal.httpclient.IRequestHandler
+import internal.httpclient.IRequestInfo
+import internal.httpclient.IRequestOptions
 import kotlinx.coroutines.await
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
@@ -54,7 +60,7 @@ private external interface CommitCacheRequest {
  * Cache accessors, similar to `@actions/cache`
  */
 @ExperimentalCacheAPI
-public class CacheClient(private val userAgent: String = "Kotlin/JS Github Action wrapper") {
+public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Action wrapper") {
 
     private fun Number.isSuccess() = this in 200..299
 

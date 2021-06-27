@@ -13,7 +13,7 @@ plugins {
 
 allprojects {
     group = "com.github.rnett.ktjs-github-action"
-    version = "1.3.0-SNAPSHOT"
+    version = "1.3.0"
 
     repositories {
         mavenCentral()
@@ -124,7 +124,7 @@ allprojects {
 tasks.withType<org.jetbrains.dokka.gradle.DokkaMultiModuleTask>().configureEach {
     this.fileLayout.set(org.jetbrains.dokka.gradle.DokkaMultiModuleFileLayout.CompactInParent)
     this.includes.from("DOCS.md")
-    this.moduleName.set("Kotlin/JS Github Actions SDK")
+    this.moduleName.set("Kotlin/JS GitHub Actions SDK")
     this.moduleVersion.set(version.toString())
     if (oldVersionsDir != null && "snapshot" !in project.version.toString().toLowerCase()) {
         val resolved = rootDir.resolve(oldVersionsDir!!)

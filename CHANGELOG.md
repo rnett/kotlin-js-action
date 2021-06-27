@@ -33,7 +33,7 @@ Breaking:
 Non-breaking:
 
 * Add stream utils
-* Add Buffer -> ByteArray conversions
+* Add Buffer <-> ByteArray conversions
 * Add tests
 * Added wrappers for `@actions/http-client`. Used via `HttpClient` or `JsonHttpClient` in the `serialization` artifact.
 * Add serialization artifact for Kotlinx serialization support
