@@ -2,6 +2,9 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.rnett.ktjs-github-action/kotlin-js-action)](https://search.maven.org/artifact/com.github.rnett.ktjs-github-action/kotlin-js-action)
 [![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/com.github.rnett.ktjs-github-action/kotlin-js-action?server=https%3A%2F%2Foss.sonatype.org)](https://oss.sonatype.org/content/repositories/snapshots/com/github/rnett/ktjs-github-action/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-kotlin--js--action-blue?logo=github)](https://github.com/rnett/kotlin-js-action)
+[![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Changelog](https://img.shields.io/badge/Changelog-CHANGELOG.md-green)](./CHANGELOG.md#changelog)
 
 ### Artifacts
 
