@@ -105,6 +105,8 @@ There are two functions you can call in your build script:
 
 ## Examples
 
+The [test action](./test-action) and its [metadata file](./.github/actions/test-action/action.yml)
+
 https://github.com/rnett/find-regex
 
 https://github.com/rnett/publish-docs
