@@ -67,8 +67,8 @@ insufficient when accessing structured data, such as multi-line or boolean input
 
 To this end, we provide delegate (`ReadOnlyProperty` and `ReadWriteProperty`, to be exact) mapping functions in
 the `delegates` package. You can write your own using `map`, `mapNonNull`, `ifNull`, etc, and we provide a large set of
-default implementations including `isTrue` (~`toBoolean` in the stdlib),
-`toBoolean` (~`toBooleanStrict` in the stdlib), `toInt`, `lines`, `trim`, and `lowercase` for both read-only and
+default implementations including `isTrue` (\~`toBoolean` in the stdlib),
+`toBoolean` (\~`toBooleanStrict` in the stdlib), `toInt`, `lines`, `trim`, and `lowercase` for both read-only and
 read-write delegates.
 
 This is also how serialization support is implemented. The `serialization` artifact provides `deserialize`
