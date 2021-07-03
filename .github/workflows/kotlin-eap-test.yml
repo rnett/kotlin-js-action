@@ -1,11 +1,11 @@
-name: Kotlin Eap Test 
+name: Kotlin Eap Test
 on:
   workflow_dispatch:
     inputs:
       branch:
         description: "Target branch"
         required: false
-        default: 'future_test'
+        default: ''
   schedule:
     - cron: "0 0 * * 6"
 
@@ -17,22 +17,22 @@ jobs:
 
       - name: Checkout default branch
         uses: actions/checkout@v2
-          
+
       - name: Checkout target branch for manual
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.branch != ''
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.inputs.branch }}
-        
-        
+
+
       - name: Checkout target branch for scheduled
         if: github.event_name == 'schedule'
         uses: actions/checkout@v2
         with:
-          ref: future_test
+          ref: null
 
-                
-        
+
+
       - name: Set up JDK 15
         uses: actions/setup-java@v1
         with:
@@ -57,21 +57,21 @@ jobs:
 
       - name: Checkout default branch
         uses: actions/checkout@v2
-          
+
       - name: Checkout target branch for manual
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.branch != ''
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.inputs.branch }}
-        
-        
+
+
       - name: Checkout target branch for scheduled
         if: github.event_name == 'schedule'
         uses: actions/checkout@v2
         with:
-          ref: future_test
+          ref: null
 
-                
+
 
       - name: Set up JDK 15
         uses: actions/setup-java@v1
@@ -91,17 +91,17 @@ jobs:
         with:
           name: kotlin-future-ICE-report
           path: build/kotlin-future-testing-ICE-report
-        
+
   check-results:
     name: Results
-    needs: [test-no-eap, test-kotlin-eap]
+    needs: [ test-no-eap, test-kotlin-eap ]
     runs-on: ubuntu-latest
     if: always()
     steps:
       - name: Original Compile Failed
         if: ${{ needs.test-no-eap.result != 'success' }}
         run: echo "::warning::Compilation without eap failed, aborting"
-        
+
       - name: Only Eap Compile failed
         if: ${{ needs.test-no-eap.result == 'success' && needs.test-kotlin-eap.result != 'success' }}
         run: echo "::error::Compilation with Kotlin eap failed"
