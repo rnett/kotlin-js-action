@@ -14,6 +14,8 @@
   is `com.github.rnett.ktjs-github-action:kotlin-js-action-plugin`
   if you are not using the `plugins` block.
 
+Using the IR backend is required.
+
 **Unfortunately, use of the `jcenter()` repository is required for `kotlinx-nodejs`**. You can vote
 for [this issue](https://github.com/Kotlin/kotlinx-nodejs/issues/16).
 
