@@ -9,10 +9,12 @@ plugins {
 description = "Support for Kotlinx serialization use with GitHub APIs"
 ext["niceName"] = "Kotlin JS GitHub Action SDK Serialization support"
 
+val serializationVersion: String by extra
+
 dependencies {
     testImplementation(kotlin("test"))
 
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
     implementation(project(":kotlin-js-action"))
 }
 

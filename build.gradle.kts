@@ -6,7 +6,7 @@ buildscript {
 plugins {
     kotlin("js") version "1.5.20" apply false
     kotlin("jvm") version "1.5.20" apply false
-    id("com.vanniktech.maven.publish") version "0.16.0" apply false
+    id("com.vanniktech.maven.publish") version "0.17.0" apply false
     id("org.jetbrains.dokka") version "1.4.32"
     kotlin("plugin.serialization") version "1.5.20" apply false
 }
@@ -14,6 +14,10 @@ plugins {
 allprojects {
     group = "com.github.rnett.ktjs-github-action"
     version = "1.4.1-SNAPSHOT"
+
+    val serializationVersion by extra("1.2.2")
+    val kotlinxNodeJSVersion by extra("0.0.7")
+    val coroutinesVersion by extra("1.5.1")
 
     repositories {
         mavenCentral()
