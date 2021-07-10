@@ -1,0 +1,19 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:Kotlin JS GitHub Action SDK
+com.rnett.action
+com.rnett.action.artifact
+com.rnett.action.cache
+com.rnett.action.cache.internal
+com.rnett.action.core
+com.rnett.action.delegates
+com.rnett.action.exec
+com.rnett.action.github
+com.rnett.action.glob
+com.rnett.action.httpclient
+com.rnett.action.io
+module:Kotlin JS GitHub Action Gradle Plugin
+com.rnett.action
+module:Kotlin JS GitHub Action SDK Serialization support
+com.rnett.action.serialization
