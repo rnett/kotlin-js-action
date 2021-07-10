@@ -84,15 +84,9 @@ kotlin {
 
 val sourceLinkBranch: String by project
 
-tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaTask>() {
-    val dokkaSourceSets = when (this) {
-        is org.jetbrains.dokka.gradle.DokkaTask -> dokkaSourceSets
-        is org.jetbrains.dokka.gradle.DokkaTaskPartial -> dokkaSourceSets
-        else -> return@withType
-    }
+tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaLeafTask>() {
     dokkaSourceSets.configureEach {
         platform.set(org.jetbrains.dokka.Platform.js)
-
         externalDocumentationLink {
             url.set(URL("https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/"))
         }

@@ -7,7 +7,7 @@ plugins {
     kotlin("js") version "1.5.20" apply false
     kotlin("jvm") version "1.5.20" apply false
     id("com.vanniktech.maven.publish") version "0.17.0" apply false
-    id("org.jetbrains.dokka") version "1.4.32"
+    id("org.jetbrains.dokka") version "1.5.0"
     kotlin("plugin.serialization") version "1.5.20" apply false
 }
 
@@ -79,14 +79,7 @@ subprojects {
             }
         }
 
-        tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaTask>() {
-
-            val (moduleName, moduleVersion, dokkaSourceSets) = when (this) {
-                is org.jetbrains.dokka.gradle.DokkaTask -> Triple(moduleName, moduleVersion, dokkaSourceSets)
-                is org.jetbrains.dokka.gradle.DokkaTaskPartial -> Triple(moduleName, moduleVersion, dokkaSourceSets)
-                else -> return@withType
-            }
-
+        tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaLeafTask>() {
             moduleName.set(project.ext["niceName"].toString())
             moduleVersion.set(version.toString())
 
