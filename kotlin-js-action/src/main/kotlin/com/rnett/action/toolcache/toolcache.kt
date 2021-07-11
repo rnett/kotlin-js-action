@@ -86,8 +86,16 @@ public object toolcache {
     /**
      * Extract an archive, looking at the file extension and using existing autodetection capabilities (i.e. `tar -a`) to determine the format.
      *
-     * Tries `tar -x` first, then tries [extract7z], [extractXar], or [extractZip] depending on the file name.
-     * Note that `-a` isn't actually used on Windows or Mac, since it isn't supported, but is done automatically.
+     * Tries `tar -a` first, then tries [extract7z], [extractXar], or [extractZip] depending on the file name.
+     * Note that `-a` isn't actually used on Windows or Mac, since it isn't supported but is done automatically.
+     *
+     * Tested on everything in [here](https://github.com/rnett/kotlin-js-action/tree/main/kotlin-js-action/src/test/resources/archives):
+     * * `.7z` (Windows only)
+     * * `.tar`
+     * * `.zip`
+     * * `.7z`
+     * * `.tar.gz`
+     * * `.tar.bz2`
      *
      * @param file     path to the archive
      * @param dest     destination directory. Will be a temp directory if `null`.
