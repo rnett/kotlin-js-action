@@ -55,6 +55,8 @@ class TestToolCache : TestWithDir() {
 
         val found = toolcache.find("testTool", "1.x.x")
         assertNotNull(found)
+
+        assertEquals(listOf("1.0.1", "1.0.2"), toolcache.findAllVersions("testTool").sorted())
     }
 
     @Test
