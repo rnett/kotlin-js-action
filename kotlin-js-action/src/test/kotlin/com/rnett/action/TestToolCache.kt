@@ -13,7 +13,7 @@ import kotlin.test.assertNotNull
 class TestToolCache : TestWithDir() {
 
     val licenseUrl = "https://raw.githubusercontent.com/rnett/kotlin-js-action/main/LICENSE"
-    suspend fun localLicense() = (Path(TestEnv.testCwd) / "LICENSE").readText()
+    suspend fun localLicense() = (Path(TestEnv.testCwd) / "LICENSE").readText().replace("\r\n", "\n")
 
     @Test
     fun testDownload() = GlobalScope.promise {
@@ -24,7 +24,7 @@ class TestToolCache : TestWithDir() {
 
         if (isActionRunner) {
             val tempResult = toolcache.downloadTool(licenseUrl)
-            assertEquals(localLicense(), tempResult.readText())
+            assertEquals(localLicense(), tempResult.readText().replace("\r\n", "\n"))
         }
     }
 
