@@ -55,8 +55,6 @@ class TestToolCache : TestWithDir() {
 
         val found = toolcache.find("testTool", "1.x.x")
         assertNotNull(found)
-
-        println("Versions: " + toolcache.findAllVersions("testTool"))
     }
 
     @Test

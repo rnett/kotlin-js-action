@@ -2,11 +2,15 @@ package com.rnett.action.toolcache
 
 import com.rnett.action.OperatingSystem
 import com.rnett.action.Path
+import com.rnett.action.core.PATH
 import com.rnett.action.core.logger
 import com.rnett.action.httpclient.HeaderProvider
 import com.rnett.action.httpclient.toIHeaders
 import internal.toolcache.IToolRelease
 import kotlinx.coroutines.await
+
+// TODO make value class
+public data class VersionedTool(val tool: Path, val version: String)
 
 /**
  * Wrappers for [`@actions/tool-cache`](https://github.com/actions/toolkit/tree/main/packages/tool-cache).
@@ -155,13 +159,25 @@ public object toolcache {
 
 
     /**
-     * Finds the paths to all versions of a tool that are installed in the local tool cache
+     * Finds all versions of a tool that are installed in the local tool cache
      *
      * @param toolName  name of the tool
      * @param arch      optional arch.  defaults to arch of computer
+     * @return the cached versions
      */
     public fun findAllVersions(toolName: String, arch: String? = null): List<String> =
         internal.toolcache.findAllVersions(toolName, arch).toList()
+
+    /**
+     * Finds all versions and paths of a tool that are installed in the local tool cache
+     *
+     * @param toolName  name of the tool
+     * @param arch      optional arch.  defaults to arch of computer
+     * @return the cached versions and their paths
+     */
+    public fun findAll(toolName: String, arch: String? = null): List<VersionedTool> = findAllVersions(toolName, arch).mapNotNull { version ->
+        find(toolName, version, arch)?.let { VersionedTool(it, version) }
+    }
 
     public suspend fun getManifestFromRepo(owner: String, repo: String, auth: String? = null, branch: String = "master"): List<IToolRelease> =
         internal.toolcache.getManifestFromRepo(owner, repo, auth, branch).await().toList()
@@ -189,4 +205,32 @@ public object toolcache {
      */
     public fun evaluateVersions(versions: List<String>, versionSpec: String): String? =
         internal.toolcache.evaluateVersions(versions.toTypedArray(), versionSpec).ifBlank { null }
+
+    /**
+     * Load the tool from cache if it is cached, otherwise download and cache it.
+     *
+     * [download] is passed [version].  It should return a ready to use tool,
+     * with any necessary extraction or setup done.
+     *
+     * @param name the tool's name
+     * @param version the tool's version
+     * @param arch the arch to get, or `null` to use the current arch
+     * @param addToPath whether to add the gotten tool to PATH
+     * @param download download and extract the tool
+     */
+    public suspend inline fun load(
+        name: String,
+        version: String,
+        arch: String? = null,
+        addToPath: Boolean = false,
+        download: (version: String) -> Path
+    ): Path {
+        val toolPath = find(name, version, arch) ?: download(version).also {
+            cacheDir(it, name, version, arch)
+        }
+        if (addToPath) {
+            PATH += toolPath
+        }
+        return toolPath
+    }
 }
