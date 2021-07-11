@@ -2,6 +2,8 @@
 
 # Next
 
+# 1.4.1
+
 * Update serialization to `1.2.2` and coroutines to `1.5.1`.
 * Add wrappers for `@actions/tool-cache`
 * Add `Path.deleteRecursively()`.
