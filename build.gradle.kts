@@ -13,7 +13,7 @@ plugins {
 
 allprojects {
     group = "com.github.rnett.ktjs-github-action"
-    version = "1.4.1"
+    version = "1.4.2-SNAPSHOT"
 
     val serializationVersion by extra("1.2.2")
     val kotlinxNodeJSVersion by extra("0.0.7")
