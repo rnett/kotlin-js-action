@@ -1,6 +1,8 @@
 package com.rnett.action.core
 
 import com.rnett.action.currentProcess
+import com.rnett.action.delegates.ifNull
+import com.rnett.action.delegates.isTrue
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
@@ -80,3 +82,8 @@ public inline fun <R> runOrLogException(finally: () -> Unit = {}, flush: Boolean
             println()
     }
 }
+
+/**
+ * `true` if the current environment is a GitHub actions runner.
+ */
+public val isActionRunner: Boolean by env("GITHUB_ACTIONS").isTrue().ifNull { false }

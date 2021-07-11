@@ -26,6 +26,10 @@ Wrappers for [@actions/glob](https://github.com/actions/toolkit/blob/main/packag
 
 Wrappers for [@actions/io](https://github.com/actions/toolkit/blob/main/packages/io).
 
+# Package com.rnett.action.tool-cache
+
+Wrappers for [@actions/tool-cache](https://github.com/actions/toolkit/blob/main/packages/tool-cache).
+
 # Package com.rnett.action.httpclient
 
 Wrappers for [@actions/http-client](https://github.com/actions/http-client).

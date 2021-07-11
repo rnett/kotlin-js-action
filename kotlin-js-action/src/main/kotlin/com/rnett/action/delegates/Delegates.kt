@@ -10,6 +10,8 @@ public abstract class Delegatable(private val camelToSnake: Boolean = false) {
     public abstract fun getRequired(name: String): String
     public abstract fun getOptional(name: String): String?
 
+    public operator open fun contains(name: String): Boolean = getOptional(name) != null
+
     protected fun String.delegateName(): String = if (camelToSnake) camelToSnakeCase() else this
 
     protected open fun delegate(name: String?): ReadOnlyProperty<Any?, String> = Delegate(name)

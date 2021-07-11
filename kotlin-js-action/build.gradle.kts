@@ -11,7 +11,7 @@ ext["niceName"] = "Kotlin JS GitHub Action SDK"
 
 val generateExternals = false
 
-private val latestVersionRegex = Regex("\"dist-tags\":\\{\"latest\":\"([^\"]+)\"\\}")
+private val latestVersionRegex = Regex("\"dist-tags\":\\{\"latest\":\"([^\"]+)\"")
 
 
 fun DependencyHandlerScope.latestNpm(
@@ -45,7 +45,7 @@ dependencies {
     implementation(latestNpm("@actions/glob", "0.2.0"))
     implementation(latestNpm("@actions/io", "1.1.1"))
     //TODO breaks dukat
-//    implementation(npm("@actions/tool-cache", "1.6.1"))
+    implementation(latestNpm("@actions/tool-cache", "1.7.1", false))
     implementation(latestNpm("@actions/github", "5.0.0"))
     implementation(latestNpm("@actions/artifact", "0.5.2"))
     implementation(latestNpm("@actions/cache", "1.0.7"))
