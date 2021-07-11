@@ -2,6 +2,7 @@ package com.rnett.action.toolcache
 
 import com.rnett.action.OperatingSystem
 import com.rnett.action.Path
+import com.rnett.action.core.logger
 import com.rnett.action.httpclient.HeaderProvider
 import com.rnett.action.httpclient.toIHeaders
 import internal.toolcache.IToolRelease
@@ -86,14 +87,10 @@ public object toolcache {
     /**
      * Extract an archive, looking at the file extension and using existing autodetection capabilities (i.e. `tar -a`) to determine the format.
      *
-     * Tries `tar -a` first, then tries [extract7z], [extractXar], or [extractZip] depending on the file name.
-     * Note that `-a` isn't actually used on Windows or Mac, since it isn't supported but is done automatically.
-     *
      * Tested on everything in [here](https://github.com/rnett/kotlin-js-action/tree/main/kotlin-js-action/src/test/resources/archives):
      * * `.7z` (Windows only)
      * * `.tar`
      * * `.zip`
-     * * `.7z`
      * * `.tar.gz`
      * * `.tar.bz2`
      *
@@ -102,17 +99,16 @@ public object toolcache {
      */
     public suspend fun extract(file: Path, dest: Path? = null): Path {
         require(file.exists) { "File $file does not exist" }
-        return try {
-            if (OperatingSystem.isLinux)
-                extractTar(file, dest, "xa")
-            else
-                extractTar(file, dest, "x")
-        } catch (t: Throwable) {
-            when {
-                file.name.endsWith(".7z") -> extract7z(file, dest)
-                file.name.endsWith(".xar") -> extractXar(file, dest)
-                file.name.endsWith(".zip") -> extractZip(file, dest)
-                else -> throw IllegalStateException("Can't detect archive format from $file, and tar -a did not work", t)
+        return when {
+            file.name.endsWith(".7z") -> extract7z(file, dest)
+            file.name.endsWith(".xar") -> extractXar(file, dest)
+            file.name.endsWith(".zip") -> extractZip(file, dest)
+            else -> {
+                logger.info("Could not detect archive format of $file, trying tar")
+                if (OperatingSystem.isLinux)
+                    extractTar(file, dest, "xa")
+                else
+                    extractTar(file, dest, "x")
             }
         }
     }
@@ -164,8 +160,8 @@ public object toolcache {
      * @param toolName  name of the tool
      * @param arch      optional arch.  defaults to arch of computer
      */
-    public fun findAllVersions(toolName: String, arch: String? = null): List<Path> =
-        internal.toolcache.findAllVersions(toolName, arch).map(::Path)
+    public fun findAllVersions(toolName: String, arch: String? = null): List<String> =
+        internal.toolcache.findAllVersions(toolName, arch).toList()
 
     public suspend fun getManifestFromRepo(owner: String, repo: String, auth: String? = null, branch: String = "master"): List<IToolRelease> =
         internal.toolcache.getManifestFromRepo(owner, repo, auth, branch).await().toList()

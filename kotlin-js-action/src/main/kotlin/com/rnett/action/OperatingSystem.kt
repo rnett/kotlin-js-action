@@ -24,31 +24,41 @@ public enum class OperatingSystem {
         /**
          * Whether the current OS is Windows
          */
-        public val isWindows: Boolean get() = current == Windows
+        public inline val isWindows: Boolean get() = current == Windows
 
         /**
          * Whether the current OS is Max
          */
-        public val isMac: Boolean get() = current == Mac
+        public inline val isMac: Boolean get() = current == Mac
 
         /**
          * Whether the current OS is Linux
          */
-        public val isLinux: Boolean get() = current == Linux
+        public inline val isLinux: Boolean get() = current == Linux
 
         /**
          * Whether the current OS is POSIX compliant, i.e. Linux or Mac
          */
-        public val isPosix: Boolean get() = !isWindows
+        public inline val isPosix: Boolean get() = !isWindows
 
         /**
          * The line separator of the current operating system
          */
-        public val lineSeparator: String get() = os.EOL
+        public inline val lineSeparator: String get() = os.EOL
 
         /**
          * Get the current OS's path seperator
          */
-        public val pathSeperator: String get() = path.sep
+        public inline val pathSeperator: String get() = path.sep
+
+        /**
+         * Get [os.arch].
+         */
+        public inline val arch: String get() = os.arch()
+
+        /**
+         * Get [os.platform]
+         */
+        public inline val platform: String get() = os.platform()
     }
 }
