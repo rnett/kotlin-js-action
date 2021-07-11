@@ -87,7 +87,7 @@ public object toolcache {
      * Extract an archive, looking at the file extension and using existing autodetection capabilities (i.e. `tar -a`) to determine the format.
      *
      * Tries `tar -x` first, then tries [extract7z], [extractXar], or [extractZip] depending on the file name.
-     * Note that `-a` isn't actually used on Windows, since it isn't supported, but is done automatically.
+     * Note that `-a` isn't actually used on Windows or Mac, since it isn't supported, but is done automatically.
      *
      * @param file     path to the archive
      * @param dest     destination directory. Will be a temp directory if `null`.
@@ -95,10 +95,10 @@ public object toolcache {
     public suspend fun extract(file: Path, dest: Path? = null): Path {
         require(file.exists) { "File $file does not exist" }
         return try {
-            if (OperatingSystem.isWindows)
-                extractTar(file, dest, "x")
-            else
+            if (OperatingSystem.isLinux)
                 extractTar(file, dest, "xa")
+            else
+                extractTar(file, dest, "x")
         } catch (t: Throwable) {
             when {
                 file.name.endsWith(".7z") -> extract7z(file, dest)

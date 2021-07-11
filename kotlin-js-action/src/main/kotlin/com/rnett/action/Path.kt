@@ -298,6 +298,11 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
+     * Delete this path recursively.
+     */
+    public suspend fun deleteRecursively(): Unit = delete(true)
+
+    /**
      * Copy this file or directory **into** [destDir], creating it if it does not exist.
      * Note that this differs from `cp` which will sometimes copy into.
      *

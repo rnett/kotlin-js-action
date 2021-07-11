@@ -1,5 +1,6 @@
 package com.rnett.action
 
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
@@ -9,6 +10,7 @@ import stream.internal
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+@OptIn(DelicateCoroutinesApi::class)
 class TestStreamUtils {
 
     @Test
