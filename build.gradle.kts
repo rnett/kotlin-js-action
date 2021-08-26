@@ -1,14 +1,14 @@
 buildscript {
     dependencies {
-        classpath("org.jetbrains.dokka:versioning-plugin:1.4.32")
+        classpath("org.jetbrains.dokka:versioning-plugin:1.5.0")
     }
 }
 plugins {
-    kotlin("js") version "1.5.20" apply false
-    kotlin("jvm") version "1.5.20" apply false
+    kotlin("js") version "1.5.30" apply false
+    kotlin("jvm") version "1.5.30" apply false
     id("com.vanniktech.maven.publish") version "0.17.0" apply false
     id("org.jetbrains.dokka") version "1.5.0"
-    kotlin("plugin.serialization") version "1.5.20" apply false
+    kotlin("plugin.serialization") version "1.5.30" apply false
 }
 
 allprojects {
