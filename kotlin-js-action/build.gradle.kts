@@ -76,8 +76,8 @@ kotlin {
     explicitApi()
     sourceSets.all {
         languageSettings.apply {
-            useExperimentalAnnotation("kotlin.contracts.ExperimentalContracts")
-            useExperimentalAnnotation("kotlin.RequiresOptIn")
+            optIn("kotlin.contracts.ExperimentalContracts")
+            optIn("kotlin.RequiresOptIn")
         }
     }
 }
