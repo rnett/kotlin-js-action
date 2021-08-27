@@ -1,0 +1,13 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.rnett.action////PointingToDeclaration/-kotlin -j-s -git-hub -action -gradle -plugin/com.rnett.action/index.html
+$dokka.location:com.rnett.action//addWebpackGenTask/org.gradle.api.Project#/PointingToDeclaration/-kotlin -j-s -git-hub -action -gradle -plugin/com.rnett.action/add-webpack-gen-task.html
+$dokka.location:com.rnett.action//autoBuildWorkflowTask/org.gradle.api.Project#kotlin.String#kotlin.String#kotlin.String#kotlin.String#kotlin.String#java.io.File#kotlin.Function1[org.gradle.api.Task,kotlin.Unit]/PointingToDeclaration/-kotlin -j-s -git-hub -action -gradle -plugin/com.rnett.action/auto-build-workflow-task.html
+$dokka.location:com.rnett.action//generateAutoBuildWorkflow/#java.io.File#kotlin.String#kotlin.String#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/-kotlin -j-s -git-hub -action -gradle -plugin/com.rnett.action/generate-auto-build-workflow.html
+$dokka.location:com.rnett.action//generateAutoBuildWorkflow/org.gradle.api.Project#kotlin.String#kotlin.String#kotlin.String#kotlin.String#kotlin.String#java.io.File/PointingToDeclaration/-kotlin -j-s -git-hub -action -gradle -plugin/com.rnett.action/generate-auto-build-workflow.html
+$dokka.location:com.rnett.action//githubAction/org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl#java.io.File/PointingToDeclaration/-kotlin -j-s -git-hub -action -gradle -plugin/com.rnett.action/github-action.html
+$dokka.location:com.rnett.action/GithubActionPlugin///PointingToDeclaration/-kotlin -j-s -git-hub -action -gradle -plugin/com.rnett.action/-github-action-plugin/index.html
+$dokka.location:com.rnett.action/GithubActionPlugin/GithubActionPlugin/#/PointingToDeclaration/-kotlin -j-s -git-hub -action -gradle -plugin/com.rnett.action/-github-action-plugin/-github-action-plugin.html
+$dokka.location:com.rnett.action/GithubActionPlugin/apply/#org.gradle.api.Project/PointingToDeclaration/-kotlin -j-s -git-hub -action -gradle -plugin/com.rnett.action/-github-action-plugin/apply.html
+com.rnett.action
+
