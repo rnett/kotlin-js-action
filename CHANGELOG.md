@@ -2,6 +2,8 @@
 
 ## Next
 
+## 1.4.3
+
 Non-breaking:
 
 * Update `@actions/core` to 1.5.0.
