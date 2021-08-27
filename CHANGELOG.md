@@ -2,11 +2,21 @@
 
 ## Next
 
+Non-breaking:
+
+* Update `@actions/core` to 1.5.0.
+  * Add `notice` logging methods.
+  * Add `AnnotationProperties` and annotation producing overloads for `notice`, `warning`, and `error`.
+
 ## 1.4.2
+
+Non-breaking:
 
 * Update Kotlin to 1.5.30.
 
 ## 1.4.1
+
+Non-breaking:
 
 * Update serialization to `1.2.2` and coroutines to `1.5.1`.
 * Add wrappers for `@actions/tool-cache`
