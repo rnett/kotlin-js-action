@@ -25,6 +25,24 @@ internal external enum class ExitCode {
     Failure /* = 1 */
 }
 
+internal external interface AnnotationProperties {
+    var title: String?
+        get() = definedExternally
+        set(value) = definedExternally
+    var startLine: Number?
+        get() = definedExternally
+        set(value) = definedExternally
+    var endLine: Number?
+        get() = definedExternally
+        set(value) = definedExternally
+    var startColumn: Number?
+        get() = definedExternally
+        set(value) = definedExternally
+    var endColumn: Number?
+        get() = definedExternally
+        set(value) = definedExternally
+}
+
 internal external fun exportVariable(name: String, param_val: Any)
 
 internal external fun setSecret(secret: String)
@@ -49,13 +67,29 @@ internal external fun isDebug(): Boolean
 
 internal external fun debug(message: String)
 
+internal external fun error(message: String, properties: AnnotationProperties = definedExternally)
+
 internal external fun error(message: String)
+
+internal external fun error(message: Throwable, properties: AnnotationProperties = definedExternally)
 
 internal external fun error(message: Throwable)
 
+internal external fun warning(message: String, properties: AnnotationProperties = definedExternally)
+
 internal external fun warning(message: String)
 
+internal external fun warning(message: Throwable, properties: AnnotationProperties = definedExternally)
+
 internal external fun warning(message: Throwable)
+
+internal external fun notice(message: String, properties: AnnotationProperties = definedExternally)
+
+internal external fun notice(message: String)
+
+internal external fun notice(message: Throwable, properties: AnnotationProperties = definedExternally)
+
+internal external fun notice(message: Throwable)
 
 internal external fun info(message: String)
 

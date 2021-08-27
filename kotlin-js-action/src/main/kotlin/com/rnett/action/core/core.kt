@@ -139,6 +139,36 @@ public object core {
     @Deprecated("Use log.warning", ReplaceWith("log.warning(exception)", "com.rnett.action.core.log"))
     public fun warning(exception: Throwable): Unit = internal.core.warning(exception)
 
+    @Deprecated("Use log.notice", ReplaceWith("log.notice(message)", "com.rnett.action.core.log"))
+    public fun notice(message: String): Unit = internal.core.notice(message)
+
+    @Deprecated("Use log.notice", ReplaceWith("log.notice(exception)", "com.rnett.action.core.log"))
+    public fun notice(exception: Throwable): Unit = internal.core.notice(exception)
+
+    @Deprecated("Use log.error", ReplaceWith("log.error(message)", "com.rnett.action.core.log"))
+    public fun error(message: String, annotationProperties: AnnotationProperties): Unit =
+        internal.core.error(message, annotationProperties.toJsObject())
+
+    @Deprecated("Use log.error", ReplaceWith("log.error(exception)", "com.rnett.action.core.log"))
+    public fun error(exception: Throwable, annotationProperties: AnnotationProperties): Unit =
+        internal.core.error(exception, annotationProperties.toJsObject())
+
+    @Deprecated("Use log.warning", ReplaceWith("log.warning(message)", "com.rnett.action.core.log"))
+    public fun warning(message: String, annotationProperties: AnnotationProperties): Unit =
+        internal.core.warning(message, annotationProperties.toJsObject())
+
+    @Deprecated("Use log.warning", ReplaceWith("log.warning(exception)", "com.rnett.action.core.log"))
+    public fun warning(exception: Throwable, annotationProperties: AnnotationProperties): Unit =
+        internal.core.warning(exception, annotationProperties.toJsObject())
+
+    @Deprecated("Use log.notice", ReplaceWith("log.notice(message)", "com.rnett.action.core.log"))
+    public fun notice(message: String, annotationProperties: AnnotationProperties): Unit =
+        internal.core.notice(message, annotationProperties.toJsObject())
+
+    @Deprecated("Use log.notice", ReplaceWith("log.notice(exception)", "com.rnett.action.core.log"))
+    public fun notice(exception: Throwable, annotationProperties: AnnotationProperties): Unit =
+        internal.core.notice(exception, annotationProperties.toJsObject())
+
     @Suppress("DeprecatedCallableAddReplaceWith")
     @Deprecated("Use log.withGroup")
     public fun startGroup(name: String): Unit = internal.core.startGroup(name)

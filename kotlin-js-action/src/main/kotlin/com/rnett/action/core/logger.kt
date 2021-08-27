@@ -3,6 +3,7 @@ package com.rnett.action.core
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
+
 /**
  * Methods to log to the GitHub action log.
  *
@@ -36,6 +37,28 @@ public object logger {
     public fun info(message: String): Unit = core.info(message)
 
     /**
+     * Log a notice message.
+     */
+    public fun notice(message: String): Unit = core.notice(message)
+
+    /**
+     * Log [exception] as a notice message.
+     */
+    public fun notice(exception: Throwable): Unit = core.notice(exception)
+
+    /**
+     * Log a notice message.
+     */
+    public fun notice(message: String, annotationProperties: AnnotationProperties): Unit =
+        core.notice(message, annotationProperties)
+
+    /**
+     * Log [exception] as a notice message.
+     */
+    public fun notice(exception: Throwable, annotationProperties: AnnotationProperties): Unit =
+        core.notice(exception, annotationProperties)
+
+    /**
      * Log a warning message.
      */
     public fun warning(message: String): Unit = core.warning(message)
@@ -46,6 +69,18 @@ public object logger {
     public fun warning(exception: Throwable): Unit = core.warning(exception)
 
     /**
+     * Log a warning message.
+     */
+    public fun warning(message: String, annotationProperties: AnnotationProperties): Unit =
+        core.warning(message, annotationProperties)
+
+    /**
+     * Log [exception] as a warning message.
+     */
+    public fun warning(exception: Throwable, annotationProperties: AnnotationProperties): Unit =
+        core.warning(exception, annotationProperties)
+
+    /**
      * Log an error message.
      */
     public fun error(message: String): Unit = core.error(message)
@@ -54,6 +89,18 @@ public object logger {
      * Log [exception] as an error message.
      */
     public fun error(exception: Throwable): Unit = core.error(exception)
+
+    /**
+     * Log an error message.
+     */
+    public fun error(message: String, annotationProperties: AnnotationProperties): Unit =
+        core.error(message, annotationProperties)
+
+    /**
+     * Log [exception] as an error message.
+     */
+    public fun error(exception: Throwable, annotationProperties: AnnotationProperties): Unit =
+        core.error(exception, annotationProperties)
 
     /**
      * Log a fatal message.  This logs the message as an error and then sets failure.

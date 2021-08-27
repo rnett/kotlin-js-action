@@ -40,7 +40,7 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-nodejs:$kotlinxNodeJSVersion")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
 
-    implementation(latestNpm("@actions/core", "1.4.0"))
+    implementation(latestNpm("@actions/core", "1.5.0"))
     implementation(latestNpm("@actions/exec", "1.1.0"))
     implementation(latestNpm("@actions/glob", "0.2.0"))
     implementation(latestNpm("@actions/io", "1.1.1"))
