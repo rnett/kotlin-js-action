@@ -54,11 +54,17 @@ jobs:
           TEST_ENV_os: ${{ matrix.os-name }}
           RUNNER_DEBUG: 1
         with:
+          gradle-home-cache-includes: |
+            nodejs
+            yarn
           arguments: check
 
       - name: Build test action
         uses: gradle/gradle-build-action@v2
         with:
+          gradle-home-cache-includes: |
+            nodejs
+            yarn
           build-root-directory: ./test-action
           arguments: assemble
 
@@ -180,6 +186,9 @@ jobs:
           ORG_GRADLE_PROJECT_sonatypeRepositoryId: ${{ needs.create_staging_repository.outputs.repository_id }}
           GRADLE_OPTS: -Xmx2048m -XX:MaxPermSize=512m
         with:
+          gradle-home-cache-includes: |
+            nodejs
+            yarn
           arguments: publish generateReadme dokkaHtmlMultiModule -PsourceLinkBranch=$GITHUB_SHA -PoldVersionsDir=past-docs/old-releases
 
       - name: Publish docs
