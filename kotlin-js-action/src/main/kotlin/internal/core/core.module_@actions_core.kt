@@ -41,6 +41,9 @@ internal external interface AnnotationProperties {
     var endColumn: Number?
         get() = definedExternally
         set(value) = definedExternally
+    var file: String?
+        get() = definedExternally
+        set(value) = definedExternally
 }
 
 internal external fun exportVariable(name: String, param_val: Any)
@@ -102,3 +105,5 @@ internal external fun <T> group(name: String, fn: () -> Promise<T>): Promise<T>
 internal external fun saveState(name: String, value: Any)
 
 internal external fun getState(name: String): String
+
+internal external fun getIDToken(aud: String?): Promise<String>

@@ -5,6 +5,7 @@ import com.rnett.action.JsObject
 import com.rnett.action.currentProcess
 import com.rnett.action.writeLine
 import fs.`T$45`
+import kotlinx.coroutines.await
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
@@ -13,6 +14,13 @@ import kotlin.contracts.contract
  * Most are deprecated in favor of the specialized extensions.
  */
 public object core {
+
+    /**
+     * Get an OIDC ID token from the GitHub OIDC provider.
+     *
+     * This gets a JWT ID token which would help to get access token from third party cloud providers
+     */
+    public suspend fun getOIDCIDToken(audience: String? = null): String = internal.core.getIDToken(audience).await()
 
     /**
      * Issue a GitHub Action command.  Generally should not be used, most commands are wrapped.
