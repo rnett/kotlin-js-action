@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm")
+    id(libs.plugins.kotlin.jvm.get().pluginId)
     `java-gradle-plugin`
     `kotlin-dsl`
 }
@@ -16,6 +16,12 @@ kotlin {
     target {
         attributes {
             attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 8)
+        }
+    }
+    sourceSets.all {
+        languageSettings {
+            apiVersion = "1.5"
+            languageVersion = "1.5"
         }
     }
 }

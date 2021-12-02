@@ -1,9 +1,9 @@
 import java.net.URL
 
 plugins {
-    kotlin("js")
-    id("org.jetbrains.dokka")
-    kotlin("plugin.serialization")
+    id(libs.plugins.kotlin.js.get().pluginId)
+    id(libs.plugins.dokka.get().pluginId)
+    id(libs.plugins.kotlinx.serialization.get().pluginId)
 }
 
 description = "Support for Kotlinx serialization use with GitHub APIs"
@@ -14,7 +14,7 @@ val serializationVersion: String by extra
 dependencies {
     testImplementation(kotlin("test"))
 
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
+    api(libs.kotlinx.serialization.json)
     implementation(project(":kotlin-js-action"))
 }
 

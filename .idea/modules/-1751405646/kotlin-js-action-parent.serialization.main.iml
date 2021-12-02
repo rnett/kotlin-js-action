@@ -6,7 +6,7 @@
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
         <productionOutputPath>$MODULE_DIR$/../../../serialization/build/classes/kotlin/main</productionOutputPath>
         <compilerSettings>
-          <option name="additionalArguments" value="-Xir-module-name=com.github.rnett.ktjs-github-action:serialization -Xir-only -Xir-produce-klib-dir -Xexplicit-api=strict -Xopt-in=kotlin.contracts.ExperimentalContracts,kotlin.RequiresOptIn" />
+          <option name="additionalArguments" value="-Xir-module-name=com.github.rnett.ktjs-github-action:serialization -Xir-only -Xir-produce-klib-dir -Xexplicit-api=strict" />
         </compilerSettings>
         <compilerArguments>
           <flagArguments>
@@ -20,16 +20,16 @@
             <stringArg name="outputFile" arg="$MODULE_DIR$/../../../serialization/build/classes/kotlin/main" />
             <stringArg name="sourceMapEmbedSources" arg="never" />
             <stringArg name="target" arg="v5" />
-            <stringArg name="apiVersion" arg="1.5" />
-            <stringArg name="languageVersion" arg="1.5" />
+            <stringArg name="apiVersion" arg="1.6" />
+            <stringArg name="languageVersion" arg="1.6" />
           </stringArguments>
           <arrayArguments>
             <arrayArg name="pluginClasspaths">
               <args>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.5.30/683e73676bf71febc11f5d0a47987063e3317884/kotlin-gradle-plugin-api-1.5.30.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-native-utils/1.5.30/4440710d4ed3d1669e6e3f6a94b3e0f50af053ff/kotlin-native-utils-1.5.30.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-project-model/1.5.30/7cf599c528f1db23213ba0cd962030737272d170/kotlin-project-model-1.5.30.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-util-io/1.5.30/1744fb2d8754678ddb404957f37987bdeac3bfc5/kotlin-util-io-1.5.30.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.6.0/524ea6e28666daf17ca7e50bba69c3b77f08f233/kotlin-gradle-plugin-api-1.6.0.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-native-utils/1.6.0/f61b5e8b25b7422d7b7c6eb1721e6e190538cc0b/kotlin-native-utils-1.6.0.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-project-model/1.6.0/da356988c4cc873419f9c59168554ed1907cb879/kotlin-project-model-1.6.0.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-util-io/1.6.0/c985815174d49d43f07665c7583c824ea9d6edb6/kotlin-util-io-1.6.0.jar</arg>
                 <arg>$APPLICATION_HOME_DIR$/jbr/bin/&lt;no_path&gt;/lib/kotlinx-serialization-compiler-plugin.jar</arg>
               </args>
             </arrayArg>

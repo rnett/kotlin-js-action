@@ -6,7 +6,7 @@
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
         <productionOutputPath>$MODULE_DIR$/../../../kotlin-js-action/build/classes/kotlin/main</productionOutputPath>
         <compilerSettings>
-          <option name="additionalArguments" value="-Xir-module-name=com.github.rnett.ktjs-github-action:kotlin-js-action -Xir-only -Xir-produce-klib-dir -Xexplicit-api=strict -Xopt-in=kotlin.contracts.ExperimentalContracts,kotlin.RequiresOptIn" />
+          <option name="additionalArguments" value="-Xir-module-name=com.github.rnett.ktjs-github-action:kotlin-js-action -Xir-only -Xir-produce-klib-dir -Xexplicit-api=strict" />
         </compilerSettings>
         <compilerArguments>
           <flagArguments>
@@ -20,8 +20,8 @@
             <stringArg name="outputFile" arg="$MODULE_DIR$/../../../kotlin-js-action/build/classes/kotlin/main" />
             <stringArg name="sourceMapEmbedSources" arg="never" />
             <stringArg name="target" arg="v5" />
-            <stringArg name="apiVersion" arg="1.5" />
-            <stringArg name="languageVersion" arg="1.5" />
+            <stringArg name="apiVersion" arg="1.6" />
+            <stringArg name="languageVersion" arg="1.6" />
           </stringArguments>
           <arrayArguments>
             <arrayArg name="pluginClasspaths" />

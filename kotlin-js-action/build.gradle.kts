@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.targets.js.npm.NpmDependency
 import java.net.URL
 
 plugins {
-    kotlin("js")
-    id("org.jetbrains.dokka")
+    id(libs.plugins.kotlin.js.get().pluginId)
+    id(libs.plugins.dokka.get().pluginId)
 }
 
 description = "Utilities for writing Kotlin JS GitHub actions, including wrappers around @actions/toolkit"
@@ -37,8 +37,8 @@ val coroutinesVersion: String by extra
 dependencies {
     testImplementation(kotlin("test"))
 
-    api("org.jetbrains.kotlinx:kotlinx-nodejs:$kotlinxNodeJSVersion")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    api(libs.kotlinx.coroutines.core)
+    api(libs.kotlinx.nodejs)
 
     implementation(latestNpm("@actions/core", "1.5.0"))
     implementation(latestNpm("@actions/exec", "1.1.0"))

@@ -1,23 +1,20 @@
 buildscript {
     dependencies {
-        classpath("org.jetbrains.dokka:versioning-plugin:1.5.0")
+        classpath(libs.dokka.versioning)
     }
 }
 plugins {
-    kotlin("js") version "1.5.30" apply false
-    kotlin("jvm") version "1.5.30" apply false
-    id("com.vanniktech.maven.publish") version "0.17.0" apply false
-    id("org.jetbrains.dokka") version "1.5.0"
-    kotlin("plugin.serialization") version "1.5.30" apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.js) apply false
+
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.publish) apply false
+    alias(libs.plugins.kotlinx.serialization) apply false
 }
 
 allprojects {
     group = "com.github.rnett.ktjs-github-action"
-    version = "1.4.4-SNAPSHOT"
-
-    val serializationVersion by extra("1.2.2")
-    val kotlinxNodeJSVersion by extra("0.0.7")
-    val coroutinesVersion by extra("1.5.1")
+    version = "1.5.0-SNAPSHOT"
 
     repositories {
         mavenCentral()
