@@ -10,8 +10,7 @@ import com.rnett.action.httpclient.decodeBase64
 import com.rnett.action.httpclient.encodeBase64
 import com.rnett.action.httpclient.use
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.promise
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -77,10 +76,10 @@ class TestHttpClient : TestWithDir() {
     }
 
     @Test
-    fun testGet() = GlobalScope.promise { testHelper(HttpClient::get) }
+    fun testGet() = runTest { testHelper(HttpClient::get) }
 
     @Test
-    fun testUserAgent() = GlobalScope.promise {
+    fun testUserAgent() = runTest {
         HttpClient {
             userAgent = "test"
         }.use { client ->
@@ -91,7 +90,7 @@ class TestHttpClient : TestWithDir() {
     }
 
     @Test
-    fun testHeaders() = GlobalScope.promise {
+    fun testHeaders() = runTest {
         HttpClient {
             header("test1", "testData1")
             handler {
@@ -110,13 +109,13 @@ class TestHttpClient : TestWithDir() {
     }
 
     @Test
-    fun testOptions() = GlobalScope.promise { testHelper(HttpClient::options) }
+    fun testOptions() = runTest { testHelper(HttpClient::options) }
 
     @Test
-    fun testDel() = GlobalScope.promise { testHelper(HttpClient::del) }
+    fun testDel() = runTest { testHelper(HttpClient::del) }
 
     @Test
-    fun testHead() = GlobalScope.promise { testHelper(HttpClient::head, false) }
+    fun testHead() = runTest { testHelper(HttpClient::head, false) }
 
     @Test
     fun testBase64() {
@@ -127,7 +126,7 @@ class TestHttpClient : TestWithDir() {
     }
 
     @Test
-    fun testPost() = GlobalScope.promise {
+    fun testPost() = runTest {
         testHelper(HttpClient::post)
 
         HttpClient().use { client ->
@@ -138,7 +137,7 @@ class TestHttpClient : TestWithDir() {
     }
 
     @Test
-    fun testPostStreaming() = GlobalScope.promise {
+    fun testPostStreaming() = runTest {
         HttpClient().use { client ->
             val file = testDir / "file"
             file.write("Test")
@@ -150,7 +149,7 @@ class TestHttpClient : TestWithDir() {
     }
 
     @Test
-    fun testPatch() = GlobalScope.promise {
+    fun testPatch() = runTest {
         testHelper(HttpClient::patch)
 
         HttpClient().use { client ->
@@ -161,7 +160,7 @@ class TestHttpClient : TestWithDir() {
     }
 
     @Test
-    fun testPut() = GlobalScope.promise {
+    fun testPut() = runTest {
         testHelper(HttpClient::put)
 
         HttpClient().use { client ->
@@ -172,7 +171,7 @@ class TestHttpClient : TestWithDir() {
     }
 
     @Test
-    fun testBasicAuth() = GlobalScope.promise {
+    fun testBasicAuth() = runTest {
         HttpClient {
             handler(BasicAuthHandler("test", "test"))
         }.use { client ->
@@ -181,7 +180,7 @@ class TestHttpClient : TestWithDir() {
     }
 
     @Test
-    fun testBearerAuth() = GlobalScope.promise {
+    fun testBearerAuth() = runTest {
         HttpClient {
             handler(BearerAuthHandler("test"))
         }.use { client ->
@@ -190,7 +189,7 @@ class TestHttpClient : TestWithDir() {
     }
 
     @Test
-    fun testPATAuth() = GlobalScope.promise {
+    fun testPATAuth() = runTest {
         HttpClient {
         }.use { client ->
             assertEquals(

@@ -13,6 +13,7 @@ val serializationVersion: String by extra
 
 dependencies {
     testImplementation(kotlin("test"))
+    testImplementation(libs.kotlinx.coroutines.test)
 
     api(libs.kotlinx.serialization.json)
     implementation(project(":kotlin-js-action"))

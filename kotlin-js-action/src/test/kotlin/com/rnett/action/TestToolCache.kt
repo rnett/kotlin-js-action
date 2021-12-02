@@ -3,8 +3,7 @@ package com.rnett.action
 import com.rnett.action.core.isActionRunner
 import com.rnett.action.toolcache.toolcache
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.promise
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -16,7 +15,7 @@ class TestToolCache : TestWithDir() {
     suspend fun localLicense() = (Path(TestEnv.testCwd) / "LICENSE").readText().replace("\r\n", "\n")
 
     @Test
-    fun testDownload() = GlobalScope.promise {
+    fun testDownload() = runTest {
         val resultFile = testDir / "testLicense"
         val result = toolcache.downloadTool(licenseUrl, resultFile)
         assertEquals(result, resultFile)
@@ -29,7 +28,7 @@ class TestToolCache : TestWithDir() {
     }
 
     @Test
-    fun testExtract() = GlobalScope.promise {
+    fun testExtract() = runTest {
         val archivesDir = Path(TestEnv.testCwd) / "kotlin-js-action/src/test/resources/archives"
         val extractedDir = testDir / "testExtract"
         archivesDir.children.forEach {
@@ -44,8 +43,8 @@ class TestToolCache : TestWithDir() {
     }
 
     @Test
-    fun testCacheDir() = GlobalScope.promise {
-        if (!isActionRunner) return@promise
+    fun testCacheDir() = runTest {
+        if (!isActionRunner) return@runTest
 
         val dir = testDir / "cacheDir"
         toolcache.downloadTool(licenseUrl, dir / "test")
@@ -60,8 +59,8 @@ class TestToolCache : TestWithDir() {
     }
 
     @Test
-    fun testCacheFile() = GlobalScope.promise {
-        if (!isActionRunner) return@promise
+    fun testCacheFile() = runTest {
+        if (!isActionRunner) return@runTest
 
         toolcache.downloadTool(licenseUrl, testDir / "test")
 

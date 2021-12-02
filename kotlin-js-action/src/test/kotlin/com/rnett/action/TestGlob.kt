@@ -3,9 +3,8 @@ package com.rnett.action
 import com.rnett.action.glob.glob
 import com.rnett.action.glob.globFlow
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.promise
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -49,25 +48,25 @@ class TestGlob : TestWithDir() {
     }
 
     @Test
-    fun getFiles() = GlobalScope.promise {
+    fun getFiles() = runTest {
         val files = tryGlob("./**/file*")
         assertEquals(9, files.size)
     }
 
     @Test
-    fun byDir() = GlobalScope.promise {
+    fun byDir() = runTest {
         val files = tryGlob("./**/innerDir*")
         assertEquals(13, files.size)
     }
 
     @Test
-    fun byDirNoDirs() = GlobalScope.promise {
+    fun byDirNoDirs() = runTest {
         val files = tryGlob("./**/innerDir*", matchDirectories = false)
         assertEquals(9, files.size)
     }
 
     @Test
-    fun getDirs() = GlobalScope.promise {
+    fun getDirs() = runTest {
         val files = tryGlob("./**/innerDir*", implicitDescendants = false)
         assertEquals(4, files.size)
     }

@@ -1,10 +1,9 @@
 package com.rnett.action
 
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.promise
+import kotlinx.coroutines.test.runTest
 import stream.TransformCallback
 import stream.internal
 import kotlin.test.Test
@@ -14,7 +13,7 @@ import kotlin.test.assertEquals
 class TestStreamUtils {
 
     @Test
-    fun testStreamToFlow() = GlobalScope.promise {
+    fun testStreamToFlow() = runTest {
         val stream = internal.Transform(object : internal.TransformOptions {
             init {
                 this.writableObjectMode = true
@@ -44,7 +43,7 @@ class TestStreamUtils {
     }
 
     @Test
-    fun testObjectStream() = GlobalScope.promise {
+    fun testObjectStream() = runTest {
         val flow = flowOf(listOf(1, 2, 3), listOf(3, 4, 5))
         val stream = flow.toObjectStream(this)
         var i = 0

@@ -1,8 +1,7 @@
 package com.rnett.action
 
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.promise
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -115,7 +114,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testDelete() = GlobalScope.promise {
+    fun testDelete() = runTest {
         val dir = testDir / "delete"
         dir.mkdir()
         (dir / "file").touch()
@@ -133,7 +132,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testCopyInto() = GlobalScope.promise {
+    fun testCopyInto() = runTest {
         val destDir = testDir / "copyDest"
         destDir.mkdir()
 
@@ -157,7 +156,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testCopy() = GlobalScope.promise {
+    fun testCopy() = runTest {
         val destDir = testDir / "copyDest3"
         val source = testDir / "copySource3"
         source.mkdir()
@@ -170,7 +169,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testCopyChildren() = GlobalScope.promise {
+    fun testCopyChildren() = runTest {
         val dest = testDir / "copyDest2"
         val sourceDir = (testDir / "copy3").mkdir().apply {
             (this / "file2").write("test3")
@@ -181,7 +180,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testMoveInto() = GlobalScope.promise {
+    fun testMoveInto() = runTest {
         val destDir = testDir / "moveDest"
         destDir.mkdir()
 
@@ -208,7 +207,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testMove() = GlobalScope.promise {
+    fun testMove() = runTest {
         val destDir = testDir / "moveDest3"
         val source = testDir / "moveSource3"
         source.mkdir()
@@ -225,7 +224,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testRename() = GlobalScope.promise {
+    fun testRename() = runTest {
         val destDir = testDir / "newRename"
         val source = testDir / "reanemSource"
         source.mkdir()
@@ -241,7 +240,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testMoveChildren() = GlobalScope.promise {
+    fun testMoveChildren() = runTest {
         val dest = testDir / "moveDest2"
         val sourceDir = (testDir / "move2").mkdir().apply {
             (this / "file2").write("test3")
@@ -252,7 +251,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testPresetRead() = GlobalScope.promise {
+    fun testPresetRead() = runTest {
         assertEquals(
             "# Project exclude paths",
             Path(TestEnv.testCwd).descendant(".gitignore").readText().lines().first()
@@ -260,7 +259,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testRead() = GlobalScope.promise {
+    fun testRead() = runTest {
         val file = testDir / "readFile"
         file.write("testData")
         assertEquals("testData", file.readText())
@@ -268,7 +267,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testWrite() = GlobalScope.promise {
+    fun testWrite() = runTest {
         val textFile = testDir / "writeTextFile"
         textFile.write("testData")
         assertEquals("testData", textFile.readText())
@@ -283,7 +282,7 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testAppend() = GlobalScope.promise {
+    fun testAppend() = runTest {
         val textFile = testDir / "writeTextFile"
         textFile.write("test")
         textFile.append("Data")

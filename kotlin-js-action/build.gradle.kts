@@ -36,6 +36,7 @@ val coroutinesVersion: String by extra
 
 dependencies {
     testImplementation(kotlin("test"))
+    testImplementation(libs.kotlinx.coroutines.test)
 
     api(libs.kotlinx.coroutines.core)
     api(libs.kotlinx.nodejs)

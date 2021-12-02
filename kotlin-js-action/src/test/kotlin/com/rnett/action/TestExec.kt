@@ -3,8 +3,7 @@ package com.rnett.action
 import Buffer
 import com.rnett.action.exec.exec
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.promise
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -18,29 +17,29 @@ class TestExec : TestWithDir() {
     val diff = if (OperatingSystem.isWindows) "\r\n" else ""
 
     @Test
-    fun testExec() = GlobalScope.promise {
+    fun testExec() = runTest {
         exec.execCommand("javac", "--version")
     }
 
     @Test
-    fun testExecAndCapture() = GlobalScope.promise {
+    fun testExecAndCapture() = runTest {
         assertTrue(exec.execCommandAndCapture("javac", "--version").stdout.startsWith("javac"))
     }
 
     @Test
-    fun testExecShell() = GlobalScope.promise {
+    fun testExecShell() = runTest {
         exec.execShell("cp testFile3 testOut1", cwd = testDir)
         val file = (testDir / "testOut1")
         assertEquals("Testing file", file.readText())
     }
 
     @Test
-    fun testExecAndCaptureShell() = GlobalScope.promise {
+    fun testExecAndCaptureShell() = runTest {
         assertEquals("Testing file$diff", exec.execShellAndCapture("cat testFile3 | cat", cwd = testDir).stdout)
     }
 
     @Test
-    fun testInputRedirect() = GlobalScope.promise {
+    fun testInputRedirect() = runTest {
         if (!OperatingSystem.isWindows) {
             val output = exec.execShellAndCapture("cat", input = Buffer.from("Test"))
             assertEquals("Test", output.throwIfFailure().stdout)
@@ -48,7 +47,7 @@ class TestExec : TestWithDir() {
     }
 
     @Test
-    fun testOutputRedirect() = GlobalScope.promise {
+    fun testOutputRedirect() = runTest {
         val outputFile = (testDir / "testOut3")
         val stream = outputFile.writeStream()
         exec.execShell("echo \"Test\"", outStream = stream)
@@ -57,7 +56,7 @@ class TestExec : TestWithDir() {
     }
 
     @Test
-    fun testOutputInShellRedirect() = GlobalScope.promise {
+    fun testOutputInShellRedirect() = runTest {
         val shellDiff = if (OperatingSystem.isWindows) "\r\n" else "\n"
 
         val outputFile = (testDir / "testOut2")

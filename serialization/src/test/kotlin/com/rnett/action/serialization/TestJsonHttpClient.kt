@@ -2,9 +2,8 @@ package com.rnett.action.serialization
 
 import com.rnett.action.httpclient.use
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.promise
+import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlin.test.Test
@@ -25,7 +24,7 @@ data class TestPostResponse<T>(val json: T)
 @OptIn(DelicateCoroutinesApi::class)
 class HttpClientTest {
     @Test
-    fun testGet() = GlobalScope.promise {
+    fun testGet() = runTest {
         JsonHttpClient().use { client ->
             val response = client.get("https://httpbin.org/json")
             assertEquals(200, response.statusCode)
@@ -35,7 +34,7 @@ class HttpClientTest {
     }
 
     @Test
-    fun testPost() = GlobalScope.promise {
+    fun testPost() = runTest {
         JsonHttpClient(Json {
             this.ignoreUnknownKeys = true
         }).use { client ->
@@ -48,7 +47,7 @@ class HttpClientTest {
     }
 
     @Test
-    fun testPostStreaming() = GlobalScope.promise {
+    fun testPostStreaming() = runTest {
         JsonHttpClient(Json {
             this.ignoreUnknownKeys = true
         }).use { client ->
