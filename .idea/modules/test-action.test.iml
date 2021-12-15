@@ -8,11 +8,11 @@
         </sourceSets>
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
         <externalSystemTestTasks>
-          <externalSystemTestTask>browserTest|test-action:test|js</externalSystemTestTask>
+          <externalSystemTestTask>browserTest|:|js</externalSystemTestTask>
         </externalSystemTestTasks>
         <testOutputPath>$MODULE_DIR$/../../test-action/build/classes/kotlin/test</testOutputPath>
         <compilerSettings>
-          <option name="additionalArguments" value="-Xir-module-name=com.github.rnett.ktjs-github-action.test:test-action_test -Xir-only -Xir-produce-klib-dir" />
+          <option name="additionalArguments" value="-Xir-module-name=com.github.rnett.ktjs-github-action.test:test-action_test -Xir-only -Xir-per-module-output-name=test-action-test -Xir-produce-klib-dir" />
         </compilerSettings>
         <compilerArguments>
           <flagArguments>

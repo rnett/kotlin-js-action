@@ -2,17 +2,11 @@
 <module version="4">
   <component name="FacetManager">
     <facet type="kotlin-language" name="Kotlin">
-      <configuration version="5" platform="JavaScript " allPlatforms="JS []" useProjectSettings="false" isTestModule="true" externalProjectId=":serialization">
-        <sourceSets>
-          <sourceSet>kotlin-js-action-parent.serialization.main</sourceSet>
-        </sourceSets>
+      <configuration version="5" platform="JavaScript " allPlatforms="JS []" useProjectSettings="false" isTestModule="false" externalProjectId=":serialization">
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
-        <externalSystemTestTasks>
-          <externalSystemTestTask>nodeTest|:serialization|js</externalSystemTestTask>
-        </externalSystemTestTasks>
-        <testOutputPath>$MODULE_DIR$/../../../serialization/build/classes/kotlin/test</testOutputPath>
+        <productionOutputPath>$MODULE_DIR$/../../../serialization/build/classes/kotlin/main</productionOutputPath>
         <compilerSettings>
-          <option name="additionalArguments" value="-Xir-module-name=com.github.rnett.ktjs-github-action:serialization_test -Xir-only -Xir-per-module-output-name=kotlin-js-action-parent-serialization-test -Xir-produce-klib-dir -opt-in kotlin.contracts.ExperimentalContracts,kotlin.RequiresOptIn" />
+          <option name="additionalArguments" value="-Xir-module-name=com.github.rnett.ktjs-github-action:serialization -Xir-only -Xir-per-module-output-name=kotlin-js-action-parent-serialization -Xir-produce-klib-dir -Xexplicit-api=strict -opt-in kotlin.contracts.ExperimentalContracts,kotlin.RequiresOptIn" />
         </compilerSettings>
         <compilerArguments>
           <flagArguments>
@@ -23,7 +17,7 @@
           <stringArguments>
             <stringArg name="main" arg="call" />
             <stringArg name="moduleKind" arg="commonjs" />
-            <stringArg name="outputFile" arg="$MODULE_DIR$/../../../serialization/build/classes/kotlin/test" />
+            <stringArg name="outputFile" arg="$MODULE_DIR$/../../../serialization/build/classes/kotlin/main" />
             <stringArg name="sourceMapEmbedSources" arg="never" />
             <stringArg name="target" arg="v5" />
             <stringArg name="apiVersion" arg="1.6" />
