@@ -52,7 +52,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
         env:
           TEST_ENV_os: ${{ matrix.os-name }}
-          RUNNER_DEBUG: 1
         with:
           gradle-home-cache-includes: |
             nodejs
@@ -71,7 +70,6 @@ jobs:
       - name: Run test action
         uses: ./.github/actions/test-action
         env:
-          RUNNER_DEBUG: 1
           test-env: test2
         with:
           required-input: required-test

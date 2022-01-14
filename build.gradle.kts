@@ -14,7 +14,7 @@ plugins {
 
 allprojects {
     group = "com.github.rnett.ktjs-github-action"
-    version = "1.5.0"
+    version = "1.5.1-SNAPSHOT"
 
     repositories {
         mavenCentral()
