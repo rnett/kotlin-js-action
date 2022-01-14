@@ -2,6 +2,18 @@
 
 ## Next
 
+## 1.5.0
+
+Breaking:
+
+* Update Kotlin to 1.6.10
+* Update Kotlinx coroutines to 1.6.0
+* Update Kotlinx serialization to 1.3.2
+
+Non-breaking:
+
+* Update `@actions/artifact` to 0.6.1
+
 ## 1.4.3
 
 Non-breaking:
