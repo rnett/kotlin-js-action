@@ -2,39 +2,40 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>downloadTool</title>
-</head><body><link href="../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script><script type="text/javascript" src="../../../scripts/main.js" async></script>
+</head><body><link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script><script type="text/javascript" src="../../../scripts/main.js" defer></script><script type="text/javascript" src="../../../scripts/prism.js" async></script><script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+
   
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../../index.html"><span>Kotlin/JS GitHub Actions SDK</span></a></div>
+      <div>1.5.0-SNAPSHOT</div>
+      <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
     <div id="container">
-      <div id="leftColumn"><a href="../../../index.html">
-            <div id="logo"></div>
-          </a>
-        <div id="paneSearch"></div>
+      <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <script type="text/javascript" src="../../../scripts/main.js"></script><div id="leftToggler"><span class="icon-toggler"></span></div>
-
         <div class="main-content" id="content" pageids="Kotlin JS GitHub Action SDK::com.rnett.action.toolcache/toolcache/downloadTool/#kotlin.String#com.rnett.action.Path?#kotlin.String?#com.rnett.action.httpclient.HeaderProvider/PointingToDeclaration//-1946120816">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../index.html">Kotlin JS GitHub Action SDK</a>/<a href="../index.html">com.rnett.action.toolcache</a>/<a href="index.html">toolcache</a>/<a href="download-tool.html">downloadTool</a></div>
-            <div class="pull-right d-flex">
-              <div id="searchBar"></div>
-            </div>
-          </div>
+          <div class="breadcrumbs"><a href="../../index.html">Kotlin JS GitHub Action SDK</a>/<a href="../index.html">com.rnett.action.toolcache</a>/<a href="index.html">toolcache</a>/<a href="download-tool.html">downloadTool</a></div>
           <div class="cover ">
-            <h1 class="cover"><span>download</span><wbr><span>Tool</span></h1>
+            <h1 class="cover"><span>download</span><wbr><span><span>Tool</span></span></h1>
           </div>
-<div class="divergent-group" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace">suspend fun <a href="download-tool.html">downloadTool</a>(url: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, dest: <a href="../../com.rnett.action/-path/index.html">Path</a>? = null, auth: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>? = null, headers: <a href="../../com.rnett.action.httpclient/-header-provider/index.html">HeaderProvider</a> = HeaderProvider { }): <a href="../../com.rnett.action/-path/index.html">Path</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<p class="paragraph">Download a tool from an url and stream it into a file</p><h2 class="">Parameters</h2><div data-togglable="Parameters"><div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">url</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">url of tool to download</p></div></div></div></div></div><div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">dest</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">path to download tool.  Will be a temp directory if <code>null</code>.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">auth</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">authorization header</p></div></div></div></div></div><div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">headers</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">other headers</p></div></div></div></div></div></div></div></div></div></div></div>
+          <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="download-tool.html"><span class="token function">downloadTool</span></a><span class="token punctuation">(</span>url<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>dest<span class="token operator">: </span><a href="../../com.rnett.action/-path/index.html">Path</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span>auth<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span>headers<span class="token operator">: </span><a href="../../com.rnett.action.httpclient/-header-provider/index.html">HeaderProvider</a><span class="token operator"> = </span>HeaderProvider { }<span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.rnett.action/-path/index.html">Path</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Download a tool from an url and stream it into a file</p><h2 class="">Parameters</h2><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span><span>url</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">url of tool to download</p></div></div></div></div></div><div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span><span>dest</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">path to download tool.  Will be a temp directory if <code class="lang-kotlin">null</code>.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span><span>auth</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">authorization header</p></div></div></div></div></div><div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span><span>headers</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">other headers</p></div></div></div></div></div></div></div></div></div>
           <h2 class="">Sources</h2>
           <div class="table" data-togglable="Sources"><a data-name="22153890%2FSource%2F-1946120816" anchor-label="https://github.com/rnett/kotlin-js-action/blob/$GITHUB_SHA/kotlin-js-action/src/main/kotlin/com/rnett/action/toolcache/toolcache.kt#L20" id="22153890%2FSource%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
             <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
               <div class="main-subrow keyValue ">
-                <div class=""><span class="inline-flex"><a href="https://github.com/rnett/kotlin-js-action/blob/$GITHUB_SHA/kotlin-js-action/src/main/kotlin/com/rnett/action/toolcache/toolcache.kt#L20">js source</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="22153890%2FSource%2F-1946120816"></span>
+                <div class=""><span class="inline-flex">
+                    <div><a href="https://github.com/rnett/kotlin-js-action/blob/$GITHUB_SHA/kotlin-js-action/src/main/kotlin/com/rnett/action/toolcache/toolcache.kt#L20">js source</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="22153890%2FSource%2F-1946120816"></span>
                       <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                     </span></span></div>
                 <div></div>
@@ -42,7 +43,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
     </div>
   

@@ -2,24 +2,28 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>All modules</title>
-<link href="images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "";</script><script type="text/javascript" src="scripts/sourceset_dependencies.js" async="async"></script><link href="styles/style.css" rel="Stylesheet"><link href="styles/logo-styles.css" rel="Stylesheet"><link href="styles/jetbrains-mono.css" rel="Stylesheet"><link href="styles/main.css" rel="Stylesheet"><script type="text/javascript" src="scripts/clipboard.js" async="async"></script><script type="text/javascript" src="scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="scripts/main.js" async="async"></script><link href="styles/multimodule.css" rel="Stylesheet">  </head>
+<link href="images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="scripts/sourceset_dependencies.js" async="async"></script><link href="styles/style.css" rel="Stylesheet"><link href="styles/jetbrains-mono.css" rel="Stylesheet"><link href="styles/main.css" rel="Stylesheet"><link href="styles/prism.css" rel="Stylesheet"><link href="styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="scripts/clipboard.js" async="async"></script><script type="text/javascript" src="scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="scripts/main.js" defer="defer"></script><script type="text/javascript" src="scripts/prism.js" async="async"></script>  </head>
   <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="index.html">Kotlin/JS GitHub Actions SDK</a></div>
+      <div>1.5.0-SNAPSHOT</div>
+      <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
     <div id="container">
-      <div id="leftColumn"><a href="index.html">
-          <div id="logo"></div>
-        </a>
-        <div id="paneSearch"></div>
+      <div id="leftColumn">
         <div id="sideMenu"></div>
       </div>
       <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-<script type="text/javascript" src="scripts/main.js"></script>        <div class="main-content" id="content" pageIds="Kotlin/JS GitHub Actions SDK::.ext/allModules///PointingToDeclaration//0">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"></div>
-            <div class="pull-right d-flex">
-              <div id="searchBar"></div>
-            </div>
-          </div>
+        <div class="main-content" id="content" pageIds="Kotlin/JS GitHub Actions SDK::.ext/allModules///PointingToDeclaration//0">
+          <div class="breadcrumbs"></div>
           <div class="cover ">
             <div class="cover ">
               <h1 class="">Kotlin JS GitHub Action SDK</h1>
@@ -27,13 +31,13 @@
               <p class="paragraph">Artifacts:</p>
               <ul>
                 <li>
-                  <p class="paragraph"><code>kotlin-js-action</code> - the GitHub Actions SDK.</p>
+                  <p class="paragraph"><code class="lang-kotlin">kotlin-js-action</code> - the GitHub Actions SDK.</p>
                 </li>
                 <li>
-                  <p class="paragraph"><code>kotlin-js-action-plugin</code> - the Gradle plugin to help with build setup.</p>
+                  <p class="paragraph"><code class="lang-kotlin">kotlin-js-action-plugin</code> - the Gradle plugin to help with build setup.</p>
                 </li>
                 <li>
-                  <p class="paragraph"><code>serialization</code> - <a href="https://github.com/Kotlin/kotlinx.serialization">Kotlinx.serialization</a> helpers for the SDK.</p>
+                  <p class="paragraph"><code class="lang-kotlin">serialization</code> - <a href="https://github.com/Kotlin/kotlinx.serialization">Kotlinx.serialization</a> helpers for the SDK.</p>
                 </li>
               </ul>
             </div>
@@ -41,29 +45,35 @@
             <div class="table"><a data-name="-50604826%2FMain%2F0" anchor-label="Kotlin JS GitHub Action Gradle Plugin" id="-50604826%2FMain%2F0" data-filterable-set=""></a>
               <div class="table-row">
                 <div class="main-subrow ">
-                  <div class="w-100"><span class="inline-flex"><a href="kotlin-js-action-plugin/index.html">Kotlin JS GitHub Action Gradle Plugin</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-50604826%2FMain%2F0"></span>
+                  <div class="w-100"><span class="inline-flex">
+                      <div><a href="kotlin-js-action-plugin/index.html">Kotlin JS GitHub Action Gradle Plugin</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-50604826%2FMain%2F0"></span>
                         <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                       </span></span></div>
                   <div><span class="brief-comment">
-                      <p class="paragraph">A gradle plugin (<code>com.github.rnett.ktjs-github-action</code>) that provides functions to configure Kotlin/JS for GitHub actions, and to auto-generate a GitHub Actions workflow to update action distributables on push.</p>
+                      <p class="paragraph">A gradle plugin (<code class="lang-kotlin">com.github.rnett.ktjs-github-action</code>) that provides functions to configure Kotlin/JS for GitHub actions, and to auto-generate a GitHub Actions workflow to update action distributables on push.</p>
                     </span></div>
                 </div>
               </div>
 <a data-name="-994731272%2FMain%2F0" anchor-label="Kotlin JS GitHub Action SDK" id="-994731272%2FMain%2F0" data-filterable-set=""></a>
               <div class="table-row">
                 <div class="main-subrow ">
-                  <div class="w-100"><span class="inline-flex"><a href="kotlin-js-action/index.html">Kotlin JS GitHub Action SDK</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-994731272%2FMain%2F0"></span>
+                  <div class="w-100"><span class="inline-flex">
+                      <div><a href="kotlin-js-action/index.html">Kotlin JS GitHub Action SDK</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-994731272%2FMain%2F0"></span>
                         <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                       </span></span></div>
                   <div><span class="brief-comment">
-                      <p class="paragraph">Kotlin JS utilities for writing GitHub Actions, including wrappers for <a href="https://github.com/actions/toolkit">actions/toolkit</a> packages, except for <code>@actions/github</code> and <code>@actions/tool-cache</code>.  <code>@actions/tool-cache</code> will be added once blocking <code>dukat</code> bugs are fixes.</p>
+                      <p class="paragraph">Kotlin JS utilities for writing GitHub Actions, including wrappers for <a href="https://github.com/actions/toolkit">actions/toolkit</a> packages, except for <code class="lang-kotlin">@actions/github</code> and <code class="lang-kotlin">@actions/tool-cache</code>.  <code class="lang-kotlin">@actions/tool-cache</code> will be added once blocking <code class="lang-kotlin">dukat</code> bugs are fixes.</p>
                     </span></div>
                 </div>
               </div>
 <a data-name="-526894791%2FMain%2F0" anchor-label="Kotlin JS GitHub Action SDK Serialization support" id="-526894791%2FMain%2F0" data-filterable-set=""></a>
               <div class="table-row">
                 <div class="main-subrow ">
-                  <div class="w-100"><span class="inline-flex"><a href="serialization/index.html">Kotlin JS GitHub Action SDK Serialization support</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-526894791%2FMain%2F0"></span>
+                  <div class="w-100"><span class="inline-flex">
+                      <div><a href="serialization/index.html">Kotlin JS GitHub Action SDK Serialization support</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-526894791%2FMain%2F0"></span>
                         <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                       </span></span></div>
                   <div><span class="brief-comment">
@@ -74,7 +84,7 @@
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
       </div>
     </div>
   </body>
