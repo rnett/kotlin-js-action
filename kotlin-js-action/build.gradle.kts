@@ -89,7 +89,7 @@ tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaLeafTask>() {
     dokkaSourceSets.configureEach {
         platform.set(org.jetbrains.dokka.Platform.js)
         externalDocumentationLink {
-            url.set(URL("https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/"))
+            url.set(URL("https://kotlin.github.io/kotlinx.coroutines/"))
         }
     }
 }

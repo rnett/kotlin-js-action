@@ -1,5 +1,3 @@
-import com.rnett.future.testing.kotlinFutureTesting
-
 enableFeaturePreview("VERSION_CATALOGS")
 
 pluginManagement {
@@ -10,13 +8,6 @@ pluginManagement {
             mavenContent { snapshotsOnly() }
         }
     }
-}
-plugins {
-    id("com.github.rnett.kotlin-future-testing") version "0.0.10-SNAPSHOT"
-}
-
-kotlinFutureTesting {
-    generateGithubWorkflows(force = true) { both() }
 }
 
 rootProject.name = "kotlin-js-action-parent"
