@@ -1,7 +1,7 @@
 package com.rnett.action.serialization
 
 import com.rnett.action.httpclient.use
-import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
@@ -21,7 +21,7 @@ data class Slide(val title: String, val type: String, val items: List<String> = 
 @Serializable
 data class TestPostResponse<T>(val json: T)
 
-@OptIn(DelicateCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class HttpClientTest {
     @Test
     fun testGet() = runTest {

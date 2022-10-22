@@ -2,13 +2,13 @@ package com.rnett.action
 
 import Buffer
 import com.rnett.action.exec.exec
-import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@OptIn(DelicateCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class TestExec : TestWithDir() {
     override fun Path.initDir() {
         descendant("testFile3").touch().writeSync("Testing file")
