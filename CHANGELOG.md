@@ -1,6 +1,8 @@
 # Changelog
 
 ## Next
+Breaking:
+* Update to Node 16.18.0
 
 ## 1.5.0
 

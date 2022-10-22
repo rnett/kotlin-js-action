@@ -15,5 +15,5 @@ inputs:
     description: "Multiline input"
     required: true
 runs:
-  using: 'node12'
+  using: 'node16'
   main: '../../../test-action/build/dist/index.js'
