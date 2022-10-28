@@ -83,7 +83,7 @@ class TestPath : TestWithDir() {
     fun testWalking() = runTest {
         val dir = (TestEnv.projectDir / "./kotlin-js-action/kotlin-js-action/src")
         assertFalse(dir.isDirEmpty())
-        assertEquals(listOf(dir / "main", dir / "test"), dir.children())
+        assertEquals(setOf(dir / "main", dir / "test"), dir.children().toSet())
     }
 
     @Test

@@ -230,7 +230,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     }
 
     /**
-     * Get whether this directory is empty.
+     * Get the children of this directory, in a non-deterministic order.
      *
      * Will throw if this isn't a directory.
      */
