@@ -1,6 +1,5 @@
 package com.rnett.action.serialization
 
-import NodeJS.ReadableStream
 import com.rnett.action.httpclient.BaseHttpClient
 import com.rnett.action.httpclient.HeaderProvider
 import com.rnett.action.httpclient.HttpClient
@@ -12,6 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import node.ReadableStream
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
