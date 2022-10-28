@@ -153,32 +153,15 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x kotlin-js-action/gradlew
 
-      - name: Clone past docs for release
-        if: needs.find-version.outputs.snapshot == 'false'
-        run: |
-          git fetch
-          git clone --depth 1 https://github.com/rnett/kotlin-js-action.git --branch gh-pages --single-branch past-docs
-          mkdir -p past-docs/old-releases/
-
-      - name: Remove current docs from old docs
-        run: |
-          rm -rf past-docs/old-releases/${{ needs.find-version.outputs.version }}
-          rm -rf past-docs/old-releases/*/older
-
-      - name: List old versions
-        if: needs.find-version.outputs.snapshot == 'false'
-        run: ls -l past-docs/old-releases
-
-      - name: Publish
+      - name: Build docs
         uses: gradle/gradle-build-action@v2
-        if: github.ref == 'refs/heads/main'
         env:
           GRADLE_OPTS: -Xmx2048m -XX:MaxPermSize=512m
         with:
           gradle-home-cache-includes: |
             nodejs
             yarn
-          arguments: generateReadme dokkaHtmlMultiModule -PsourceLinkBranch=$GITHUB_SHA -PoldVersionsDir=past-docs/old-releases
+          arguments: generateReadme dokkaHtmlMultiModule -PsourceLinkBranch=$GITHUB_SHA
           build-root-directory: ./kotlin-js-action
 
       - name: Cleanup Gradle Cache
