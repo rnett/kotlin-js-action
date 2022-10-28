@@ -9,14 +9,13 @@ import com.rnett.action.httpclient.PersonalAccessTokenAuthHandler
 import com.rnett.action.httpclient.decodeBase64
 import com.rnett.action.httpclient.encodeBase64
 import com.rnett.action.httpclient.use
-import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
-@OptIn(DelicateCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class TestHttpClient : TestWithDir() {
 
     private suspend fun testHelper(
@@ -39,13 +38,13 @@ class TestHttpClient : TestWithDir() {
 
         val body = response.readBody()
         if (json) {
-            assertTrue(body.startsWith("{\"code\": $code, "), "Code not in JSON response body: $body")
+            assertContains(body, "\\{\\s*\"code\"\\s*:\\s*$code,\\s*".toRegex(), "Code not in JSON response body: $body")
         }
 
         return response
     }
 
-    suspend fun testHelper(
+    private suspend fun testHelper(
         method: suspend HttpClient.(String, HeaderProvider) -> HttpResponse,
         checkBody: Boolean = true
     ) {
@@ -68,7 +67,7 @@ class TestHttpClient : TestWithDir() {
         }
     }
 
-    suspend fun testHelper(
+    private suspend fun testHelper(
         method: suspend HttpClient.(String, String, HeaderProvider) -> HttpResponse,
         checkBody: Boolean = true
     ) {
@@ -83,7 +82,7 @@ class TestHttpClient : TestWithDir() {
         HttpClient {
             userAgent = "test"
         }.use { client ->
-            client.get("https://httpbin.org/user-agent").let {
+            client.get("https://httpbin.org/user-agent").also {
                 assertContains(it.readBody(), "\"user-agent\": \"test\"")
             }
         }
@@ -130,7 +129,7 @@ class TestHttpClient : TestWithDir() {
         testHelper(HttpClient::post)
 
         HttpClient().use { client ->
-            client.post("https://httpbin.org/post", "testing").let {
+            client.post("https://httpbin.org/post", "testing").also {
                 assertContains(it.readBody(), "\"data\": \"testing\"")
             }
         }
@@ -142,7 +141,7 @@ class TestHttpClient : TestWithDir() {
             val file = testDir / "file"
             file.write("Test")
 
-            client.post("https://httpbin.org/post", file.readStream()).let {
+            client.post("https://httpbin.org/post", file.readStream()).also {
                 assertContains(it.readBody(), "\"data\": \"Test\"")
             }
         }
@@ -153,7 +152,7 @@ class TestHttpClient : TestWithDir() {
         testHelper(HttpClient::patch)
 
         HttpClient().use { client ->
-            client.patch("https://httpbin.org/patch", "testing").let {
+            client.patch("https://httpbin.org/patch", "testing").also {
                 assertContains(it.readBody(), "\"data\": \"testing\"")
             }
         }
@@ -164,7 +163,7 @@ class TestHttpClient : TestWithDir() {
         testHelper(HttpClient::put)
 
         HttpClient().use { client ->
-            client.put("https://httpbin.org/put", "testing").let {
+            client.put("https://httpbin.org/put", "testing").also {
                 assertContains(it.readBody(), "\"data\": \"testing\"")
             }
         }

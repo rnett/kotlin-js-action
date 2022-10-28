@@ -112,7 +112,11 @@ subprojects {
 }
 
 allprojects {
-    convention.findByType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>()?.nodeVersion = "12.20.2"
+    plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
+        configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
+            nodeVersion = "16.18.0"
+        }
+    }
 }
 
 tasks.withType<org.jetbrains.dokka.gradle.DokkaMultiModuleTask>().configureEach {
