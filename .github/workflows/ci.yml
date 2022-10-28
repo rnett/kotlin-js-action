@@ -40,13 +40,13 @@ jobs:
       - name: Setup ENV Posix
         if: runner.os != 'Windows'
         run: |
-          echo "TEST_ENV_testCwd=$(pwd)" | tee -a $GITHUB_ENV
+          echo "TEST_ENV_projectDirPath=$(pwd)" | tee -a $GITHUB_ENV
           echo "TEST_ENV_userHome=$HOME" | tee -a $GITHUB_ENV
 
       - name: Setup ENV Windows
         if: runner.os == 'Windows'
         run: |
-          echo "TEST_ENV_testCwd=$(pwd)" | tee -a $env:GITHUB_ENV
+          echo "TEST_ENV_projectDirPath=$(pwd)" | tee -a $env:GITHUB_ENV
           echo "TEST_ENV_userHome=$HOME" | tee -a $env:GITHUB_ENV
 
       - name: Build and Test
