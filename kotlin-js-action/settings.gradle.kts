@@ -18,6 +18,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "test-action"
+rootProject.name = "kotlin-js-action-parent"
 
-includeBuild("../kotlin-js-action")
+include("kotlin-js-action", "serialization", "kotlin-js-action-plugin")

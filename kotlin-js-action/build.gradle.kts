@@ -1,92 +1,147 @@
-import org.jetbrains.kotlin.gradle.targets.js.npm.NpmDependency
-import java.net.URL
-
+buildscript {
+    dependencies {
+        classpath(libs.dokka.versioning)
+    }
+}
 plugins {
-    id(libs.plugins.kotlin.js.get().pluginId)
-    id(libs.plugins.dokka.get().pluginId)
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.js) apply false
+
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.publish) apply false
+    alias(libs.plugins.kotlinx.serialization) apply false
 }
 
-description = "Utilities for writing Kotlin JS GitHub actions, including wrappers around @actions/toolkit"
-ext["niceName"] = "Kotlin JS GitHub Action SDK"
+allprojects {
+    group = "com.github.rnett.ktjs-github-action"
+    version = "1.5.1-SNAPSHOT"
 
-val generateExternals = false
-
-private val latestVersionRegex = Regex("\"dist-tags\":\\{\"latest\":\"([^\"]+)\"")
-
-
-fun DependencyHandlerScope.latestNpm(
-    name: String,
-    version: String,
-    generate: Boolean = generateExternals
-): NpmDependency {
-    val url = "https://registry.npmjs.org/$name/"
-    val latest = latestVersionRegex.find(URL(url).readText())?.groupValues?.get(1) ?: error("Version not found in $url")
-
-    if (latest != version) {
-        val message = "Using old version of npm library $name: Using $version, but latest was $latest"
-        if ((findProperty("enforceLatest")?.toString()?.toLowerCase() ?: "false") != "false")
-            error(message)
-        logger.warn(message)
-    }
-    return npm(name, version, generate)
-}
-
-dependencies {
-    testImplementation(kotlin("test"))
-    testImplementation(libs.kotlinx.coroutines.test)
-
-    api(libs.kotlinx.coroutines.core)
-    api(libs.kotlin.wrappers.node)
-
-    implementation(latestNpm("@actions/core", "1.6.0"))
-    implementation(latestNpm("@actions/exec", "1.1.0"))
-    implementation(latestNpm("@actions/glob", "0.2.0"))
-    implementation(latestNpm("@actions/io", "1.1.1"))
-    //TODO breaks dukat
-    implementation(latestNpm("@actions/tool-cache", "1.7.1", false))
-    implementation(latestNpm("@actions/github", "5.0.0"))
-    implementation(latestNpm("@actions/artifact", "0.6.1"))
-    implementation(latestNpm("@actions/cache", "1.0.8"))
-    implementation(latestNpm("@actions/http-client", "1.0.11"))
-}
-
-kotlin {
-    js(IR) {
-        useCommonJs()
-        nodejs {
-            binaries.library()
-            testTask {
-                useMocha {
-                    timeout = "20s"
-                }
-
-                val dir = rootProject.file("testdir")
-                doFirst {
-                    dir.deleteRecursively()
-                    dir.mkdirs()
-                }
-                doLast {
-                    dir.deleteRecursively()
-                }
-            }
-        }
-    }
-    explicitApi()
-    sourceSets.all {
-        languageSettings.apply {
-            optIn("kotlin.contracts.ExperimentalContracts")
-            optIn("kotlin.RequiresOptIn")
-        }
+    repositories {
+        mavenCentral()
     }
 }
 
 val sourceLinkBranch: String by project
 
-tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaLeafTask>() {
-    dokkaSourceSets.configureEach {
-        platform.set(org.jetbrains.dokka.Platform.js)
-        externalDocumentationLink {
-            url.set(URL("https://kotlin.github.io/kotlinx.coroutines/"))
+val oldVersionsDir: String? by project
+
+subprojects {
+    afterEvaluate {
+        val project = this
+
+        apply(plugin = "org.jetbrains.dokka")
+        apply(plugin = "org.gradle.maven-publish")
+        apply(plugin = "com.vanniktech.maven.publish")
+
+        extensions.getByType<com.vanniktech.maven.publish.MavenPublishBaseExtension>().apply {
+            if (!version.toString().toLowerCase().endsWith("snapshot")) {
+                val stagingProfileId = project.findProperty("sonatypeRepositoryId")?.toString()
+                publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.DEFAULT, stagingProfileId)
+            }
+
+            pom {
+                name.set(project.ext["niceName"].toString())
+                description.set(project.description)
+                inceptionYear.set("2021")
+                url.set("https://github.com/rnett/kotlin-js-action/")
+
+                licenses {
+                    license {
+                        name.set("The Apache Software License, Version 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                        distribution.set("repo")
+                    }
+                }
+
+                scm {
+                    url.set("https://github.com/rnett/kotlin-js-action.git")
+                    connection.set("scm:git:git://github.com/rnett/kotlin-js-action.git")
+                    developerConnection.set("scm:git:ssh://git@github.com/rnett/kotlin-js-action.git")
+                }
+
+                developers {
+                    developer {
+                        id.set("rnett")
+                        name.set("Ryan Nett")
+                        url.set("https://github.com/rnett/")
+                    }
+                }
+            }
         }
+        tasks.withType(AbstractTestTask::class.java).configureEach {
+            testLogging {
+                showExceptions = true   // It is true by default. Set it just for explicitness.
+                exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+            }
+        }
+
+        tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaLeafTask>() {
+            moduleName.set(project.ext["niceName"].toString())
+            moduleVersion.set(version.toString())
+
+            dokkaSourceSets.configureEach {
+                includes.from(listOf(file("module.md"), file("packages.md"), file("README.md")).filter { it.exists() })
+                includeNonPublic.set(false)
+                suppressObviousFunctions.set(true)
+                suppressInheritedMembers.set(false)
+                skipDeprecated.set(false)
+                skipEmptyPackages.set(true)
+                jdkVersion.set(8)
+
+                val sourceSet = this.sourceSetID.sourceSetName
+
+                sourceLink {
+                    localDirectory.set(file("src/$sourceSet/kotlin"))
+
+                    val githubRoot = buildString {
+                        append("https://github.com/rnett/kotlin-js-action/blob/")
+                        append(sourceLinkBranch)
+
+                        val dir = project.projectDir.relativeTo(rootProject.projectDir).path.trim('/')
+
+                        append("/$dir")
+                    }
+
+                    remoteUrl.set(java.net.URL("$githubRoot/src/$sourceSet/kotlin"))
+                    remoteLineSuffix.set("#L")
+                }
+            }
+        }
+    }
+}
+
+allprojects {
+    plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
+        configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
+            nodeVersion = "16.18.0"
+        }
+    }
+}
+
+tasks.withType<org.jetbrains.dokka.gradle.DokkaMultiModuleTask>().configureEach {
+    this.fileLayout.set(org.jetbrains.dokka.gradle.DokkaMultiModuleFileLayout.CompactInParent)
+    this.includes.from("DOCS.md")
+    this.moduleName.set("Kotlin/JS GitHub Actions SDK")
+    this.moduleVersion.set(version.toString())
+    if (oldVersionsDir != null && "snapshot" !in project.version.toString().toLowerCase()) {
+        val resolved = rootDir.resolve(oldVersionsDir!!)
+        println("Using older versions from $resolved")
+        pluginConfiguration<org.jetbrains.dokka.versioning.VersioningPlugin, org.jetbrains.dokka.versioning.VersioningConfiguration> {
+            version = project.version.toString()
+            olderVersionsDir = resolved
+        }
+    }
+}
+
+val header = "Kotlin JS GitHub Action SDK"
+
+tasks.create<Copy>("generateReadme") {
+    from("README.md")
+    into(buildDir)
+    filter {
+        it.replace(
+            "# $header",
+            "# [$header](https://github.com/rnett/kotlin-js-action)"
+        )
     }
 }

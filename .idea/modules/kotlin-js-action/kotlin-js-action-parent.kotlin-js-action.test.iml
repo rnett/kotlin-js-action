@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="FacetManager">
+    <facet type="kotlin-language" name="Kotlin">
+      <configuration version="5" platform="JavaScript " allPlatforms="JS []" useProjectSettings="false" isTestModule="true" externalProjectId="kotlin-js-action-parent:kotlin-js-action">
+        <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
+        <externalSystemTestTasks>
+          <externalSystemTestTask>nodeTest|:kotlin-js-action|js</externalSystemTestTask>
+        </externalSystemTestTasks>
+        <testOutputPath>$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action/build/classes/kotlin/test</testOutputPath>
+        <compilerSettings>
+          <option name="additionalArguments" value="-Xir-module-name=com.github.rnett.ktjs-github-action:kotlin-js-action_test -Xir-only -Xir-per-module-output-name=kotlin-js-action-parent-kotlin-js-action-test -Xir-produce-klib-dir -opt-in kotlin.contracts.ExperimentalContracts,kotlin.RequiresOptIn" />
+        </compilerSettings>
+        <compilerArguments>
+          <flagArguments>
+            <flagArg name="metaInfo" arg="true" />
+            <flagArg name="noStdlib" arg="true" />
+            <flagArg name="sourceMap" arg="true" />
+          </flagArguments>
+          <stringArguments>
+            <stringArg name="main" arg="call" />
+            <stringArg name="moduleKind" arg="commonjs" />
+            <stringArg name="outputFile" arg="$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action/build/classes/kotlin/test" />
+            <stringArg name="sourceMapEmbedSources" arg="never" />
+            <stringArg name="target" arg="v5" />
+            <stringArg name="apiVersion" arg="1.7" />
+            <stringArg name="languageVersion" arg="1.7" />
+          </stringArguments>
+          <arrayArguments>
+            <arrayArg name="pluginClasspaths" />
+            <arrayArg name="pluginOptions" />
+          </arrayArguments>
+        </compilerArguments>
+      </configuration>
+    </facet>
+  </component>
+</module>
