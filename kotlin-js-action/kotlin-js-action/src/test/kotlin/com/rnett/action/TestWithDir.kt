@@ -49,9 +49,10 @@ abstract class TestWithDir {
 
         dir.mkdir()
         dir.initDir()
-        Path.cd(dir)
-        if (_testDir == null)
+        if (_testDir == null) {
             _testDir = dir
+            Path.cd(dir)
+        }
     }
 
     open suspend fun Path.initDir() {
