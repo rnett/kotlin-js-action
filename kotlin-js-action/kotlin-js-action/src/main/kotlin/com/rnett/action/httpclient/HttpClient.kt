@@ -166,11 +166,11 @@ public interface BaseHttpClient<out T : HttpResponse> {
     ): T =
         request("options", url, "", headers = headers)
 
-    public suspend fun del(
+    public suspend fun delete(
         url: String,
         headers: HeaderProvider = HeaderProvider { }
     ): T =
-        request("del", url, "", headers = headers)
+        request("delete", url, "", headers = headers)
 
     public suspend fun post(
         url: String,

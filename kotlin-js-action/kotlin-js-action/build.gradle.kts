@@ -36,6 +36,7 @@ fun DependencyHandlerScope.latestNpm(
 dependencies {
     testImplementation(kotlin("test"))
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotlinx.serialization.json)
 
     api(libs.kotlinx.coroutines.core)
     api(libs.kotlin.wrappers.node)

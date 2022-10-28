@@ -8,7 +8,9 @@ import com.rnett.action.httpclient.HttpResponse
 import com.rnett.action.httpclient.PersonalAccessTokenAuthHandler
 import com.rnett.action.httpclient.use
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonObject
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
@@ -16,64 +18,70 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class TestHttpClient : TestWithDir() {
 
-    private suspend fun testHelper(
-        code: Int,
+    private suspend fun testHeaderHelper(
+        methodName: String,
         method: suspend (String, HeaderProvider) -> HttpResponse,
-        json: Boolean = false,
-        checkBody: Boolean = true,
-        addJsonHeader: Boolean = false
+        addAcceptHeader: Boolean
     ): HttpResponse {
-        val url = "https://httpstat.us/$code"
+        val url = "https://www.httpbin.org/${methodName.lowercase()}"
         val response = method(url) {
-            if (addJsonHeader)
+            if (addAcceptHeader)
                 this["accept"] = "application/json"
         }
 
-        assertEquals(code, response.statusCode)
+        assertEquals(200, response.statusCode)
 
-        if (!checkBody)
-            return response
+        val body = Json.parseToJsonElement(response.readBody())
+        assertEquals(body.jsonObject["headers"]?.jsonObject?.get("Accept"), JsonPrimitive("application/json"))
 
-        val body = response.readBody()
-        if (json) {
-            assertContains(body, "\\{\\s*\"code\"\\s*:\\s*$code,\\s*".toRegex(), "Code not in JSON response body: $body")
+        return response
+    }
+
+    private suspend fun testStatusHelper(
+        code: Int,
+        method: suspend (String, HeaderProvider) -> HttpResponse,
+    ): HttpResponse {
+        val url = "https://www.httpbin.org/status/$code"
+        val response = method(url) {
         }
+
+        assertEquals(code, response.statusCode)
 
         return response
     }
 
     private suspend fun testHelper(
-        method: suspend HttpClient.(String, HeaderProvider) -> HttpResponse,
-        checkBody: Boolean = true
+        methodName: String,
+        method: suspend HttpClient.(String, HeaderProvider) -> HttpResponse
     ) {
 
         fun HttpClient.method(): suspend (String, HeaderProvider) -> HttpResponse =
             { url, headers -> this.method(url, headers) }
 
         HttpClient().use { client ->
-            testHelper(200, client.method(), checkBody = checkBody)
-            testHelper(404, client.method(), checkBody = checkBody)
-            testHelper(505, client.method(), checkBody = checkBody)
+            testStatusHelper(200, client.method())
+            testStatusHelper(404, client.method())
+            testStatusHelper(505, client.method())
 
-            testHelper(200, client.method(), true, checkBody = checkBody, addJsonHeader = true)
+            testHeaderHelper(methodName, client.method(), addAcceptHeader = true)
         }
 
         HttpClient {
             header("Accept", "application/json")
         }.use { client ->
-            testHelper(200, client.method(), true, checkBody = checkBody)
+            testHeaderHelper(methodName, client.method(), addAcceptHeader = false)
         }
     }
 
     private suspend fun testHelper(
-        method: suspend HttpClient.(String, String, HeaderProvider) -> HttpResponse,
-        checkBody: Boolean = true
+        methodName: String,
+        method: suspend HttpClient.(String, String, HeaderProvider) -> HttpResponse
     ) {
-        testHelper({ url, headers -> method(url, "", headers) }, checkBody)
+        testHelper(methodName) { url, headers -> method(url, "", headers) }
     }
 
     @Test
-    fun testGet() = runTest { testHelper(HttpClient::get) }
+    fun testGet() = runTest { testHelper("get", HttpClient::get) }
 
     @Test
     fun testUserAgent() = runTest {
@@ -106,13 +114,23 @@ class TestHttpClient : TestWithDir() {
     }
 
     @Test
-    fun testOptions() = runTest { testHelper(HttpClient::options) }
+    fun testOptions() = runTest {
+        val status = HttpClient().use {
+            it.options("https://www.httpbin.org/status/200")
+        }.statusCode
+        assertEquals(200, status)
+    }
 
     @Test
-    fun testDel() = runTest { testHelper(HttpClient::del) }
+    fun testDelete() = runTest { testHelper("delete", HttpClient::delete) }
 
     @Test
-    fun testHead() = runTest { testHelper(HttpClient::head, false) }
+    fun testHead() = runTest {
+        val status = HttpClient().use {
+            it.head("https://www.httpbin.org/status/200")
+        }.statusCode
+        assertEquals(200, status)
+    }
 
     @Test
     fun testBase64() {
@@ -124,7 +142,7 @@ class TestHttpClient : TestWithDir() {
 
     @Test
     fun testPost() = runTest {
-        testHelper(HttpClient::post)
+        testHelper("post", HttpClient::post)
 
         HttpClient().use { client ->
             client.post("https://httpbin.org/post", "testing").also {
@@ -147,7 +165,7 @@ class TestHttpClient : TestWithDir() {
 
     @Test
     fun testPatch() = runTest {
-        testHelper(HttpClient::patch)
+        testHelper("patch", HttpClient::patch)
 
         HttpClient().use { client ->
             client.patch("https://httpbin.org/patch", "testing").also {
@@ -158,7 +176,7 @@ class TestHttpClient : TestWithDir() {
 
     @Test
     fun testPut() = runTest {
-        testHelper(HttpClient::put)
+        testHelper("put", HttpClient::put)
 
         HttpClient().use { client ->
             client.put("https://httpbin.org/put", "testing").also {
