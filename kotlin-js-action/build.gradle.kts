@@ -136,7 +136,7 @@ tasks.withType<org.jetbrains.dokka.gradle.DokkaMultiModuleTask>().configureEach 
 val header = "Kotlin JS GitHub Action SDK"
 
 tasks.create<Copy>("generateReadme") {
-    from("README.md")
+    from("../README.md")
     into(buildDir)
     filter {
         it.replace(
