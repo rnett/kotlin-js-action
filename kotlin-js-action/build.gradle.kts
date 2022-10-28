@@ -31,15 +31,12 @@ fun DependencyHandlerScope.latestNpm(
     return npm(name, version, generate)
 }
 
-val kotlinxNodeJSVersion: String by extra
-val coroutinesVersion: String by extra
-
 dependencies {
     testImplementation(kotlin("test"))
     testImplementation(libs.kotlinx.coroutines.test)
 
     api(libs.kotlinx.coroutines.core)
-    api(libs.kotlinx.nodejs)
+    api(libs.kotlin.wrappers.node)
 
     implementation(latestNpm("@actions/core", "1.6.0"))
     implementation(latestNpm("@actions/exec", "1.1.0"))

@@ -1,8 +1,8 @@
 [versions]
-kotlin = "1.6.10"
-kotlinx-serialization = "1.3.2"
-kotlinx-coroutines = "1.6.0"
-kotlinx-nodejs = "0.0.7"
+kotlin = "1.7.20"
+kotlinx-serialization = "1.4.1"
+kotlinx-coroutines = "1.6.4"
+kotlin-wrappers-node = "18.11.5-pre.414"
 
 publish = "0.18.0"
 dokka = "1.6.10"
@@ -16,7 +16,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
-kotlinx-nodejs = { module = "org.jetbrains.kotlinx:kotlinx-nodejs", version.ref = "kotlinx-nodejs" }
+kotlin-wrappers-node = { module = "org.jetbrains.kotlin-wrappers:kotlin-node", version.ref = "kotlin-wrappers-node" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
