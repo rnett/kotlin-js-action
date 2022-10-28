@@ -1,6 +1,5 @@
 package com.rnett.action.exec
 
-import Buffer
 import com.rnett.action.JsObject
 import com.rnett.action.OperatingSystem
 import com.rnett.action.Path
@@ -8,6 +7,8 @@ import com.rnett.action.core.runOrFail
 import internal.exec.ExecOptions
 import internal.exec.ExecOutput
 import kotlinx.coroutines.await
+import node.buffer.Buffer
+import node.stream.Writable
 
 /**
  * Wrappers for [`@actions/exec`](https://github.com/actions/toolkit/tree/main/packages/exec).
@@ -44,8 +45,8 @@ public object exec {
         env: Map<String, String>?,
         input: Buffer?,
         silent: Boolean,
-        outStream: stream.internal.Writable?,
-        errStream: stream.internal.Writable?,
+        outStream: Writable?,
+        errStream: Writable?,
         windowsVerbatimArguments: Boolean,
         failOnStdErr: Boolean,
         ignoreReturnCode: Boolean,
@@ -118,8 +119,8 @@ public object exec {
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
-        outStream: stream.internal.Writable? = null,
-        errStream: stream.internal.Writable? = null,
+        outStream: Writable? = null,
+        errStream: Writable? = null,
         windowsVerbatimArguments: Boolean = false,
         failOnStdErr: Boolean = false,
         ignoreReturnCode: Boolean = false,
@@ -192,8 +193,8 @@ public object exec {
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
-        outStream: stream.internal.Writable? = null,
-        errStream: stream.internal.Writable? = null,
+        outStream: Writable? = null,
+        errStream: Writable? = null,
         failOnStdErr: Boolean = false,
         ignoreReturnCode: Boolean = false,
         delay: Long = 10000,
@@ -258,8 +259,8 @@ public object exec {
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
-        outStream: stream.internal.Writable? = null,
-        errStream: stream.internal.Writable? = null,
+        outStream: Writable? = null,
+        errStream: Writable? = null,
         windowsVerbatimArguments: Boolean = false,
         failOnStdErr: Boolean = false,
         ignoreReturnCode: Boolean = false,
@@ -323,8 +324,8 @@ public object exec {
         env: Map<String, String>? = null,
         input: Buffer? = null,
         silent: Boolean = false,
-        outStream: stream.internal.Writable? = null,
-        errStream: stream.internal.Writable? = null,
+        outStream: Writable? = null,
+        errStream: Writable? = null,
         failOnStdErr: Boolean = false,
         ignoreReturnCode: Boolean = false,
         delay: Long = 10000,

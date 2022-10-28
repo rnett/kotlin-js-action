@@ -1,10 +1,11 @@
 package com.rnett.action.core
 
-import NodeJS.get
-import NodeJS.set
 import com.rnett.action.currentProcess
 import com.rnett.action.delegates.MutableDelegatable
 import com.rnett.action.delegates.ifNull
+import kotlinx.js.delete
+import kotlinx.js.get
+import kotlinx.js.set
 import kotlin.properties.ReadOnlyProperty
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -63,14 +64,18 @@ public abstract class Environment(private val defaultExport: Boolean) : MutableD
     public operator fun set(name: String, export: Boolean, value: String?) {
         if (export && value != null)
             core.exportVariable(name, value)
-        currentProcess.env[name] = value
+        if (value != null) {
+            currentProcess.env[name] = value
+        } else {
+            delete(currentProcess.env[name])
+        }
     }
 
     /**
      * Remove [name] from the environment.  Does not affect exports.
      */
     public override fun remove(name: String) {
-        currentProcess.env[name] = null
+        delete(currentProcess.env[name])
     }
 
     /**

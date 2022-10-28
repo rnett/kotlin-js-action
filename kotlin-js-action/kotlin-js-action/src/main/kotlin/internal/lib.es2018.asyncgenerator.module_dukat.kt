@@ -2,13 +2,12 @@
 
 package internal
 
-import tsstdlib.PromiseLike
-import kotlin.js.*
+import kotlin.js.Promise
 
 internal external interface AsyncGenerator<T, TReturn, TNext> : AsyncIterator<T, TReturn, TNext> {
     override fun next(vararg args: Any /* JsTuple<> | JsTuple<TNext> */): Promise<dynamic /* IteratorYieldResult<T> | IteratorReturnResult<TReturn> */>
     fun `return`(value: TReturn): Promise<dynamic /* IteratorYieldResult<T> | IteratorReturnResult<TReturn> */>
-    fun `return`(value: PromiseLike<TReturn>): Promise<dynamic /* IteratorYieldResult<T> | IteratorReturnResult<TReturn> */>
+    fun `return`(value: Promise<TReturn>): Promise<dynamic /* IteratorYieldResult<T> | IteratorReturnResult<TReturn> */>
     override var `throw`: (e: Any) -> Promise<dynamic /* IteratorYieldResult<T> | IteratorReturnResult<TReturn> */>
 }
 

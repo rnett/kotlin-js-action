@@ -9,9 +9,9 @@
 
 package internal.httpclient
 
-import NodeJS.ReadableStream
-import http.IncomingMessage
-import http.RequestOptions
+import node.ReadableStream
+import node.http.IncomingMessage
+import node.http.RequestOptions
 import org.w3c.dom.url.URL
 import kotlin.js.Promise
 

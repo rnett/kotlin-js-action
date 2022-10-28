@@ -1,26 +1,26 @@
 package com.rnett.action
 
-import Buffer
-import NodeJS.Process
-import NodeJS.WritableStream
+import node.WritableStream
+import node.buffer.Buffer
+import node.process.Process
+import node.stream.Duplex
 import org.khronos.webgl.ArrayBuffer
 import org.khronos.webgl.Int8Array
 import org.khronos.webgl.Uint8Array
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
-import process as nodeProcess
 
 /**
  * Convert a camelCase string to snake-case.
  */
 public fun String.camelToSnakeCase(): String = replace(Regex("[^A-Z][A-Z]")) {
-    it.value[0] + "-" + it.value[1].toLowerCase()
+    it.value[0] + "-" + it.value[1].lowercaseChar()
 }
 
 /**
  * Convert a snake-case string to camelCase.
  */
-public fun String.snakeToCamelCase(): String = replace(Regex("-[a-z]")) { it.value[1].toUpperCase().toString() }
+public fun String.snakeToCamelCase(): String = replace(Regex("-[a-z]")) { it.value[1].uppercaseChar().toString() }
 
 
 /**
@@ -28,7 +28,7 @@ public fun String.snakeToCamelCase(): String = replace(Regex("-[a-z]")) { it.val
  */
 public inline fun <T : Any> JsObject(block: T.() -> Unit = {}): T {
     contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
-    os.arch()
+    node.os.arch()
     val value = js("{}") as T
     value.block()
     return value
@@ -37,6 +37,7 @@ public inline fun <T : Any> JsObject(block: T.() -> Unit = {}): T {
 /**
  * Get the entries of a JS object, using `Object.entries`.
  */
+@Suppress("NOTHING_TO_INLINE")
 public inline fun jsEntries(jsObject: dynamic): Map<String, dynamic> = js("Object")
     .entries(jsObject)
     .unsafeCast<Array<Array<dynamic>>>()
@@ -47,17 +48,17 @@ public inline fun jsEntries(jsObject: dynamic): Map<String, dynamic> = js("Objec
 /**
  * Get the current process.  Alias for [process] that doesn't have name conflicts.
  */
-public val currentProcess: Process get() = nodeProcess
+public val currentProcess: Process get() = node.process.process
 
 /**
  * Write a line to [this], using the OS's line seperator.
  */
-public fun WritableStream.writeLine(buffer: String): Boolean = write(buffer + os.EOL)
+public fun WritableStream.writeLine(buffer: String): Boolean = write(buffer + OperatingSystem.lineSeparator)
 
 /**
  * Write a line to [this], using the OS's line seperator.
  */
-public fun internal.Duplex.writeLine(buffer: String): Boolean = write(buffer + os.EOL)
+public fun Duplex.writeLine(buffer: String): Boolean = write(buffer + OperatingSystem.lineSeparator)
 
 /**
  * Non-copying conversion to a Kotlin [ByteArray].

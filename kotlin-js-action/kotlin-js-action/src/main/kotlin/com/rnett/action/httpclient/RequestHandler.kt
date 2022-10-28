@@ -1,9 +1,6 @@
 package com.rnett.action.httpclient
 
-import NodeJS.ReadableStream
 import com.rnett.action.JsObject
-import http.ClientRequestArgs
-import http.RequestOptions
 import internal.httpclient.IHeaders
 import internal.httpclient.IHttpClient
 import internal.httpclient.IHttpClientResponse
@@ -12,6 +9,8 @@ import internal.httpclient.IRequestInfo
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
+import node.http.ClientRequestArgs
+import node.http.RequestOptions
 import org.w3c.dom.url.URL
 import kotlin.js.Promise
 

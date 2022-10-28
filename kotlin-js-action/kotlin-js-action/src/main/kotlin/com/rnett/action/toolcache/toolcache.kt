@@ -186,7 +186,7 @@ public object toolcache {
         versionSpec: String,
         stable: Boolean,
         manifest: List<IToolRelease>,
-        archFilter: String = os.arch()
+        archFilter: String = node.os.arch()
     ): IToolRelease? =
         internal.toolcache.findFromManifest(versionSpec, stable, manifest.toTypedArray(), archFilter).await()
 

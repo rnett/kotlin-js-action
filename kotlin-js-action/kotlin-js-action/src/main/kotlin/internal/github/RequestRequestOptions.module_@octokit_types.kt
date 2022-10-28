@@ -4,7 +4,7 @@
 
 package internal.github
 
-import http.Agent
+import node.http.Agent
 import kotlin.js.*
 
 internal external interface RequestRequestOptions {

@@ -2,15 +2,15 @@ package com.rnett.action
 
 import com.rnett.action.glob.glob
 import com.rnett.action.glob.globFlow
-import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@OptIn(DelicateCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class TestGlob : TestWithDir() {
-    override fun Path.initDir() {
+    override suspend fun Path.initDir() {
         descendant("testDir1/innerDir1/file1").touch()
         descendant("testDir1/innerDir1/file2").touch()
         descendant("testDir1/innerDir1/file3").touch()

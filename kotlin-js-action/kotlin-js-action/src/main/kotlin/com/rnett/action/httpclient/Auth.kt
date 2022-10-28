@@ -1,10 +1,6 @@
 package com.rnett.action.httpclient
 
-import Buffer
-
-public fun String.encodeBase64(): String = Buffer.from(this).toString("base64")
-
-public fun String.decodeBase64(): String = Buffer.from(this, "base64").toString("utf8")
+import com.rnett.action.encodeBase64
 
 /**
  * Request handler for basic auth.

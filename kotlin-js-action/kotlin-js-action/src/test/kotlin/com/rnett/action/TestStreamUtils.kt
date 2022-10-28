@@ -1,28 +1,26 @@
 package com.rnett.action
 
-import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
-import stream.TransformCallback
+import node.events.Event
+import node.stream.Transform
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@OptIn(DelicateCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class TestStreamUtils {
 
     @Test
     fun testStreamToFlow() = runTest {
-        val stream = internal.Transform(object : internal.TransformOptions {
-            init {
-                this.writableObjectMode = true
-                this.readableObjectMode = true
-            }
+        val stream = Transform(JsObject {
+            this.writableObjectMode = true
+            this.readableObjectMode = true
 
-            override val transform: ((chunk: Any, encoding: String, callback: TransformCallback) -> Unit) =
-                { chunk, encoding, callback ->
-                    callback(null, chunk)
-                }
+            transform = { chunk, encoding, callback ->
+                callback(null, chunk)
+            }
         })
 
         stream.write(listOf(1, 2, 3))
@@ -46,7 +44,7 @@ class TestStreamUtils {
         val flow = flowOf(listOf(1, 2, 3), listOf(3, 4, 5))
         val stream = flow.toObjectStream(this)
         var i = 0
-        stream.on("data") { it ->
+        stream.on(Event.DATA) { it ->
             if (i == 0)
                 assertEquals(listOf(1, 2, 3), it)
             else
@@ -54,5 +52,13 @@ class TestStreamUtils {
             i++
         }
         stream.resume()
+    }
+
+    @Test
+    fun canCreateBuffersFromEncodedData() {
+        assertEquals(
+            "test",
+            "test".encodeBase64().decodeBase64()
+        )
     }
 }

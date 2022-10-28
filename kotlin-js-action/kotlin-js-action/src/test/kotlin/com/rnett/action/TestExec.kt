@@ -1,17 +1,18 @@
 package com.rnett.action
 
-import Buffer
 import com.rnett.action.exec.exec
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import node.buffer.Buffer
+import node.buffer.BufferEncoding
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TestExec : TestWithDir() {
-    override fun Path.initDir() {
-        descendant("testFile3").touch().writeSync("Testing file")
+    override suspend fun Path.initDir() {
+        descendant("testFile3").touch().write("Testing file")
     }
 
     val diff = if (OperatingSystem.isWindows) "\r\n" else ""
@@ -61,7 +62,7 @@ class TestExec : TestWithDir() {
 
         val outputFile = (testDir / "testOut2")
         exec.execShell("echo \"Test\" > \"$outputFile\"")
-        assertEquals("Test$shellDiff", outputFile.readText(if (OperatingSystem.isWindows) "ucs2" else "utf8").let {
+        assertEquals("Test$shellDiff", outputFile.readText(if (OperatingSystem.isWindows) BufferEncoding.ucs2 else BufferEncoding.utf8).let {
             if (OperatingSystem.isWindows)
                 it.substring(1)
             else

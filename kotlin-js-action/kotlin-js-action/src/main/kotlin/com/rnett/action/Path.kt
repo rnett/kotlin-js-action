@@ -1,19 +1,19 @@
 package com.rnett.action
 
-import Buffer
-import NodeJS.ErrnoException
 import com.rnett.action.io.io
-import fs.*
-import kotlinx.coroutines.CancellableContinuation
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
-import path.path as platformPath
+import kotlinx.coroutines.await
+import node.buffer.Buffer
+import node.buffer.BufferEncoding
+import node.fs.MakeDirectoryOptions
+import node.fs.ReadStream
+import node.fs.Stats
+import node.fs.WriteStream
+import node.path.path as platformPath
 
-internal fun CancellableContinuation<Unit>.cancelIfError(err: ErrnoException?) {
-    if (err != null)
-        cancel(err)
-    else
-        resume(Unit)
+private external interface FileOptions {
+    var flag: String?
+    var encoding: BufferEncoding?
+    var flags: String?
 }
 
 /**
@@ -44,7 +44,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         /**
          * The current user's home dir.
          */
-        public val userHome: Path get() = Path(os.homedir())
+        public val userHome: Path get() = Path(node.os.homedir())
 
         /**
          * The current OS's path separator.
@@ -63,19 +63,19 @@ public class Path(rawPath: String, resolve: Boolean = true) {
          */
         public fun resolve(rawPath: String): String {
             val newRawPath = if (rawPath.startsWith("~")) {
-                platformPath.join(os.homedir(), rawPath.removePrefix("~"))
+                platformPath.join(node.os.homedir(), rawPath.removePrefix("~"))
             } else
                 rawPath
 
             return platformPath.resolve(newRawPath)!!
         }
 
-        private fun appendOptions(encoding: String?): `T$45` = JsObject {
+        private fun appendOptions(encoding: BufferEncoding?): FileOptions = JsObject {
             this.flag = "a"
             this.encoding = encoding
         }
 
-        private fun writeOptions(encoding: String?): `T$45` = JsObject {
+        private fun writeOptions(encoding: BufferEncoding?): FileOptions = JsObject {
             this.flag = "w"
             this.encoding = encoding
         }
@@ -160,30 +160,30 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Gets whether this path exists.
      */
-    public val exists: Boolean get() = fs.existsSync(path)
+    public val exists: Boolean get() = node.fs.existsSync(path)
 
     /**
      * Get [Stats] for this path, if it exists.
      */
-    public val stats: Stats? get() = if (exists) fs.lstatSync(path) else null
+    public suspend fun stats(): Stats? = if (exists) node.fs.lstat(path) as Stats else null
 
     /**
      * Get whether this path exists and is a file.
      */
-    public val isFile: Boolean get() = stats?.isFile() == true
+    public suspend fun isFile(): Boolean = stats()?.isFile() == true
 
     /**
      * Get whether this path exists and is a directory.
      */
-    public val isDir: Boolean get() = stats?.isDirectory() == true
+    public suspend fun isDir(): Boolean = stats()?.isDirectory() == true
 
     /**
      * Throw if this path is not a file, or doesn't exist and [requireExists] is true (as it is by default).
      *
      * @return this
      */
-    public fun requireFile(requireExists: Boolean = true): Path {
-        val stats = stats
+    public suspend fun requireFile(requireExists: Boolean = true): Path {
+        val stats = stats()
         val exists = stats != null
 
         if (!requireExists && !exists)
@@ -201,8 +201,8 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      *
      * @return this
      */
-    public fun requireDirectory(requireExists: Boolean = true): Path {
-        val stats = stats
+    public suspend fun requireDirectory(requireExists: Boolean = true): Path {
+        val stats = stats()
         val exists = stats != null
 
         if (!requireExists && !exists)
@@ -220,26 +220,34 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      *
      * Will throw if this isn't a directory or doesn't exist.
      */
-    public val isDirEmpty: Boolean
-        get() {
-            requireDirectory()
-            return fs.readdirSync(path, JsObject<`T$38`> {
-                this.withFileTypes = true
-            }).isEmpty()
+    public suspend fun isDirEmpty(): Boolean {
+        requireDirectory()
+        return node.fs.opendir(path).let {
+            val next = it.read().await()
+            it.close().await()
+            return@let next == null
         }
+    }
 
     /**
      * Get whether this directory is empty.
      *
      * Will throw if this isn't a directory.
      */
-    public val children: List<Path>
-        get() {
-            requireDirectory()
-            return fs.readdirSync(path, JsObject<`T$38`> {
-                this.withFileTypes = true
-            }).map { this / it.name }
+    public suspend fun children(): List<Path> {
+        requireDirectory()
+        val dir = node.fs.opendir(path)
+
+        val children = buildList {
+            while (true) {
+                val next = dir.read().await() ?: break
+                add(this@Path / next.name)
+            }
         }
+
+        dir.close().await()
+        return children
+    }
 
     /**
      * Make this directory.
@@ -248,8 +256,8 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @param existsOk if false, will throw if the current path exists
      * @return this
      */
-    public fun mkdir(parents: Boolean = true, existsOk: Boolean = true): Path {
-        val stats = stats
+    public suspend fun mkdir(parents: Boolean = true, existsOk: Boolean = true): Path {
+        val stats = stats()
         if (stats != null) {
             if (!existsOk)
                 error("Path $path already exists")
@@ -260,7 +268,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
             return this
         }
 
-        fs.mkdirSync(path, JsObject<MakeDirectoryOptions> {
+        node.fs.mkdirSync(path, JsObject<MakeDirectoryOptions> {
             this.recursive = parents
         })
 
@@ -271,8 +279,8 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * Create an empty file if it doesn't exist, creating parent directories if necessary.
      * @return this
      */
-    public fun touch(): Path {
-        val stats = stats
+    public suspend fun touch(): Path {
+        val stats = stats()
         if (stats != null) {
             if (stats.isFile())
                 return this
@@ -281,7 +289,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         }
 
         parent.mkdir()
-        writeSync("")
+        write("")
         return this
     }
 
@@ -291,7 +299,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * If [recursive] is false but this is a directory and has children, throws.
      */
     public suspend fun delete(recursive: Boolean = false) {
-        if (!recursive && isDir && !isDirEmpty)
+        if (!recursive && isDir() && !isDirEmpty())
             error("Can't delete directory $path, it is not empty")
 
         io.rmRF(path)
@@ -311,7 +319,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @see io.cp
      */
     public suspend fun copyInto(destDir: Path, recursive: Boolean = true, force: Boolean = true) {
-        val stats = destDir.stats
+        val stats = destDir.stats()
         if (stats == null) {
             destDir.mkdir()
         } else if (stats.isFile()) {
@@ -329,7 +337,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @param force whether to overwrite files in [destDir].  **A `false` value is sometimes ignored, do not rely on.**
      */
     public suspend fun copyChildrenInto(destDir: Path, recursive: Boolean = true, force: Boolean = true) {
-        children.forEach {
+        children().forEach {
             it.copyInto(destDir, recursive, force)
         }
     }
@@ -355,7 +363,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @see io.mv
      */
     public suspend fun moveInto(destDir: Path, force: Boolean = true) {
-        val stats = destDir.stats
+        val stats = destDir.stats()
         if (stats == null) {
             destDir.mkdir()
         } else if (stats.isFile()) {
@@ -371,7 +379,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @param force whether to overwrite files in [destDir].
      */
     public suspend fun moveChildrenInto(destDir: Path, force: Boolean = true) {
-        children.forEach { it.moveInto(destDir, force) }
+        children().forEach { it.moveInto(destDir, force) }
     }
 
 
@@ -391,9 +399,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
                 error("Destination $dest exists, but force is false.")
         }
 
-        suspendCancellableCoroutine<Unit> {
-            fs.rename(path, dest.path, it::cancelIfError)
-        }
+        node.fs.rename(path, dest.path)
     }
 
     /**
@@ -406,24 +412,15 @@ public class Path(rawPath: String, resolve: Boolean = true) {
         val newPath = (parent / newName)
         if (newPath.exists)
             error("File already exists with new name: $newPath")
-        fs.renameSync(path, newPath.path)
+        node.fs.renameSync(path, newPath.path)
     }
 
     /**
      * Read this file.
      */
-    public suspend fun readText(encoding: String = "utf8"): String {
+    public suspend fun readText(encoding: BufferEncoding = BufferEncoding.utf8): String {
         requireFile()
-        return suspendCancellableCoroutine {
-            fs.readFile(path, JsObject<`T$43`> {
-                this.encoding = encoding
-            }) { err, data ->
-                if (err != null)
-                    it.cancel(err)
-                else
-                    it.resume(data)
-            }
-        }
+        return node.fs.readFile(path, encoding)
     }
 
     /**
@@ -431,35 +428,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      */
     public suspend fun readBytes(): ByteArray {
         requireFile()
-        return suspendCancellableCoroutine {
-            fs.readFile(path) { err, data ->
-                if (err != null)
-                    it.cancel(err)
-                else {
-                    //FIXME duplicates memory, need a better way of doing this
-                    it.resume(data.asByteArray())
-                }
-
-            }
-        }
-    }
-
-    /**
-     * Read this file.
-     */
-    public fun readTextSync(encoding: String = "utf8"): String {
-        requireFile()
-        return fs.readFileSync(path, JsObject<`T$43`> {
-            this.encoding = encoding
-        })
-    }
-
-    /**
-     * Read this file.
-     */
-    public fun readBytesSync(): ByteArray {
-        requireFile()
-        return fs.readFileSync(path, JsObject<`T$42`>()).asByteArray()
+        return node.fs.readFile(path).asByteArray()
     }
 
     /**
@@ -467,9 +436,9 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * @see readText
      * @see readBytes
      */
-    public fun readStream(encoding: String? = "utf8"): ReadStream {
+    public suspend fun readStream(encoding: BufferEncoding? = BufferEncoding.utf8): ReadStream {
         requireFile()
-        return fs.createReadStream(path, JsObject<fs.`T$50`> {
+        return node.fs.createReadStream(path, JsObject<FileOptions> {
             this.encoding = encoding
         })
     }
@@ -478,21 +447,19 @@ public class Path(rawPath: String, resolve: Boolean = true) {
      * Append a line to this file (adds [lineSeparator] to [data]).
      * @see append
      */
-    public suspend fun appendLine(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
+    public suspend fun appendLine(data: String, encoding: BufferEncoding? = BufferEncoding.utf8, createParents: Boolean = true) {
         append(data + OperatingSystem.lineSeparator, encoding, createParents)
     }
 
     /**
      * Append [data] to this file, creating it if it doesn't exist.
      */
-    public suspend fun append(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
+    public suspend fun append(data: String, encoding: BufferEncoding? = BufferEncoding.utf8, createParents: Boolean = true) {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
-        suspendCancellableCoroutine<Unit> {
-            fs.writeFile(path, data, appendOptions(encoding), it::cancelIfError)
-        }
+        node.fs.writeFile(path, data, appendOptions(encoding).asDynamic())
     }
 
     /**
@@ -503,9 +470,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
             parent.mkdir()
 
         requireFile(false)
-        suspendCancellableCoroutine<Unit> {
-            fs.writeFile(path, data, appendOptions(null), it::cancelIfError)
-        }
+        node.fs.writeFile(path, data, appendOptions(null).asDynamic())
     }
 
     /**
@@ -516,62 +481,19 @@ public class Path(rawPath: String, resolve: Boolean = true) {
             parent.mkdir()
 
         requireFile(false)
-        suspendCancellableCoroutine<Unit> {
-            fs.writeFile(path, data, appendOptions(null), it::cancelIfError)
-        }
-    }
-
-    /**
-     * Append a line to this file (adds [lineSeparator] to [data]).
-     * @see append
-     */
-    public fun appendLineSync(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
-        appendSync(data + OperatingSystem.lineSeparator, encoding, createParents)
-    }
-
-    /**
-     * Append [data] to this file, creating it if it doesn't exist.
-     */
-    public fun appendSync(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
-        if (createParents)
-            parent.mkdir()
-
-        requireFile(false)
-        fs.writeFileSync(path, data, appendOptions(encoding))
-    }
-
-    /**
-     * Append [data] to this file, creating it if it doesn't exist.
-     */
-    public fun appendSync(data: ByteArray, createParents: Boolean = true) {
-        if (createParents)
-            parent.mkdir()
-
-        requireFile(false)
-        fs.writeFileSync(path, data, appendOptions(null))
-    }
-
-    /**
-     * Append [data] to this file, creating it if it doesn't exist.
-     */
-    public fun appendSync(data: Buffer, createParents: Boolean = true) {
-        if (createParents)
-            parent.mkdir()
-
-        requireFile(false)
-        fs.writeFileSync(path, data, appendOptions(null))
+        node.fs.writeFile(path, data, appendOptions(null).asDynamic())
     }
 
     /**
      * Create a stream to append to the file.
      * @see append
      */
-    public fun appendStream(encoding: String? = "utf8", createParents: Boolean = true): WriteStream {
+    public suspend fun appendStream(encoding: BufferEncoding? = BufferEncoding.utf8, createParents: Boolean = true): WriteStream {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
-        return fs.createWriteStream(path, JsObject<fs.`T$51`> {
+        return node.fs.createWriteStream(path, JsObject<FileOptions> {
             this.encoding = encoding
             this.flags = "a"
         })
@@ -580,14 +502,12 @@ public class Path(rawPath: String, resolve: Boolean = true) {
     /**
      * Write to this file, truncating it if it exists, and creating it if not.
      */
-    public suspend fun write(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
+    public suspend fun write(data: String, encoding: BufferEncoding? = BufferEncoding.utf8, createParents: Boolean = true) {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
-        suspendCancellableCoroutine<Unit> {
-            fs.writeFile(path, data, writeOptions(encoding), it::cancelIfError)
-        }
+        node.fs.writeFile(path, data, writeOptions(encoding).asDynamic())
     }
 
     /**
@@ -598,9 +518,7 @@ public class Path(rawPath: String, resolve: Boolean = true) {
             parent.mkdir()
 
         requireFile(false)
-        suspendCancellableCoroutine<Unit> {
-            fs.writeFile(path, data, writeOptions(null), it::cancelIfError)
-        }
+        node.fs.writeFile(path, data, writeOptions(null).asDynamic())
     }
 
     /**
@@ -611,54 +529,20 @@ public class Path(rawPath: String, resolve: Boolean = true) {
             parent.mkdir()
 
         requireFile(false)
-        suspendCancellableCoroutine<Unit> {
-            fs.writeFile(path, data, writeOptions(null), it::cancelIfError)
-        }
+        node.fs.writeFile(path, data, writeOptions(null).asDynamic())
     }
 
-    /**
-     * Write to this file, truncating it if it exists, and creating it if not.
-     */
-    public fun writeSync(data: String, encoding: String? = "utf8", createParents: Boolean = true) {
-        if (createParents)
-            parent.mkdir()
-
-        requireFile(false)
-        fs.writeFileSync(path, data, writeOptions(encoding))
-    }
-
-    /**
-     * Write to this file, truncating it if it exists, and creating it if not.
-     */
-    public fun writeSync(data: ByteArray, createParents: Boolean = true) {
-        if (createParents)
-            parent.mkdir()
-
-        requireFile(false)
-        fs.writeFileSync(path, data, writeOptions(null))
-    }
-
-    /**
-     * Write to this file, truncating it if it exists, and creating it if not.
-     */
-    public fun writeSync(data: Buffer, createParents: Boolean = true) {
-        if (createParents)
-            parent.mkdir()
-
-        requireFile(false)
-        fs.writeFileSync(path, data, writeOptions(null))
-    }
 
     /**
      * Create a stream to write the file.
      * @see write
      */
-    public fun writeStream(encoding: String? = "utf8", createParents: Boolean = true): WriteStream {
+    public suspend fun writeStream(encoding: BufferEncoding? = BufferEncoding.utf8, createParents: Boolean = true): WriteStream {
         if (createParents)
             parent.mkdir()
 
         requireFile(false)
-        return fs.createWriteStream(path, JsObject<fs.`T$51`> {
+        return node.fs.createWriteStream(path, JsObject<FileOptions> {
             this.encoding = encoding
             this.flags = "w"
         })

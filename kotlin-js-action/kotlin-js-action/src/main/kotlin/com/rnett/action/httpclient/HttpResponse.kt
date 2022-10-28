@@ -1,10 +1,10 @@
 package com.rnett.action.httpclient
 
-import http.IncomingMessage
 import internal.httpclient.IHttpClientResponse
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.await
 import kotlinx.coroutines.promise
+import node.http.IncomingMessage
 import kotlin.js.Promise
 
 
@@ -46,7 +46,7 @@ internal class HttpResponseImpl internal constructor(internal val internal: IHtt
         it[0].lowercase() to it[1]
     }.toMap().let { MapHeaders(it) }
 
-    override val statusCode: Int = message.statusCode.toInt()
-    override val statusMessage: String get() = message.statusMessage
+    override val statusCode: Int = message.statusCode!!.toInt()
+    override val statusMessage: String get() = message.statusMessage!!
     override fun isSuccess(): Boolean = statusCode in 200..299
 }

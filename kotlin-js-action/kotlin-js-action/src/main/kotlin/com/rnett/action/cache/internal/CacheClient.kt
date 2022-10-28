@@ -1,13 +1,9 @@
 package com.rnett.action.cache.internal
 
-import NodeJS.ReadableStream
-import NodeJS.get
-import NodeJS.set
 import com.rnett.action.JsObject
 import com.rnett.action.Path
 import com.rnett.action.core.env
 import com.rnett.action.core.maskSecret
-import http.RequestOptions
 import internal.httpclient.HttpClient
 import internal.httpclient.IHeaders
 import internal.httpclient.IHttpClient
@@ -19,6 +15,10 @@ import kotlinx.coroutines.await
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
+import kotlinx.js.get
+import kotlinx.js.set
+import node.ReadableStream
+import node.http.RequestOptions
 import kotlin.js.Promise
 import kotlin.math.min
 
@@ -54,6 +54,14 @@ private external interface ReserveCacheResponse {
 @ExperimentalCacheAPI
 private external interface CommitCacheRequest {
     var size: Long
+}
+
+private external interface ReadStreamOptions {
+
+    var autoClose: Boolean?
+    var end: Long?
+    var start: Long?
+    var fd: Number?
 }
 
 /**
@@ -142,7 +150,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Actio
 
         val contentLength = response.message.headers["content-length"] as String?
         contentLength?.toLongOrNull()?.let { expectedSize ->
-            val realSize = destination.stats!!.size
+            val realSize = destination.stats()!!.size
             if (expectedSize != realSize)
                 error("Incomplete download, expected file size $expectedSize but only got $realSize")
         }
@@ -215,7 +223,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Actio
             openStream(),
             additionalHeaders
         ).await()
-        if (!response.message.statusCode.isSuccess())
+        if (!response.message.statusCode!!.isSuccess())
             error(
                 "Cache service responded with ${response.message.statusCode} during chunk upload: ${
                     response.readBody().await()
@@ -238,7 +246,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Actio
             text,
             additionalHeaders
         ).await()
-        if (!response.message.statusCode.isSuccess())
+        if (!response.message.statusCode!!.isSuccess())
             error(
                 "Cache service responded with ${response.message.statusCode} during text upload: ${
                     response.readBody().await()
@@ -256,12 +264,12 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Actio
         concurrency: Int = 4,
         maxChunkSize: Long = 32 * 1024 * 1024
     ): Unit = coroutineScope {
-        if (!file.isFile)
+        if (!file.isFile())
             error("file to upload must be a file")
 
-        val fileSize = file.stats!!.size.toLong()
+        val fileSize = file.stats()!!.size.toLong()
 
-        val fd = fs.openSync(file.path, "r", mode = "0o666")
+        val fd = node.fs.openSync(file.path, "r".asDynamic(), mode = "0o666".asDynamic())
 
         var offset: Long = 0
         val jobs = List(concurrency) {
@@ -272,7 +280,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Actio
 
             launch {
                 uploadChunk(cacheId, {
-                    fs.createReadStream(file.path, JsObject<fs.`T$50`> {
+                    node.fs.createReadStream(file.path, JsObject<ReadStreamOptions> {
                         this.fd = fd
                         this.start = start
                         this.end = end
@@ -282,7 +290,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Actio
             }
         }
         jobs.joinAll()
-        fs.closeSync(fd)
+        node.fs.closeSync(fd)
     }
 
     /**
@@ -305,7 +313,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Actio
     @ExperimentalCacheAPI
     public suspend fun saveFile(cacheId: Int, file: Path, concurrency: Int = 4, maxChunkSize: Long = 32 * 1024 * 1024) {
         uploadFile(cacheId, file, concurrency, maxChunkSize)
-        val size = file.stats!!.size.toLong()
+        val size = file.stats()!!.size.toLong()
         commitCache(cacheId, size)
     }
 

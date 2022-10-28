@@ -9,8 +9,9 @@
 
 package internal.exec
 
-import Buffer
-import stream.internal.Writable
+import node.buffer.Buffer
+import node.stream.Writable
+
 
 internal external interface EnvBuilder {
     @nativeGetter

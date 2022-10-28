@@ -9,9 +9,9 @@
 
 package internal.httpclient
 
-import NodeJS.ReadableStream
-import http.Agent
-import http.IncomingMessage
+import node.ReadableStream
+import node.http.Agent
+import node.http.IncomingMessage
 import kotlin.js.Promise
 
 internal external enum class HttpCodes {

@@ -1,6 +1,6 @@
 package com.rnett.action
 
-import NodeJS.get
+import kotlinx.js.get
 import kotlin.reflect.KProperty
 
 object TestEnv {

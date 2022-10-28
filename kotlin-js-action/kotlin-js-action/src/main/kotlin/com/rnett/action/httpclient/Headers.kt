@@ -1,12 +1,12 @@
 package com.rnett.action.httpclient
 
-import NodeJS.get
-import NodeJS.set
 import com.rnett.action.JsObject
 import com.rnett.action.jsEntries
-import http.ClientRequestArgs
-import http.OutgoingHttpHeaders
 import internal.httpclient.IHeaders
+import kotlinx.js.get
+import kotlinx.js.set
+import node.http.ClientRequestArgs
+import node.http.OutgoingHttpHeaders
 
 internal fun Any?.headerToString() = when (val value = this) {
     null -> null

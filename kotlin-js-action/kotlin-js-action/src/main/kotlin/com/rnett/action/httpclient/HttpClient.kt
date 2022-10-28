@@ -1,7 +1,5 @@
 package com.rnett.action.httpclient
 
-import Buffer
-import NodeJS.ReadableStream
 import com.rnett.action.JsObject
 import com.rnett.action.jsEntries
 import com.rnett.action.toStream
@@ -12,6 +10,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.await
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import node.ReadableStream
+import node.buffer.Buffer
+import node.events.Event
+import node.stream.PassThrough
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import internal.httpclient.HttpClient as JsHttpClient
@@ -306,12 +308,12 @@ internal class WrappedInterfaceClient(private val client: IHttpClient) : BaseHtt
         headers: HeaderProvider
     ): HttpResponse = coroutineScope {
         async { // hangs if removed
-            val sendStream = internal.PassThrough()
+            val sendStream = PassThrough()
             data.pipe(sendStream.asDynamic(), JsObject {
                 this.end = false
             })
-            data.on("close") { sendStream.destroy() }
-            data.on("end") { sendStream.destroy() }
+            data.on(Event.CLOSE) { sendStream.destroy() }
+            data.on(Event.END) { sendStream.destroy() }
             client.request(verb.uppercase(), url, sendStream, headers.toIHeaders()).await()
                 .let(::HttpResponseImpl)
         }.await()
@@ -377,12 +379,12 @@ public class HttpClientImpl internal constructor(private val client: JsHttpClien
         headers: HeaderProvider
     ): HttpResponse = coroutineScope {
         async { // hangs if removed
-            val sendStream = internal.PassThrough()
+            val sendStream = PassThrough()
             data.pipe(sendStream.asDynamic(), JsObject {
                 this.end = false
             })
-            data.on("close") { sendStream.destroy() }
-            data.on("end") { sendStream.destroy() }
+            data.on(Event.CLOSE) { sendStream.destroy() }
+            data.on(Event.END) { sendStream.destroy() }
             client.request(verb.uppercase(), url, sendStream, headers.toIHeaders()).await()
                 .let(::HttpResponseImpl)
         }.await()

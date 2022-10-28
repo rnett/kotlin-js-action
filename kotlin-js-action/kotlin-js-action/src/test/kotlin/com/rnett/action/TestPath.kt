@@ -1,6 +1,7 @@
 package com.rnett.action
 
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -11,7 +12,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 
-@OptIn(DelicateCoroutinesApi::class)
+@OptIn(DelicateCoroutinesApi::class, ExperimentalCoroutinesApi::class)
 class TestPath : TestWithDir() {
 
     @Test
@@ -36,41 +37,41 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testStat() {
-        assertNull(Path("nonexistant").stats)
+    fun testStat() = runTest {
+        assertNull(Path("nonexistant").stats())
 
         val file = TestEnv.cwd / "LICENSE"
-        val fileStats = file.stats
+        val fileStats = file.stats()
         assertNotNull(fileStats)
 
         assertTrue(fileStats.isFile())
-        assertTrue(file.isFile)
+        assertTrue(file.isFile())
 
         assertFalse(fileStats.isDirectory())
-        assertFalse(file.isDir)
+        assertFalse(file.isDir())
 
         assertEquals(11, (fileStats.size.toDouble() / 1000).toInt())
 
         val dir = TestEnv.cwd / "kotlin-js-action"
-        val dirStats = dir.stats
+        val dirStats = dir.stats()
         assertNotNull(dirStats)
 
         assertFalse(dirStats.isFile())
-        assertFalse(dir.isFile)
+        assertFalse(dir.isFile())
 
         assertTrue(dirStats.isDirectory())
-        assertTrue(dir.isDir)
+        assertTrue(dir.isDir())
     }
 
     @Test
-    fun testManipulation() {
+    fun testManipulation() = runTest {
         val dir = TestEnv.cwd / "./kotlin-js-action/src"
         val child = dir / "main"
         val parent = dir.parent
 
-        assertTrue(dir.isDir)
-        assertTrue(parent.isDir)
-        assertTrue(child.isDir)
+        assertTrue(dir.isDir())
+        assertTrue(parent.isDir())
+        assertTrue(child.isDir())
 
         assertTrue(child.isDescendantOf(parent))
         assertTrue(child.isDescendantOf(dir))
@@ -80,14 +81,14 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testWalking() {
+    fun testWalking() = runTest {
         val dir = (TestEnv.cwd / "./kotlin-js-action/src")
-        assertFalse(dir.isDirEmpty)
-        assertEquals(listOf(dir / "main", dir / "test"), dir.children)
+        assertFalse(dir.isDirEmpty())
+        assertEquals(listOf(dir / "main", dir / "test"), dir.children())
     }
 
     @Test
-    fun testMkdir() {
+    fun testMkdir() = runTest {
         val new = testDir / "newDir1"
         new.mkdir()
         new.mkdir() // for existsOk
@@ -106,11 +107,11 @@ class TestPath : TestWithDir() {
     }
 
     @Test
-    fun testTouch() {
+    fun testTouch() = runTest {
         val new = testDir / "testTouch"
         assertFalse(new.exists)
         new.touch()
-        assertTrue(new.isFile)
+        assertTrue(new.isFile())
     }
 
     @Test
@@ -118,7 +119,7 @@ class TestPath : TestWithDir() {
         val dir = testDir / "delete"
         dir.mkdir()
         (dir / "file").touch()
-        assertFalse(dir.isDirEmpty)
+        assertFalse(dir.isDirEmpty())
 
         assertFails { dir.delete(false) }
 

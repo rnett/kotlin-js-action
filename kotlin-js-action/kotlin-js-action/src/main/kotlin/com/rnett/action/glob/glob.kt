@@ -6,9 +6,13 @@ import internal.glob.create
 import kotlinx.coroutines.await
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import tsstdlib.IteratorYieldResult
 import kotlin.js.Promise
 import internal.glob.Globber as JsGlobber
+
+private external interface IteratorYieldResult<T> {
+    val done: Boolean?
+    val value: T
+}
 
 /**
  * A globber instance for a given glob.

@@ -2,16 +2,17 @@
 
 package internal
 
-import tsstdlib.PromiseLike
-import kotlin.js.*
+import kotlin.js.Promise
 
 internal external interface `L$0`<TReturn, T> {
     @nativeInvoke
     operator fun invoke(value: TReturn = definedExternally): Promise<dynamic /* IteratorYieldResult<T> | IteratorReturnResult<TReturn> */>
+
     @nativeInvoke
     operator fun invoke(): Promise<dynamic /* IteratorYieldResult<T> | IteratorReturnResult<TReturn> */>
+
     @nativeInvoke
-    operator fun invoke(value: PromiseLike<TReturn> = definedExternally): Promise<dynamic /* IteratorYieldResult<T> | IteratorReturnResult<TReturn> */>
+    operator fun invoke(value: Promise<TReturn> = definedExternally): Promise<dynamic /* IteratorYieldResult<T> | IteratorReturnResult<TReturn> */>
 }
 
 internal external interface AsyncIterator<T, TReturn, TNext> {

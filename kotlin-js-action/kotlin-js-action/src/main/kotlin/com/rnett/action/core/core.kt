@@ -1,11 +1,13 @@
 package com.rnett.action.core
 
-import NodeJS.get
 import com.rnett.action.JsObject
+import com.rnett.action.OperatingSystem
 import com.rnett.action.currentProcess
+import com.rnett.action.writable
 import com.rnett.action.writeLine
-import fs.`T$45`
 import kotlinx.coroutines.await
+import kotlinx.js.get
+import node.buffer.BufferEncoding
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
@@ -36,7 +38,7 @@ public object core {
             }
             append("::${escapeData(value)}")
         }
-        currentProcess.stdout.writeLine(cmd)
+        currentProcess.stdout.writable.writeLine(cmd)
     }
 
     /**
@@ -54,10 +56,10 @@ public object core {
         val filePath =
             currentProcess.env["GITHUB_$command"]
                 ?: kotlin.error("Unable to find environment variable for file command $command")
-        if (!fs.existsSync(filePath)) {
+        if (!node.fs.existsSync(filePath)) {
             kotlin.error("Missing file at path: $filePath")
         }
-        fs.appendFileSync(filePath, message + os.EOL, JsObject<`T$45`> { encoding = "utf8" })
+        node.fs.appendFileSync(filePath, message + OperatingSystem.lineSeparator, BufferEncoding.utf8)
     }
 
     private fun escapeData(data: String) = data

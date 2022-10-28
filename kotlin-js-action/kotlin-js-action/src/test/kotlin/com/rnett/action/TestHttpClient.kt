@@ -6,8 +6,6 @@ import com.rnett.action.httpclient.HeaderProvider
 import com.rnett.action.httpclient.HttpClient
 import com.rnett.action.httpclient.HttpResponse
 import com.rnett.action.httpclient.PersonalAccessTokenAuthHandler
-import com.rnett.action.httpclient.decodeBase64
-import com.rnett.action.httpclient.encodeBase64
 import com.rnett.action.httpclient.use
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

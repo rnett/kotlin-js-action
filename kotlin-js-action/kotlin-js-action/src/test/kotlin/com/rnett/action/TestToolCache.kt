@@ -2,13 +2,13 @@ package com.rnett.action
 
 import com.rnett.action.core.isActionRunner
 import com.rnett.action.toolcache.toolcache
-import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-@OptIn(DelicateCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class TestToolCache : TestWithDir() {
 
     val licenseUrl = "https://raw.githubusercontent.com/rnett/kotlin-js-action/main/LICENSE"
@@ -31,7 +31,7 @@ class TestToolCache : TestWithDir() {
     fun testExtract() = runTest {
         val archivesDir = Path(TestEnv.testCwd) / "kotlin-js-action/src/test/resources/archives"
         val extractedDir = testDir / "testExtract"
-        archivesDir.children.forEach {
+        archivesDir.children().forEach {
 
             if (it.name.endsWith(".7z") && !OperatingSystem.isWindows)
                 return@forEach
