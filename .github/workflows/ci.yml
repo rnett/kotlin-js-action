@@ -156,7 +156,7 @@ jobs:
       - name: Build docs
         uses: gradle/gradle-build-action@v2
         env:
-          GRADLE_OPTS: -Xmx2048m -XX:MaxPermSize=512m
+          GRADLE_OPTS: -Xmx2048m
         with:
           gradle-home-cache-includes: |
             nodejs
@@ -209,7 +209,7 @@ jobs:
           ORG_GRADLE_PROJECT_mavenCentralUsername: rnett
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           ORG_GRADLE_PROJECT_sonatypeRepositoryId: ${{ needs.create_staging_repository.outputs.repository_id }}
-          GRADLE_OPTS: -Xmx2048m -XX:MaxPermSize=512m
+          GRADLE_OPTS: -Xmx2048m
         with:
           gradle-home-cache-includes: |
             nodejs
