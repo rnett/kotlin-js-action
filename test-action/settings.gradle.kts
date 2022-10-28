@@ -1,6 +1,7 @@
 enableFeaturePreview("VERSION_CATALOGS")
 
 pluginManagement {
+    includeBuild("..")
     repositories {
         mavenCentral()
         gradlePluginPortal()
@@ -19,4 +20,3 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "test-action"
-includeBuild("..")
