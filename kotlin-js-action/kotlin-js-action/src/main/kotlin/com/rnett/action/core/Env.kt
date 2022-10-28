@@ -67,7 +67,7 @@ public abstract class Environment(private val defaultExport: Boolean) : MutableD
         if (value != null) {
             currentProcess.env[name] = value
         } else {
-            delete(currentProcess.env[name])
+            delete(currentProcess.env.asDynamic()[name])
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class Environment(private val defaultExport: Boolean) : MutableD
      * Remove [name] from the environment.  Does not affect exports.
      */
     public override fun remove(name: String) {
-        delete(currentProcess.env[name])
+        delete(currentProcess.env.asDynamic()[name])
     }
 
     /**

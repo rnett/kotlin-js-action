@@ -2,11 +2,12 @@ package com.rnett.action
 
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.file.Directory
 import org.gradle.api.tasks.TaskProvider
+import org.gradle.kotlin.dsl.the
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.StandardCopyOption
 
 /**
  * Add a task to create the custom webpack config necessary for packing GitHub actions.  Done automatically in [githubAction].
@@ -31,7 +32,9 @@ fun Project.addWebpackGenTask(): TaskProvider<Task> = tasks.register(Constants.c
  * Running the production webpack task will generate the compiled GitHub task in [outputFile], which by default is `dist/index.js`.
  */
 fun KotlinJsTargetDsl.githubAction(
-    outputFile: File = File("${project.projectDir}/dist/index.js")
+    outputDir: Directory = project.layout.projectDirectory.dir("dist"),
+    outFileName: String = "index.js",
+    nodeVersion: String = "16.18.0"
 ) {
 
     useCommonJs()
@@ -40,31 +43,22 @@ fun KotlinJsTargetDsl.githubAction(
     binaries.executable()
 
     browser {
+        distribution {
+            this.directory = outputDir.asFile
+            this.name = outFileName
+        }
         webpackTask {
             if (mode == org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig.Mode.PRODUCTION) {
                 output.globalObject = "this" // NodeJS mode
                 sourceMaps = false
+                this.outputFileName = outFileName
 
                 dependsOn(webpackGenTask)
-
-                val packedFile = this.outputFile
-                outputs.file(outputFile)
-                    .withPropertyName("actionOutput")
-
-//                project.tasks.getByName(LifecycleBasePlugin.ASSEMBLE_TASK_NAME) { dependsOn(this@webpackTask) }
-
-                doLast {
-                    outputFile.parentFile.mkdirs()
-                    Files.copy(packedFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
-                }
             }
         }
     }
 
-    var current: Project? = project
-    while (current != null) {
-        current.extensions.findByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class.java)?.nodeVersion =
-            "12.20.2"
-        current = current.parent
+    project.rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
+        project.rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = nodeVersion
     }
 }

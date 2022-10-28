@@ -1,6 +1,4 @@
 plugins {
-    id(libs.plugins.kotlin.jvm.get().pluginId)
-    `java-gradle-plugin`
     `kotlin-dsl`
 }
 
@@ -20,8 +18,8 @@ kotlin {
     }
     sourceSets.all {
         languageSettings {
-            apiVersion = "1.5"
-            languageVersion = "1.5"
+            apiVersion = "1.8"
+            languageVersion = "1.8"
         }
     }
 }
