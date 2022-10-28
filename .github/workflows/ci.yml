@@ -32,6 +32,11 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Grant execute permission for gradlew
+        run: |
+          chmod +x kotlin-js-action/gradlew
+          chmod +x test-action/gradlew
+
       - name: Setup ENV Posix
         if: runner.os != 'Windows'
         run: |
@@ -97,6 +102,10 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Grant execute permission for gradlew
+        run: |
+          chmod +x kotlin-js-action/gradlew
+
       - name: Get version
         if: github.ref == 'refs/heads/main'
         id: get_version
@@ -142,6 +151,8 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
+      - name: Grant execute permission for gradlew
+        run: chmod +x kotlin-js-action/gradlew
 
       - name: Clone past docs for release
         if: needs.find-version.outputs.snapshot == 'false'
@@ -179,14 +190,14 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: rnett/publish-docs@v2.6
         with:
-          from: ./build/dokka/htmlMultiModule
+          from: ./kotlin-js-action/build/dokka/htmlMultiModule
           publish-to: $latest,!old-releases/$version
           version: ${{ needs.find-version.outputs.version }}
 
       - name: Publish README
         uses: rnett/publish-docs@v2.6
         with:
-          from-file: ./build/README.md
+          from-file: ./kotlin-js-action/build/README.md
           publish-to: '$latest,!.'
           version: ${{ needs.find-version.outputs.version }}
           restore: true
