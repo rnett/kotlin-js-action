@@ -4,7 +4,6 @@ import com.rnett.action.glob.glob
 import com.rnett.action.glob.globFlow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -43,7 +42,7 @@ class TestGlob : TestWithDir() {
             omitBrokenSymbolicLinks = omitBrokenSymbolicLinks,
             matchDirectories = matchDirectories
         ).toList()
-        assertEquals(glob, globFlow, "Glob and Glob flow did not match")
+        assertEquals(glob.toSet(), globFlow.toSet(), "Glob and Glob flow did not match")
         return glob
     }
 

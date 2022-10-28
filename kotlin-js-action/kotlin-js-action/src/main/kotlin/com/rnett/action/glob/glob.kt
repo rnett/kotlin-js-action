@@ -21,6 +21,7 @@ public class Globber internal constructor(private val _globber: JsGlobber) {
 
     /**
      * Get all matching files.
+     * Order is nondeterministic.
      *
      * For very large globs, [globFlow] is recommended.
      */
@@ -28,6 +29,7 @@ public class Globber internal constructor(private val _globber: JsGlobber) {
 
     /**
      * Get all matching files, asynchronously.  Good for very large globs.
+     * Order is nondeterministic.
      */
     public suspend fun globFlow(): Flow<Path> = flow {
         val iterator = _globber.globGenerator()
@@ -49,6 +51,8 @@ public class Globber internal constructor(private val _globber: JsGlobber) {
  * Patterns that begin with `#` are ignored.
  * Patterns that begin with `!` exclude matching files.
  * Characters can be escaped by wrapping them in `[]`, or by using `\` on non-Windows systems.
+ *
+ * File ordering is nondeterministic.
  *
  * See [`@actions/glob`'s docs](https://github.com/actions/toolkit/tree/main/packages/glob#patterns)
  *
@@ -107,6 +111,7 @@ public suspend fun glob(
 
 /**
  * Get all files matching [patterns], asynchronously.  Good for very large globs.
+ * Order is nondeterministic.
  *
  * `*`, `?`, `[...]`, and `**` are supported in [patterns].  `~` will be expanded.
  * Patterns that begin with `#` are ignored.
@@ -167,6 +172,7 @@ public suspend fun Globber(
 
 /**
  * Get all files matching [patterns].
+ * Order is nondeterministic.
  *
  * For very large globs, [globFlow] is recommended.
  *
@@ -199,6 +205,7 @@ public suspend fun glob(
 
 /**
  * Get all files matching [patterns], asynchronously.  Good for very large globs.
+ * Order is nondeterministic.
  *
  * `*`, `?`, `[...]`, and `**` are supported in [patterns].  `~` will be expanded.
  * Patterns that begin with `#` are ignored.
