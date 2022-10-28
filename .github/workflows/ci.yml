@@ -57,6 +57,7 @@ jobs:
           gradle-home-cache-includes: |
             nodejs
             yarn
+          build-root-directory: ./kotlin-js-action
           arguments: check
 
       - name: Build test action
@@ -111,8 +112,8 @@ jobs:
         uses: rnett/find-regex@v1.2
         with:
           regex: '\s*version ?(?:=|:) ?"?([\w.\-_]+)"?'
-          files: "build.gradle.kts,common.gradle.kts,gradle.properties,build.gradle"
-          commands: "./gradlew properties"
+          files: "kotlin-js-action/build.gradle.kts,kotlin-js-action/common.gradle.kts,kotlin-js-action/gradle.properties,kotlin-js-action/build.gradle"
+          commands: "./kotlin-js-action/gradlew properties"
       - name: Print version
         run: 'echo "Version: ${{ steps.get_version.outputs.match }}"'
 
@@ -183,6 +184,7 @@ jobs:
             nodejs
             yarn
           arguments: publish generateReadme dokkaHtmlMultiModule -PsourceLinkBranch=$GITHUB_SHA -PoldVersionsDir=past-docs/old-releases
+          build-root-directory: ./kotlin-js-action
 
       - name: Publish docs
         if: github.ref == 'refs/heads/main'
