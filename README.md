@@ -16,9 +16,6 @@
 
 Using the IR backend is required.
 
-**Unfortunately, use of the `jcenter()` repository is required for `kotlinx-nodejs`**. You can vote
-for [this issue](https://github.com/Kotlin/kotlinx-nodejs/issues/16).
-
 ### [Docs](https://rnett.github.io/kotlin-js-action/release/)
 
 [For latest SNAPSHOT build](https://rnett.github.io/kotlin-js-action/snapshot/)
