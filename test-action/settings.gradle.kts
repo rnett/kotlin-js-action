@@ -19,4 +19,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "test-action"
+
 includeBuild("..")
