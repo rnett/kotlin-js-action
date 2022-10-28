@@ -2,7 +2,6 @@ package com.rnett.action
 
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -29,18 +28,18 @@ class TestPath : TestWithDir() {
 
     @Test
     fun testExists() {
-        assertTrue((TestEnv.cwd / ".gitignore").exists)
-        assertTrue((TestEnv.cwd / "./.gitignore").exists)
+        assertTrue((TestEnv.projectDir / ".gitignore").exists)
+        assertTrue((TestEnv.projectDir / "./.gitignore").exists)
 
-        assertFalse((TestEnv.cwd / "nonexistant").exists)
-        assertFalse((TestEnv.cwd / "./nonexistant").exists)
+        assertFalse((TestEnv.projectDir / "nonexistant").exists)
+        assertFalse((TestEnv.projectDir / "./nonexistant").exists)
     }
 
     @Test
     fun testStat() = runTest {
         assertNull(Path("nonexistant").stats())
 
-        val file = TestEnv.cwd / "LICENSE"
+        val file = TestEnv.projectDir / "LICENSE"
         val fileStats = file.stats()
         assertNotNull(fileStats)
 
@@ -52,7 +51,7 @@ class TestPath : TestWithDir() {
 
         assertEquals(11, (fileStats.size.toDouble() / 1000).toInt())
 
-        val dir = TestEnv.cwd / "kotlin-js-action"
+        val dir = TestEnv.projectDir / "kotlin-js-action/kotlin-js-action"
         val dirStats = dir.stats()
         assertNotNull(dirStats)
 
@@ -65,7 +64,7 @@ class TestPath : TestWithDir() {
 
     @Test
     fun testManipulation() = runTest {
-        val dir = TestEnv.cwd / "./kotlin-js-action/src"
+        val dir = TestEnv.projectDir / "./kotlin-js-action/kotlin-js-action/src"
         val child = dir / "main"
         val parent = dir.parent
 
@@ -77,12 +76,12 @@ class TestPath : TestWithDir() {
         assertTrue(child.isDescendantOf(dir))
         assertTrue(dir.isDescendantOf(parent))
 
-        assertEquals(TestEnv.cwd, dir.ancestor(2))
+        assertEquals(TestEnv.projectDir, dir.ancestor(3))
     }
 
     @Test
     fun testWalking() = runTest {
-        val dir = (TestEnv.cwd / "./kotlin-js-action/src")
+        val dir = (TestEnv.projectDir / "./kotlin-js-action/kotlin-js-action/src")
         assertFalse(dir.isDirEmpty())
         assertEquals(listOf(dir / "main", dir / "test"), dir.children())
     }
@@ -255,7 +254,7 @@ class TestPath : TestWithDir() {
     fun testPresetRead() = runTest {
         assertEquals(
             "# Project exclude paths",
-            Path(TestEnv.testCwd).descendant(".gitignore").readText().lines().first()
+            Path(TestEnv.projectDirPath).descendant(".gitignore").readText().lines().first()
         )
     }
 

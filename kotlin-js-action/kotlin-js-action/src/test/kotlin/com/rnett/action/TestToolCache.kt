@@ -3,7 +3,6 @@ package com.rnett.action
 import com.rnett.action.core.isActionRunner
 import com.rnett.action.toolcache.toolcache
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -12,7 +11,7 @@ import kotlin.test.assertNotNull
 class TestToolCache : TestWithDir() {
 
     val licenseUrl = "https://raw.githubusercontent.com/rnett/kotlin-js-action/main/LICENSE"
-    suspend fun localLicense() = (Path(TestEnv.testCwd) / "LICENSE").readText().replace("\r\n", "\n")
+    suspend fun localLicense() = (Path(TestEnv.projectDirPath) / "LICENSE").readText().replace("\r\n", "\n")
 
     @Test
     fun testDownload() = runTest {
@@ -29,7 +28,7 @@ class TestToolCache : TestWithDir() {
 
     @Test
     fun testExtract() = runTest {
-        val archivesDir = Path(TestEnv.testCwd) / "kotlin-js-action/src/test/resources/archives"
+        val archivesDir = Path(TestEnv.projectDirPath) / "kotlin-js-action/kotlin-js-action/src/test/resources/archives"
         val extractedDir = testDir / "testExtract"
         archivesDir.children().forEach {
 

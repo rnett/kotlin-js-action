@@ -10,7 +10,8 @@ object TestEnv {
     }
 
     val os by this
-    val testCwd by this
+    val projectDirPath by this
+    val tempDir by this
     val userHome by this
-    val cwd get() = Path(testCwd)
+    val projectDir get() = Path(projectDirPath)
 }

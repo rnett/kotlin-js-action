@@ -1,20 +1,43 @@
 package com.rnett.action
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestResult
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlin.random.Random
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
+import kotlin.time.Duration.Companion.milliseconds
 
-val globalTestDir by lazy { Path(TestEnv.testCwd.trimEnd('/') + "/testdir") }
+val globalTestDir by lazy { Path(TestEnv.tempDir.trimEnd('/') + "/testdir") }
 
 @OptIn(ExperimentalCoroutinesApi::class)
 abstract class TestWithDir {
-    lateinit var testDir: Path
-        private set
+
+    private var _testDir: Path? = null
+
+    val testDir: Path
+        get() = _testDir ?: error("Test dir not set yet")
+
+    fun runTest(block: suspend TestScope.() -> Unit): TestResult {
+        return kotlinx.coroutines.test.runTest {
+            doInit()
+            block()
+        }
+    }
 
     @BeforeTest
-    internal fun before() = runTest {
+    fun before() = kotlinx.coroutines.test.runTest {
+        doInit()
+    }
+
+    private suspend fun doInit() {
+        if (_testDir != null) {
+            return
+        }
+
         val name = Random.nextLong().toString(20) + Random.nextLong().toString(20)
         val dir = globalTestDir / "test-$name"
 
@@ -27,7 +50,8 @@ abstract class TestWithDir {
         dir.mkdir()
         dir.initDir()
         Path.cd(dir)
-        testDir = dir
+        if (_testDir == null)
+            _testDir = dir
     }
 
     open suspend fun Path.initDir() {
@@ -35,12 +59,14 @@ abstract class TestWithDir {
     }
 
     @AfterTest
-    internal fun after() {
-        //TODO do cleanup.  I'm returning promises, so sometimes they would be executed after the cleanup.
-        // Prob needs coroutines-test
-//        Path.cd(globalTestDir)
-//        fs.rmdirSync(testDir.path, JsObject {
-//            this.recursive = true
-//        })
+    internal fun after() = kotlinx.coroutines.test.runTest {
+        backgroundScope.launch {
+            delay(200.milliseconds)
+            Path.cd(globalTestDir)
+            node.fs.rmdirSync(testDir.path, JsObject {
+                this.recursive = true
+            })
+        }
+        advanceUntilIdle()
     }
 }

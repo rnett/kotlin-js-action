@@ -1,3 +1,5 @@
+import org.apache.commons.lang3.SystemUtils
+import org.jetbrains.kotlin.cli.common.toBooleanLenient
 import org.jetbrains.kotlin.gradle.targets.js.npm.NpmDependency
 import java.net.URL
 
@@ -60,13 +62,30 @@ kotlin {
                     timeout = "20s"
                 }
 
-                val dir = rootProject.file("testdir")
+                val dir = layout.buildDirectory.dir("testdir").get().asFile
                 doFirst {
                     dir.deleteRecursively()
                     dir.mkdirs()
                 }
                 doLast {
                     dir.deleteRecursively()
+                }
+                environment("TEST_ENV_tempDir", dir.absolutePath)
+
+                if (System.getenv("CI").toBooleanLenient() != true) {
+                    environment("TEST_ENV_projectDirPath", rootProject.layout.projectDirectory.asFile.parentFile.absolutePath)
+                    environment(
+                        "TEST_ENV_os", when {
+                            SystemUtils.IS_OS_MAC -> "mac"
+                            SystemUtils.IS_OS_LINUX -> "linux"
+                            SystemUtils.IS_OS_WINDOWS -> "windows"
+                            else -> error("Unsupported operating system")
+                        }
+                    )
+                    environment(
+                        "TEST_ENV_userHome",
+                        File(System.getProperty("user.home")).canonicalFile.absolutePath
+                    )
                 }
             }
         }
