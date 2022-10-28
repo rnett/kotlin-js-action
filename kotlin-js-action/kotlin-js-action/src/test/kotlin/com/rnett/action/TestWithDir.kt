@@ -61,9 +61,8 @@ abstract class TestWithDir {
     @AfterTest
     internal fun after() = kotlinx.coroutines.test.runTest {
         backgroundScope.launch {
-            delay(200.milliseconds)
-            Path.cd(globalTestDir)
-            node.fs.rmdirSync(testDir.path, JsObject {
+            delay(500.milliseconds)
+            node.fs.rmdirSync(testDir.resolve().path, JsObject {
                 this.recursive = true
             })
         }
