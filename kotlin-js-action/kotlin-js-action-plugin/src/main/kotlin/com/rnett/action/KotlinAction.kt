@@ -29,7 +29,7 @@ fun Project.addWebpackGenTask(): TaskProvider<Task> = tasks.register(Constants.c
 /**
  * Adds a JS target for GitHub actions (browser commonJs w/ node libraries) that run using `node12` and configures necessary tasks for packing.
  *
- * Running the production webpack task will generate the compiled GitHub task in [outputFile], which by default is `dist/index.js`.
+ * Running the production webpack task will generate the compiled GitHub task in [outputDir]/[outFileName], which by default is `dist/index.js`.
  */
 fun KotlinJsTargetDsl.githubAction(
     outputDir: Directory = project.layout.projectDirectory.dir("dist"),
