@@ -13,7 +13,7 @@ mavenPublishing {
     pom {
         name.set(project.providers.provider { project.extensions.getByType<MetadataExtension>() }.flatMap { it.title })
         description.set(project.providers.provider { project.description })
-        inceptionYear.set("2022")
+        inceptionYear.set("2021")
         url.set("https://github.com/rnett/kotlin-js-action/")
 
         licenses {
