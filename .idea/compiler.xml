@@ -2,14 +2,54 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="build-logic" target="17" />
+      <module name="build-logic.common-module" target="17" />
+      <module name="build-logic.common-module.main" target="17" />
+      <module name="build-logic.common-module.test" target="17" />
+      <module name="build-logic.docs" target="17" />
+      <module name="build-logic.docs.main" target="17" />
+      <module name="build-logic.docs.test" target="17" />
+      <module name="build-logic.js-module" target="17" />
+      <module name="build-logic.js-module.main" target="17" />
+      <module name="build-logic.js-module.test" target="17" />
       <module name="build-logic.main" target="17" />
+      <module name="build-logic.metadata" target="17" />
+      <module name="build-logic.metadata.main" target="17" />
+      <module name="build-logic.metadata.test" target="17" />
+      <module name="build-logic.modules" target="17" />
+      <module name="build-logic.modules.main" target="17" />
+      <module name="build-logic.modules.test" target="17" />
+      <module name="build-logic.plugin-module" target="17" />
+      <module name="build-logic.plugin-module.main" target="17" />
+      <module name="build-logic.plugin-module.test" target="17" />
+      <module name="build-logic.publishing" target="17" />
+      <module name="build-logic.publishing.main" target="17" />
+      <module name="build-logic.publishing.test" target="17" />
       <module name="build-logic.test" target="17" />
+      <module name="com.github.rnett.ktjs-github-action.kotlin-js-action-parent.kotlin-js-action" target="17" />
+      <module name="com.github.rnett.ktjs-github-action.kotlin-js-action-parent.kotlin-js-action-plugin" target="17" />
+      <module name="com.github.rnett.ktjs-github-action.kotlin-js-action-parent.kotlin-js-action-plugin.main" target="1.8" />
+      <module name="com.github.rnett.ktjs-github-action.kotlin-js-action-parent.kotlin-js-action-plugin.test" target="17" />
+      <module name="com.github.rnett.ktjs-github-action.kotlin-js-action-parent.serialization" target="17" />
       <module name="kotlin-js-action-parent.kotlin-js-action" target="17" />
       <module name="kotlin-js-action-parent.kotlin-js-action-plugin" target="17" />
       <module name="kotlin-js-action-parent.kotlin-js-action-plugin.main" target="1.8" />
       <module name="kotlin-js-action-parent.kotlin-js-action-plugin.test" target="17" />
       <module name="kotlin-js-action-parent.serialization" target="17" />
+      <module name="kotlin-js-action.build-logic.common-module" target="17" />
+      <module name="kotlin-js-action.build-logic.common-module.main" target="17" />
+      <module name="kotlin-js-action.build-logic.common-module.test" target="17" />
+      <module name="kotlin-js-action.build-logic.docs" target="17" />
+      <module name="kotlin-js-action.build-logic.docs.main" target="17" />
+      <module name="kotlin-js-action.build-logic.docs.test" target="17" />
+      <module name="kotlin-js-action.build-logic.js-module" target="17" />
+      <module name="kotlin-js-action.build-logic.js-module.main" target="17" />
+      <module name="kotlin-js-action.build-logic.js-module.test" target="17" />
+      <module name="kotlin-js-action.build-logic.metadata" target="17" />
+      <module name="kotlin-js-action.build-logic.metadata.main" target="17" />
+      <module name="kotlin-js-action.build-logic.metadata.test" target="17" />
+      <module name="kotlin-js-action.build-logic.publishing" target="17" />
+      <module name="kotlin-js-action.build-logic.publishing.main" target="17" />
+      <module name="kotlin-js-action.build-logic.publishing.test" target="17" />
       <module name="test-action" target="17" />
     </bytecodeTargetLevel>
   </component>

@@ -1,7 +1,6 @@
 enableFeaturePreview("VERSION_CATALOGS")
 
 pluginManagement {
-    includeBuild("build-logic")
     repositories {
         mavenCentral()
         gradlePluginPortal()
@@ -14,11 +13,15 @@ pluginManagement {
 dependencyResolutionManagement {
     versionCatalogs {
         create(defaultLibrariesExtensionName.get()) {
-            from(files("../libs.versions.toml"))
+            from(files("../../libs.versions.toml"))
         }
     }
 }
 
-rootProject.name = "kotlin-js-action-parent"
-
-include("kotlin-js-action", "serialization", "kotlin-js-action-plugin")
+include(
+    "metadata",
+    "docs",
+    "common-module",
+    "js-module",
+    "publishing"
+)

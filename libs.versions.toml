@@ -4,12 +4,10 @@ kotlinx-serialization = "1.4.1"
 kotlinx-coroutines = "1.6.4"
 kotlin-wrappers-node = "18.11.5-pre.414"
 
-publish = "0.18.0"
+publish = "0.22.0"
 dokka = "1.7.20"
 
 [libraries]
-
-dokka-versioning = { module = "org.jetbrains.dokka:versioning-plugin", version.ref = "dokka" }
 
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
@@ -18,11 +16,15 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 
 kotlin-wrappers-node = { module = "org.jetbrains.kotlin-wrappers:kotlin-node", version.ref = "kotlin-wrappers-node" }
 
+build-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "publish" }
+build-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+build-dokka-versioning = { module = "org.jetbrains.dokka:versioning-plugin", version.ref = "dokka" }
+
+build-kotlin-js = { module = "org.jetbrains.kotlin.js:org.jetbrains.kotlin.js.gradle.plugin", version.ref = "kotlin" }
+
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-js = { id = "org.jetbrains.kotlin.js", version.ref = "kotlin" }
 
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
