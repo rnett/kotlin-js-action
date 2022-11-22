@@ -241,7 +241,11 @@ public suspend fun globFlow(
  *
  * @param followSymbolicLinks whether to follow symbolic links when hashing files
  */
-public suspend fun hashFiles(patterns: List<String>, followSymbolicLinks: Boolean = true): String =
-    internal.glob.hashFiles(patterns.joinToString("\n"), JsObject {
-        this.followSymbolicLinks = followSymbolicLinks
-    }).await()
+public suspend fun hashFiles(patterns: List<String>, followSymbolicLinks: Boolean = true, verbose: Boolean = false): String =
+    internal.glob.hashFiles(
+        patterns.joinToString("\n"),
+        JsObject {
+            this.followSymbolicLinks = followSymbolicLinks
+        },
+        verbose
+    ).await()

@@ -35,14 +35,7 @@
     "@actions/http-client" "^2.0.1"
     uuid "^8.3.2"
 
-"@actions/exec@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@actions/exec/-/exec-1.1.0.tgz#53441d968e56d2fec69ad3f15773d4d94e01162c"
-  integrity sha512-LImpN9AY0J1R1mEYJjVJfSZWU4zYOlEcwSTgPve1rFQqK5AwrEs6uWW5Rv70gbDIQIAUwI86z6B+9mPK4w9Sbg==
-  dependencies:
-    "@actions/io" "^1.0.1"
-
-"@actions/exec@^1.0.1":
+"@actions/exec@1.1.1", "@actions/exec@^1.0.0", "@actions/exec@^1.0.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@actions/exec/-/exec-1.1.1.tgz#2e43f28c54022537172819a7cf886c844221a611"
   integrity sha512-+sCcHHbVdk93a0XT19ECtO/gIXoxvdsgQLzb2fE2/5sIZmWQuluYyjPQtrtTHdU1YzTZ7bAPN4sITq2xi1679w==
@@ -59,10 +52,10 @@
     "@octokit/plugin-paginate-rest" "^2.13.3"
     "@octokit/plugin-rest-endpoint-methods" "^5.1.1"
 
-"@actions/glob@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@actions/glob/-/glob-0.2.0.tgz#38e939ebd7c18ded5b8eee642583875f195cae63"
-  integrity sha512-mqE2a7I66kxcvsdwxs/filQwZsq25IfktMaviGfDB51v6Q3bvxnV7mFsZnvYtLhqGZbPxwBnH8AD3UYaOWb//w==
+"@actions/glob@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@actions/glob/-/glob-0.3.0.tgz#beb5282a8cd936baadbe99fbb1ccd5eaf2d1fc28"
+  integrity sha512-tJP1ZhF87fd6LBnaXWlahkyvdgvsLl7WnreW1EZaC8JWjpMXmzqWzQVe/IEYslrkT9ymibVrKyJN4UMD7uQM2w==
   dependencies:
     "@actions/core" "^1.2.6"
     minimatch "^3.0.4"
@@ -75,7 +68,7 @@
     "@actions/core" "^1.2.6"
     minimatch "^3.0.4"
 
-"@actions/http-client@1.0.11", "@actions/http-client@^1.0.11", "@actions/http-client@^1.0.9":
+"@actions/http-client@1.0.11", "@actions/http-client@^1.0.11", "@actions/http-client@^1.0.8", "@actions/http-client@^1.0.9":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@actions/http-client/-/http-client-1.0.11.tgz#c58b12e9aa8b159ee39e7dd6cbd0e91d905633c0"
   integrity sha512-VRYHGQV1rqnROJqdMvGUbY/Kn8vriQe/F9HR2AlYHzmKuM/p3kjNuXhmdBfcVgsvRWTz5C5XW5xvndZrVBuAYg==
@@ -94,10 +87,22 @@
   resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.1.1.tgz#4a157406309e212ab27ed3ae30e8c1d641686a66"
   integrity sha512-Qi4JoKXjmE0O67wAOH6y0n26QXhMKMFo7GD/4IXNVcrtLjUlGjGuVys6pQgwF3ArfGTQu0XpqaNr0YhED2RaRA==
 
-"@actions/io@^1.0.1":
+"@actions/io@^1.0.1", "@actions/io@^1.1.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@actions/io/-/io-1.1.2.tgz#766ac09674a289ce0f1550ffe0a6eac9261a8ea9"
   integrity sha512-d+RwPlMp+2qmBfeLYPLXuSRykDIFEwdTA0MMxzS9kh4kvP1ftrc/9fzy6pX6qAjthdXruHQ6/6kjT/DNo5ALuw==
+
+"@actions/tool-cache@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@actions/tool-cache/-/tool-cache-1.7.1.tgz#f9f4f822cb639da6facdf3e22ea571361ab26f92"
+  integrity sha512-y1xxxOhXaBUIUit3lhepmu/0xdgiTMpnZRLmVdtF0hTm521doi+MdRRRP62czHvM7wxH6epj4JPNJQ3iJpOrkQ==
+  dependencies:
+    "@actions/core" "^1.2.6"
+    "@actions/exec" "^1.0.0"
+    "@actions/http-client" "^1.0.8"
+    "@actions/io" "^1.1.1"
+    semver "^6.1.0"
+    uuid "^3.3.2"
 
 "@azure/abort-controller@^1.0.0":
   version "1.1.0"
@@ -1047,7 +1052,7 @@ url-parse@^1.5.3:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
 
-uuid@^3.3.3:
+uuid@^3.3.2, uuid@^3.3.3:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==

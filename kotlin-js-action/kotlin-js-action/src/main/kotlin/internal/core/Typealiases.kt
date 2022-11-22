@@ -1,3 +1,3 @@
 package internal.core
 
-typealias SummaryTableRow = Array<dynamic /* SummaryTableCell | String */>
+internal typealias SummaryTableRow = Array<dynamic /* SummaryTableCell | String */>

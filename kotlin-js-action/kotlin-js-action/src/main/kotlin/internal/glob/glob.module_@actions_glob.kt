@@ -13,4 +13,4 @@ import kotlin.js.Promise
 
 internal external fun create(patterns: String, options: GlobOptions = definedExternally): Promise<Globber>
 
-internal external fun hashFiles(patterns: String, options: HashFileOptions = definedExternally): Promise<String>
+internal external fun hashFiles(patterns: String, options: HashFileOptions = definedExternally, verbose: Boolean = definedExternally): Promise<String>
