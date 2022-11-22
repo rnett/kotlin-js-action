@@ -5,7 +5,7 @@ kotlinx-coroutines = "1.6.4"
 kotlin-wrappers-node = "18.11.5-pre.414"
 
 publish = "0.18.0"
-dokka = "1.6.10"
+dokka = "1.7.20"
 
 [libraries]
 
