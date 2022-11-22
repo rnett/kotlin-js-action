@@ -5,16 +5,17 @@ import java.net.URL
 
 plugins {
     alias(libs.plugins.kotlin.js)
-    id(libs.plugins.dokka.get().pluginId)
+    id("kjs-action.js-module")
 }
 
 description = "Utilities for writing Kotlin JS GitHub actions, including wrappers around @actions/toolkit"
-ext["niceName"] = "Kotlin JS GitHub Action SDK"
+metadata {
+    title.set("Kotlin JS GitHub Action SDK")
+}
 
 val generateExternals = false
 
 private val latestVersionRegex = Regex("\"dist-tags\":\\{\"latest\":\"([^\"]+)\"")
-
 
 fun DependencyHandlerScope.latestNpm(
     name: String,
@@ -53,16 +54,12 @@ dependencies {
     implementation(latestNpm("@actions/http-client", "2.0.1"))
 }
 
+
+
 kotlin {
     js(IR) {
-        useCommonJs()
         nodejs {
-            binaries.library()
             testTask {
-                useMocha {
-                    timeout = "20s"
-                }
-
                 val dir = layout.buildDirectory.dir("testdir").get().asFile
                 doFirst {
                     dir.deleteRecursively()
@@ -89,29 +86,6 @@ kotlin {
                     )
                 }
             }
-        }
-    }
-    explicitApi()
-    sourceSets.configureEach {
-        languageSettings {
-            optIn("kotlin.contracts.ExperimentalContracts")
-            optIn("kotlin.RequiresOptIn")
-        }
-    }
-}
-plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
-    configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
-        nodeVersion = "16.18.0"
-    }
-}
-
-val sourceLinkBranch: String by project
-
-tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaLeafTask>() {
-    dokkaSourceSets.configureEach {
-        platform.set(org.jetbrains.dokka.Platform.js)
-        externalDocumentationLink {
-            url.set(URL("https://kotlin.github.io/kotlinx.coroutines/"))
         }
     }
 }

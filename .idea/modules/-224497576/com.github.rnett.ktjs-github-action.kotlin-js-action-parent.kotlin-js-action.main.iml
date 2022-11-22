@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":kotlin-js-action:main" external.linked.project.path="$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action" external.root.project.path="$MODULE_DIR$/../../../kotlin-js-action" external.system.id="GRADLE" external.system.module.group="com.github.rnett.ktjs-github-action" external.system.module.type="sourceSet" external.system.module.version="1.6.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="kotlin-language" name="Kotlin">
+      <configuration version="5" platform="JavaScript " allPlatforms="JS []" useProjectSettings="false" isTestModule="false" externalProjectId=":kotlin-js-action">
+        <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
+        <productionOutputPath>$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action/build/classes/kotlin/main</productionOutputPath>
+        <compilerSettings>
+          <option name="additionalArguments" value="-Xir-only -Xir-per-module-output-name=kotlin-js-action-parent-kotlin-js-action -Xir-produce-klib-dir -Xir-module-name=com.github.rnett.ktjs-github-action:kotlin-js-action -Xexplicit-api=strict -opt-in kotlin.contracts.ExperimentalContracts,kotlin.RequiresOptIn" />
+        </compilerSettings>
+        <compilerArguments>
+          <flagArguments>
+            <flagArg name="metaInfo" arg="true" />
+            <flagArg name="noStdlib" arg="true" />
+            <flagArg name="sourceMap" arg="true" />
+          </flagArguments>
+          <stringArguments>
+            <stringArg name="main" arg="call" />
+            <stringArg name="moduleKind" arg="commonjs" />
+            <stringArg name="outputFile" arg="$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action/build/classes/kotlin/main" />
+            <stringArg name="sourceMapEmbedSources" arg="never" />
+            <stringArg name="target" arg="v5" />
+            <stringArg name="apiVersion" arg="1.7" />
+            <stringArg name="languageVersion" arg="1.7" />
+          </stringArguments>
+          <arrayArguments>
+            <arrayArg name="pluginClasspaths" />
+            <arrayArg name="pluginOptions" />
+          </arrayArguments>
+        </compilerArguments>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action/build/classes/kotlin/main" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action/build/externals/kotlin-js-action-parent-kotlin-js-action/src" />
+    <content url="file://$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action/src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action/src/main/kotlin" type="kotlin-source" />
+    </content>
+    <orderEntry type="jdk" jdkName="Kotlin SDK" jdkType="KotlinSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../kotlin-js-action/build/js/node_modules/@actions/core/lib/core.js" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../kotlin-js-action/build/js/node_modules/@actions/exec/lib/exec.js" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../kotlin-js-action/build/js/node_modules/@actions/glob/lib/glob.js" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../kotlin-js-action/build/js/node_modules/@actions/io/lib/io.js" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../kotlin-js-action/build/js/node_modules/@actions/tool-cache/lib/tool-cache.js" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../kotlin-js-action/build/js/node_modules/@actions/github/lib/github.js" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../kotlin-js-action/build/js/node_modules/@actions/artifact/lib/artifact-client.js" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../kotlin-js-action/build/js/node_modules/@actions/cache/lib/cache.js" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../kotlin-js-action/build/js/node_modules/@actions/http-client/lib/index.js" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin-wrappers:kotlin-node:klib:18.11.5-pre.414" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-js:1.7.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin-wrappers:kotlin-web:klib:1.0.0-pre.414" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin-wrappers:kotlin-js:klib:1.0.0-pre.414" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-core-js:klib:1.6.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.7.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlinx:atomicfu-js:klib:0.17.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:atomicfu:1.6.21" level="project" />
+  </component>
+</module>

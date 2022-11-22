@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="build-logic:js-module" external.linked.project.path="$MODULE_DIR$/../../../kotlin-js-action/build-logic/js-module" external.root.project.path="$MODULE_DIR$/../../../kotlin-js-action" external.system.id="GRADLE" external.system.module.group="build-logic" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_17" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../kotlin-js-action/build-logic/js-module">
+      <excludeFolder url="file://$MODULE_DIR$/../../../kotlin-js-action/build-logic/js-module/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../kotlin-js-action/build-logic/js-module/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
