@@ -25,4 +25,7 @@ internal external interface DownloadOptions {
     var timeoutInMs: Number?
         get() = definedExternally
         set(value) = definedExternally
+    var segmentTimeoutInMs: Number?
+        get() = definedExternally
+        set(value) = definedExternally
 }

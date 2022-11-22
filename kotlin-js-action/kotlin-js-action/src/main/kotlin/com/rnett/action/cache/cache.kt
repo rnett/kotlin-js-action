@@ -2,12 +2,21 @@ package com.rnett.action.cache
 
 import com.rnett.action.JsObject
 import com.rnett.action.Path
+import internal.cache.isFeatureAvailable
 import kotlinx.coroutines.await
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Wrappers for [`@actions/cache`](https://github.com/actions/toolkit/tree/main/packages/cache).
  */
 public object cache {
+
+    /**
+     * Gets whether the caching feature is available.
+     */
+    public val isFeatureAvailable: Boolean
+        get() = isFeatureAvailable()
 
     /**
      * Restores cache from keys
@@ -17,19 +26,22 @@ public object cache {
      * @param restoreKeys an optional ordered list of keys to use for restoring the cache if no cache hit occurred for [key]
      * @param useAzureSdk whether to use the Azure Blob SDK to download caches that are stored on Azure Blob Storage to improve reliability and performance
      * @param downloadConcurrency Number of parallel downloads (this option only applies when using the Azure SDK)
-     * @param timeoutInMs Maximum time for each download request, in milliseconds (this option only applies when using the Azure SDK)
+     * @param timeout Maximum time for each download request (this option only applies when using the Azure SDK)
+     * @param segmentTimeout Maximum time to try to download a segment
      * @returns string returns the key for the cache hit, otherwise returns null if none hit
      */
     public suspend fun restoreCache(
         paths: List<String>, key: String, restoreKeys: List<String> = emptyList(),
         useAzureSdk: Boolean = true,
         downloadConcurrency: Int = 8,
-        timeoutInMs: Int = 30000
+        timeout: Duration = 30000.milliseconds,
+        segmentTimeout: Duration = 30000.milliseconds
     ): String? {
         return internal.cache.restoreCache(paths.toTypedArray(), key, restoreKeys.toTypedArray(), JsObject {
             this.useAzureSdk = useAzureSdk
             this.downloadConcurrency = downloadConcurrency
-            this.timeoutInMs = timeoutInMs
+            this.timeoutInMs = timeout.inWholeMilliseconds
+            this.segmentTimeoutInMs = segmentTimeout.inWholeMilliseconds
         }).await()
     }
 
@@ -42,16 +54,18 @@ public object cache {
      * @param restoreKeys an optional ordered list of keys to use for restoring the cache if no cache hit occurred for [key]
      * @param useAzureSdk whether to use the Azure Blob SDK to download caches that are stored on Azure Blob Storage to improve reliability and performance
      * @param downloadConcurrency Number of parallel downloads (this option only applies when using the Azure SDK)
-     * @param timeoutInMs Maximum time for each download request, in milliseconds (this option only applies when using the Azure SDK)
+     * @param timeout Maximum time for each download request (this option only applies when using the Azure SDK)
+     * @param segmentTimeout Maximum time to try to download a segment
      * @returns string returns the key for the cache hit, otherwise returns null if none hit
      */
     public suspend fun restoreRequiredCache(
         paths: List<String>, key: String, restoreKeys: List<String> = emptyList(),
         useAzureSdk: Boolean = true,
         downloadConcurrency: Int = 8,
-        timeoutInMs: Int = 30000
+        timeout: Duration = 30000.milliseconds,
+        segmentTimeout: Duration = 30000.milliseconds
     ): String {
-        return restoreCache(paths, key, restoreKeys, useAzureSdk, downloadConcurrency, timeoutInMs)
+        return restoreCache(paths, key, restoreKeys, useAzureSdk, downloadConcurrency, timeout, segmentTimeout)
             ?: error("No cache found for key $key, with fallback keys $restoreKeys")
     }
 
@@ -64,15 +78,17 @@ public object cache {
      * @param restoreKeys an optional ordered list of keys to use for restoring the cache if no cache hit occurred for [key]
      * @param useAzureSdk whether to use the Azure Blob SDK to download caches that are stored on Azure Blob Storage to improve reliability and performance
      * @param downloadConcurrency Number of parallel downloads (this option only applies when using the Azure SDK)
-     * @param timeoutInMs Maximum time for each download request, in milliseconds (this option only applies when using the Azure SDK)
+     * @param timeout Maximum time for each download request (this option only applies when using the Azure SDK)
+     * @param segmentTimeout Maximum time to try to download a segment
      * @returns string returns the key for the cache hit, otherwise returns null if none hit
      */
     public suspend fun restoreCache(
         paths: List<Path>, key: String, restoreKeys: List<String> = emptyList(),
         useAzureSdk: Boolean = true,
         downloadConcurrency: Int = 8,
-        timeoutInMs: Int = 30000
-    ): String? = restoreCache(paths.map { it.path }, key, restoreKeys, useAzureSdk, downloadConcurrency, timeoutInMs)
+        timeout: Duration = 30000.milliseconds,
+        segmentTimeout: Duration = 30000.milliseconds
+    ): String? = restoreCache(paths.map { it.path }, key, restoreKeys, useAzureSdk, downloadConcurrency, timeout, segmentTimeout)
 
 
     /**
@@ -83,16 +99,18 @@ public object cache {
      * @param restoreKeys an optional ordered list of keys to use for restoring the cache if no cache hit occurred for [key]
      * @param useAzureSdk whether to use the Azure Blob SDK to download caches that are stored on Azure Blob Storage to improve reliability and performance
      * @param downloadConcurrency Number of parallel downloads (this option only applies when using the Azure SDK)
-     * @param timeoutInMs Maximum time for each download request, in milliseconds (this option only applies when using the Azure SDK)
+     * @param timeout Maximum time for each download request, in milliseconds (this option only applies when using the Azure SDK)
+     * @param segmentTimeout Maximum time to try to download a segment
      * @returns string returns the key for the cache hit, otherwise returns null if none hit
      */
     public suspend fun restoreRequiredCache(
         paths: List<Path>, key: String, restoreKeys: List<String> = emptyList(),
         useAzureSdk: Boolean = true,
         downloadConcurrency: Int = 8,
-        timeoutInMs: Int = 30000
+        timeout: Duration = 30000.milliseconds,
+        segmentTimeout: Duration = 30000.milliseconds
     ): String =
-        restoreRequiredCache(paths.map { it.path }, key, restoreKeys, useAzureSdk, downloadConcurrency, timeoutInMs)
+        restoreRequiredCache(paths.map { it.path }, key, restoreKeys, useAzureSdk, downloadConcurrency, timeout, segmentTimeout)
 
     /**
      * Saves a list of files with the specified key

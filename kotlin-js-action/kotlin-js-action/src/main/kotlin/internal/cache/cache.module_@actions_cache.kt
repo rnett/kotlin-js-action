@@ -7,6 +7,13 @@ package internal.cache
 import kotlin.js.*
 
 
-internal external fun restoreCache(paths: Array<String>, primaryKey: String, restoreKeys: Array<String> = definedExternally, options: DownloadOptions = definedExternally): Promise<String?>
+internal external fun restoreCache(
+    paths: Array<String>,
+    primaryKey: String,
+    restoreKeys: Array<String> = definedExternally,
+    options: DownloadOptions = definedExternally
+): Promise<String?>
 
 internal external fun saveCache(paths: Array<String>, key: String, options: UploadOptions = definedExternally): Promise<Number>
+
+internal external fun isFeatureAvailable(): Boolean
