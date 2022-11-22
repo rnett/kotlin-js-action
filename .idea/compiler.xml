@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="15">
-      <module name="com.github.rnett.ktjs-github-action.kotlin-js-action-parent.kotlin-js-action" target="17" />
-      <module name="com.github.rnett.ktjs-github-action.kotlin-js-action-parent.kotlin-js-action-plugin" target="17" />
-      <module name="com.github.rnett.ktjs-github-action.kotlin-js-action-parent.kotlin-js-action-plugin.main" target="1.8" />
-      <module name="com.github.rnett.ktjs-github-action.kotlin-js-action-parent.kotlin-js-action-plugin.test" target="17" />
-      <module name="com.github.rnett.ktjs-github-action.kotlin-js-action-parent.serialization" target="17" />
-      <module name="kotlin-js-action-plugin.main" target="1.8" />
-      <module name="kotlin-js-action.kotlin-js-action-plugin.main" target="1.8" />
-      <module name="kotlin-js-action.kotlin-js-action-plugin.main~1" target="1.8" />
+    <bytecodeTargetLevel>
+      <module name="build-logic" target="17" />
+      <module name="build-logic.main" target="17" />
+      <module name="build-logic.test" target="17" />
+      <module name="kotlin-js-action-parent.kotlin-js-action" target="17" />
+      <module name="kotlin-js-action-parent.kotlin-js-action-plugin" target="17" />
+      <module name="kotlin-js-action-parent.kotlin-js-action-plugin.main" target="1.8" />
+      <module name="kotlin-js-action-parent.kotlin-js-action-plugin.test" target="17" />
+      <module name="kotlin-js-action-parent.serialization" target="17" />
+      <module name="test-action" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

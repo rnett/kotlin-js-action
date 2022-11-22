@@ -3,6 +3,22 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/kotlin-js-action.iml" filepath="$PROJECT_DIR$/.idea/kotlin-js-action.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/build-logic/build-logic.iml" filepath="$PROJECT_DIR$/.idea/modules/build-logic/build-logic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/build-logic/build-logic.main.iml" filepath="$PROJECT_DIR$/.idea/modules/build-logic/build-logic.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/build-logic/build-logic.test.iml" filepath="$PROJECT_DIR$/.idea/modules/build-logic/build-logic.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin-js-action-parent.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin-js-action-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin-js-action/kotlin-js-action-parent.kotlin-js-action.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin-js-action/kotlin-js-action-parent.kotlin-js-action.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin-js-action-plugin/kotlin-js-action-parent.kotlin-js-action-plugin.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin-js-action-plugin/kotlin-js-action-parent.kotlin-js-action-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin-js-action-plugin/kotlin-js-action-parent.kotlin-js-action-plugin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin-js-action-plugin/kotlin-js-action-parent.kotlin-js-action-plugin.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin-js-action-plugin/kotlin-js-action-parent.kotlin-js-action-plugin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin-js-action-plugin/kotlin-js-action-parent.kotlin-js-action-plugin.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin-js-action/kotlin-js-action-parent.kotlin-js-action.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin-js-action/kotlin-js-action-parent.kotlin-js-action.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin-js-action/kotlin-js-action-parent.kotlin-js-action.test.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin-js-action/kotlin-js-action-parent.kotlin-js-action.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serialization/kotlin-js-action-parent.serialization.iml" filepath="$PROJECT_DIR$/.idea/modules/serialization/kotlin-js-action-parent.serialization.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serialization/kotlin-js-action-parent.serialization.main.iml" filepath="$PROJECT_DIR$/.idea/modules/serialization/kotlin-js-action-parent.serialization.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serialization/kotlin-js-action-parent.serialization.test.iml" filepath="$PROJECT_DIR$/.idea/modules/serialization/kotlin-js-action-parent.serialization.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test-action.iml" filepath="$PROJECT_DIR$/.idea/modules/test-action.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test-action.main.iml" filepath="$PROJECT_DIR$/.idea/modules/test-action.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test-action.test.iml" filepath="$PROJECT_DIR$/.idea/modules/test-action.test.iml" />
     </modules>
   </component>
 </project>
