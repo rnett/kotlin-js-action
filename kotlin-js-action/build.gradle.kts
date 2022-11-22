@@ -95,6 +95,7 @@ subprojects {
                     val githubRoot = buildString {
                         append("https://github.com/rnett/kotlin-js-action/blob/")
                         append(sourceLinkBranch)
+                        append("/kotlin-js-action/")
 
                         val dir = project.projectDir.relativeTo(rootProject.projectDir).path.trim('/')
 
