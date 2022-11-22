@@ -9,14 +9,14 @@
 
 package internal.toolcache
 
-import internal.httpclient.IHeaders
+import node.http.OutgoingHttpHeaders
 import kotlin.js.Promise
 
 internal external fun downloadTool(
     url: String,
     dest: String? = definedExternally,
     auth: String? = definedExternally,
-    headers: IHeaders? = definedExternally
+    headers: OutgoingHttpHeaders? = definedExternally
 ): Promise<String>
 
 internal external fun extract7z(

@@ -9,99 +9,13 @@
 
 package internal.httpclient
 
-import node.ReadableStream
-import node.http.IncomingMessage
-import node.http.RequestOptions
+import node.http.IncomingHttpHeaders
+import node.http.OutgoingHttpHeaders
 import org.w3c.dom.url.URL
 import kotlin.js.Promise
 
-internal external interface IHeaders {
-    @nativeGetter
-    operator fun get(key: String): Any?
-
-    @nativeSetter
-    operator fun set(key: String, value: Any)
-}
-
-internal external interface IHttpClient {
-    fun options(
-        requestUrl: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
-
-    fun get(requestUrl: String, additionalHeaders: IHeaders = definedExternally): Promise<IHttpClientResponse>
-    fun del(requestUrl: String, additionalHeaders: IHeaders = definedExternally): Promise<IHttpClientResponse>
-    fun post(
-        requestUrl: String,
-        data: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
-
-    fun patch(
-        requestUrl: String,
-        data: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
-
-    fun put(
-        requestUrl: String,
-        data: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
-
-    fun sendStream(
-        verb: String,
-        requestUrl: String,
-        stream: ReadableStream,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
-
-    fun request(verb: String, requestUrl: String, data: String, headers: IHeaders): Promise<IHttpClientResponse>
-    fun request(
-        verb: String,
-        requestUrl: String,
-        data: ReadableStream,
-        headers: IHeaders
-    ): Promise<IHttpClientResponse>
-
-    fun requestRaw(info: IRequestInfo, data: String): Promise<IHttpClientResponse>
-    fun requestRaw(info: IRequestInfo, data: ReadableStream): Promise<IHttpClientResponse>
-    fun requestRawWithCallback(
-        info: IRequestInfo,
-        data: String,
-        onResult: (err: Any, res: IHttpClientResponse) -> Unit
-    )
-
-    fun requestRawWithCallback(
-        info: IRequestInfo,
-        data: ReadableStream,
-        onResult: (err: Any, res: IHttpClientResponse) -> Unit
-    )
-}
-
-internal external interface IRequestHandler {
-    fun prepareRequest(options: RequestOptions)
-    fun canHandleAuthentication(response: IHttpClientResponse): Boolean
-    fun handleAuthentication(
-        httpClient: IHttpClient,
-        requestInfo: IRequestInfo,
-        objs: Any
-    ): Promise<IHttpClientResponse>
-}
-
-internal external interface IHttpClientResponse {
-    var message: IncomingMessage
-    fun readBody(): Promise<String>
-}
-
-internal external interface IRequestInfo {
-    var options: RequestOptions
-    var parsedUrl: URL
-    var httpModule: Any
-}
-
-internal external interface IRequestOptions {
-    var headers: IHeaders?
+internal external interface RequestOptions {
+    var headers: OutgoingHttpHeaders?
         get() = definedExternally
         set(value) = definedExternally
     var socketTimeout: Number?
@@ -136,8 +50,20 @@ internal external interface IRequestOptions {
         set(value) = definedExternally
 }
 
-internal external interface ITypedResponse<T> {
+internal external interface RequestHandler {
+    fun prepareRequest(options: node.http.RequestOptions)
+    fun canHandleAuthentication(response: HttpClientResponse): Boolean
+    fun handleAuthentication(httpClient: HttpClient, requestInfo: RequestInfo, data: Any?): Promise<HttpClientResponse>
+}
+
+internal external interface RequestInfo {
+    var options: node.http.RequestOptions
+    var parsedUrl: URL
+    var httpModule: Any
+}
+
+internal external interface TypedResponse<T> {
     var statusCode: Number
     var result: T?
-    var headers: Any
+    var headers: IncomingHttpHeaders
 }

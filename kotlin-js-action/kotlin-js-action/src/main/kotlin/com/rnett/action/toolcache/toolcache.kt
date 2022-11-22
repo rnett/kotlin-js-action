@@ -5,7 +5,7 @@ import com.rnett.action.Path
 import com.rnett.action.core.PATH
 import com.rnett.action.core.logger
 import com.rnett.action.httpclient.HeaderProvider
-import com.rnett.action.httpclient.toIHeaders
+import com.rnett.action.httpclient.toOutgoingHeaders
 import internal.toolcache.IToolRelease
 import kotlinx.coroutines.await
 
@@ -27,7 +27,7 @@ public object toolcache {
      * @returns path to downloaded tool
      */
     public suspend fun downloadTool(url: String, dest: Path? = null, auth: String? = null, headers: HeaderProvider = HeaderProvider { }): Path =
-        internal.toolcache.downloadTool(url, dest?.path, auth, headers.toIHeaders()).await().let(::Path)
+        internal.toolcache.downloadTool(url, dest?.path, auth, headers.toOutgoingHeaders()).await().let(::Path)
 
 
     /**

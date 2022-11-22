@@ -5,12 +5,9 @@ import com.rnett.action.Path
 import com.rnett.action.core.env
 import com.rnett.action.core.maskSecret
 import internal.httpclient.HttpClient
-import internal.httpclient.IHeaders
-import internal.httpclient.IHttpClient
-import internal.httpclient.IHttpClientResponse
-import internal.httpclient.IRequestHandler
-import internal.httpclient.IRequestInfo
-import internal.httpclient.IRequestOptions
+import internal.httpclient.HttpClientResponse
+import internal.httpclient.RequestHandler
+import internal.httpclient.RequestInfo
 import kotlinx.coroutines.await
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
@@ -18,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.js.get
 import kotlinx.js.set
 import node.ReadableStream
+import node.http.OutgoingHttpHeaders
 import node.http.RequestOptions
 import kotlin.js.Promise
 import kotlin.math.min
@@ -78,7 +76,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Actio
         return baseUrl.replace("pipelines", "artifactcache") + "_apis/artifactcache/$resource"
     }
 
-    private fun requestOptions(): IRequestOptions = JsObject {
+    private fun requestOptions(): internal.httpclient.RequestOptions = JsObject {
         headers = JsObject {
             this["Accept"] = "application/json;api-version=6.0-preview.1"
         }
@@ -86,20 +84,20 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Actio
 
     private val httpClient: HttpClient = kotlin.run {
         val token = env["ACTIONS_RUNTIME_TOKEN"] ?: error("Runtime token not found")
-        HttpClient(userAgent, arrayOf(object : IRequestHandler {
+        HttpClient(userAgent, arrayOf(object : RequestHandler {
             override fun prepareRequest(options: RequestOptions) {
                 options.headers?.let {
                     it["Authorization"] = "Bearer " + token
                 }
             }
 
-            override fun canHandleAuthentication(response: IHttpClientResponse): Boolean = false
+            override fun canHandleAuthentication(response: HttpClientResponse): Boolean = false
 
             override fun handleAuthentication(
-                httpClient: IHttpClient,
-                requestInfo: IRequestInfo,
-                objs: Any
-            ): Promise<IHttpClientResponse> = JsObject()
+                httpClient: HttpClient,
+                requestInfo: RequestInfo,
+                data: Any?
+            ): Promise<HttpClientResponse> = JsObject()
 
         }), requestOptions())
     }
@@ -212,7 +210,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Actio
      */
     @ExperimentalCacheAPI
     public suspend fun uploadChunk(cacheId: Int, openStream: () -> ReadableStream, start: Long, end: Long) {
-        val additionalHeaders = JsObject<IHeaders> {
+        val additionalHeaders = JsObject<OutgoingHttpHeaders> {
             this["Content-Type"] = "application/octet-stream"
             this["Content-Range"] = "bytes $start-${end - 1}/*"
         }
@@ -236,7 +234,7 @@ public class CacheClient(private val userAgent: String = "Kotlin/JS GitHub Actio
      */
     @ExperimentalCacheAPI
     public suspend fun uploadText(cacheId: Int, text: String) {
-        val additionalHeaders = JsObject<IHeaders> {
+        val additionalHeaders = JsObject<OutgoingHttpHeaders> {
             this["Content-Type"] = "application/octet-stream"
             this["Content-Range"] = "bytes 0-${text.length - 1}/*"
         }

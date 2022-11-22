@@ -1,6 +1,6 @@
 package com.rnett.action.httpclient
 
-import internal.httpclient.IHttpClientResponse
+import internal.httpclient.HttpClientResponse
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.await
 import kotlinx.coroutines.promise
@@ -21,11 +21,11 @@ public interface HttpResponse {
     public fun isSuccess(): Boolean
 }
 
-internal fun HttpResponse.toInternal(): IHttpClientResponse =
+internal fun HttpResponse.toInternal(): HttpClientResponse =
     if (this is HttpResponseImpl)
         this.internal
     else
-        object : IHttpClientResponse {
+        object : HttpClientResponse(this@toInternal.message) {
             override var message: IncomingMessage = this@toInternal.message
 
             override fun readBody(): Promise<String> = GlobalScope.promise {
@@ -37,7 +37,7 @@ internal fun HttpResponse.toInternal(): IHttpClientResponse =
 /**
  * The response from a HTTP request.
  */
-internal class HttpResponseImpl internal constructor(internal val internal: IHttpClientResponse) : HttpResponse {
+internal class HttpResponseImpl internal constructor(internal val internal: HttpClientResponse) : HttpResponse {
     override suspend fun readBody(): String = internal.readBody().await()
 
     override val message: IncomingMessage get() = internal.message

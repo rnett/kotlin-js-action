@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.targets.js.npm.NpmDependency
 import java.net.URL
 
 plugins {
-    id(libs.plugins.kotlin.js.get().pluginId)
+    alias(libs.plugins.kotlin.js)
     id(libs.plugins.dokka.get().pluginId)
 }
 
@@ -41,16 +41,16 @@ dependencies {
     api(libs.kotlinx.coroutines.core)
     api(libs.kotlin.wrappers.node)
 
-    implementation(latestNpm("@actions/core", "1.6.0"))
-    implementation(latestNpm("@actions/exec", "1.1.0"))
-    implementation(latestNpm("@actions/glob", "0.2.0"))
-    implementation(latestNpm("@actions/io", "1.1.1"))
+    implementation(latestNpm("@actions/core", "1.10.0"))
+    implementation(latestNpm("@actions/exec", "1.1.1"))
+    implementation(latestNpm("@actions/glob", "0.3.0"))
+    implementation(latestNpm("@actions/io", "1.1.2"))
     //TODO breaks dukat
-    implementation(latestNpm("@actions/tool-cache", "1.7.1", false))
-    implementation(latestNpm("@actions/github", "5.0.0"))
-    implementation(latestNpm("@actions/artifact", "0.6.1"))
-    implementation(latestNpm("@actions/cache", "1.0.8"))
-    implementation(latestNpm("@actions/http-client", "1.0.11"))
+    implementation(latestNpm("@actions/tool-cache", "2.0.1", false))
+    implementation(latestNpm("@actions/github", "5.1.1"))
+    implementation(latestNpm("@actions/artifact", "1.1.0"))
+    implementation(latestNpm("@actions/cache", "3.0.6"))
+    implementation(latestNpm("@actions/http-client", "2.0.1"))
 }
 
 kotlin {
@@ -92,11 +92,16 @@ kotlin {
         }
     }
     explicitApi()
-    sourceSets.all {
-        languageSettings.apply {
+    sourceSets.configureEach {
+        languageSettings {
             optIn("kotlin.contracts.ExperimentalContracts")
             optIn("kotlin.RequiresOptIn")
         }
+    }
+}
+plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
+    configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
+        nodeVersion = "16.18.0"
     }
 }
 

@@ -1,6 +1,8 @@
+import com.rnett.action.core.SummaryTableCell
 import com.rnett.action.core.env
 import com.rnett.action.core.inputs
 import com.rnett.action.core.runAction
+import com.rnett.action.core.summary
 import com.rnett.action.delegates.lines
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -58,6 +60,15 @@ suspend fun main() = runAction {
     noEnv = "test"
     assertEquals("test", noEnv)
     assertEquals("test", env.getRequired(noEnvKey))
+
+    summary.append {
+        h2("Test")
+        hr()
+        addTable(
+            listOf(SummaryTableCell("Test", true), SummaryTableCell("Test2", true)),
+            listOf(SummaryTableCell("1"), SummaryTableCell("2"))
+        )
+    }
 
     println("Tests done!")
 }
