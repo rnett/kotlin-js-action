@@ -1,350 +1,374 @@
+<!doctype html>
 <html>
-  <head>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>com.rnett.action</title>
-</head><body><link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>
-    <script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script><link href="../../styles/style.css" rel="Stylesheet"><link href="../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../styles/main.css" rel="Stylesheet"><link href="../../styles/prism.css" rel="Stylesheet"><link href="../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../scripts/clipboard.js" async></script><script type="text/javascript" src="../../scripts/navigation-loader.js" async></script><script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script><script type="text/javascript" src="../../scripts/main.js" defer></script><script type="text/javascript" src="../../scripts/prism.js" async></script><script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
-
-  
-    <div class="navigation-wrapper" id="navigation-wrapper">
-      <div id="leftToggler"><span class="icon-toggler"></span></div>
-      <div class="library-name"><a href="../../index.html"><span>Kotlin/JS GitHub Actions SDK</span></a></div>
-      <div>1.6.0-SNAPSHOT</div>
-      <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
-        <div id="searchBar"></div>
-      </div>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+<a href="../../index.html">
+<span>Kotlin/JS GitHub Actions SDK</span>            </a>    </div>
+    <div>1.6.0-SNAPSHOT
     </div>
-    <div id="container">
-      <div id="leftColumn">
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
         <div id="sideMenu"></div>
-      </div>
-      <div id="main">
-        <div class="main-content" id="content" pageids="Kotlin JS GitHub Action SDK::com.rnett.action////PointingToDeclaration//-1946120816">
-          <div class="breadcrumbs"><a href="../index.html">Kotlin JS GitHub Action SDK</a>/<a href="index.html">com.rnett.action</a></div>
-          <div class="cover ">
-            <h1 class="cover"><span><span>Package</span></span> <span>com.</span><wbr><span>rnett.</span><wbr><span>action</span></h1>
-            <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><p class="paragraph"><code class="lang-kotlin">Path</code>, OS, and utilities.</p></div></div>
-          </div>
-          <div class="tabbedcontent">
-            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
-            <div class="tabs-section-body">
-              <h2 class="">Types</h2>
-              <div class="table" data-togglable="Types"><a data-name="-664528248%2FClasslikes%2F-1946120816" anchor-label="OperatingSystem" id="-664528248%2FClasslikes%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="-operating-system/index.html"><span>Operating</span><wbr><span><span>System</span></span></a></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageids="Kotlin JS GitHub Action SDK::com.rnett.action////PointingToDeclaration//-1946120816">
+  <div class="breadcrumbs"><a href="../index.html">Kotlin JS GitHub Action SDK</a><span class="delimiter">/</span><span class="current">com.rnett.action</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><p class="paragraph"><code class="lang-kotlin">Path</code>, OS, and utilities.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section-body">
+      <h2 class="">Types</h2>
+      <div class="table" data-togglable="Types"><a data-name="-664528248%2FClasslikes%2F-1946120816" anchor-label="OperatingSystem" id="-664528248%2FClasslikes%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-operating-system/index.html"><span>Operating</span><wbr><span><span>System</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-664528248%2FClasslikes%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-operating-system/index.html">OperatingSystem</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-operating-system/index.html">OperatingSystem</a><span class="token operator">&gt; </span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Operating system Enum.  Limited to GitHub action runners (Windows, Mac, and Linux).</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="528330469%2FClasslikes%2F-1946120816" anchor-label="Path" id="528330469%2FClasslikes%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="-path/index.html"><span><span>Path</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="528330469%2FClasslikes%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-path/index.html">Path</a><span class="token punctuation">(</span>rawPath<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>resolve<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Path handling utilities modeled after JVM's <code class="lang-kotlin">Path</code> and Python's <code class="lang-kotlin">pathlib</code>.  By default resolves paths on creation.  Disabling this may lead to errors.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h2 class="">Functions</h2>
-              <div class="table" data-togglable="Functions"><a data-name="-1670138809%2FFunctions%2F-1946120816" anchor-label="asBuffer" id="-1670138809%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="as-buffer.html"><span>as</span><wbr><span><span>Buffer</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1670138809%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">.</span><a href="as-buffer.html"><span class="token function">asBuffer</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.buffer/Buffer///PointingToDeclaration/">Buffer</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Non-copying conversion to a <span data-unresolved-link="node.buffer/Buffer///PointingToDeclaration/">Buffer</span>.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1057222750%2FFunctions%2F-1946120816" anchor-label="asByteArray" id="-1057222750%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="as-byte-array.html"><span>as</span><wbr><span>Byte</span><wbr><span><span>Array</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1057222750%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.khronos.webgl/-int8-array/index.html">Int8Array</a><span class="token punctuation">.</span><a href="as-byte-array.html"><span class="token function">asByteArray</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.khronos.webgl/-uint8-array/index.html">Uint8Array</a><span class="token punctuation">.</span><a href="as-byte-array.html"><span class="token function">asByteArray</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.khronos.webgl/-array-buffer/index.html">ArrayBuffer</a><span class="token punctuation">.</span><a href="as-byte-array.html"><span class="token function">asByteArray</span></a><span class="token punctuation">(</span>byteOffset<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span>length<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>this.byteLength<span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Non-copying conversion to a Kotlin <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a>.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="2094781515%2FFunctions%2F-1946120816" anchor-label="asInt8Array" id="2094781515%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="as-int8-array.html"><span>as</span><wbr><span><span>Int8Array</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2094781515%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">.</span><a href="as-int8-array.html"><span class="token function">asInt8Array</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.khronos.webgl/-int8-array/index.html">Int8Array</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Non-copying conversion to a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.khronos.webgl/-int8-array/index.html">Int8Array</a>.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1065651452%2FFunctions%2F-1946120816" anchor-label="camelToSnakeCase" id="-1065651452%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="camel-to-snake-case.html"><span>camel</span><wbr><span>To</span><wbr><span>Snake</span><wbr><span><span>Case</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1065651452%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="camel-to-snake-case.html"><span class="token function">camelToSnakeCase</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Convert a camelCase string to snake-case.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="2073753506%2FFunctions%2F-1946120816" anchor-label="decodeBase64" id="2073753506%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="decode-base64.html"><span>decode</span><wbr><span><span>Base64</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2073753506%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="decode-base64.html"><span class="token function">decodeBase64</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1763379146%2FFunctions%2F-1946120816" anchor-label="encodeBase64" id="1763379146%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="encode-base64.html"><span>encode</span><wbr><span><span>Base64</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1763379146%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="encode-base64.html"><span class="token function">encodeBase64</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="548055345%2FFunctions%2F-1946120816" anchor-label="from" id="548055345%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="from.html"><span><span>from</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="548055345%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span data-unresolved-link="node.buffer/Buffer.Companion///PointingToDeclaration/">Buffer.Companion</span><span class="token punctuation">.</span><a href="from.html"><span class="token function">from</span></a><span class="token punctuation">(</span>data<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>encoding<span class="token operator">: </span><span data-unresolved-link="node.buffer/BufferEncoding///PointingToDeclaration/">BufferEncoding</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.buffer/Buffer///PointingToDeclaration/">Buffer</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1011229471%2FFunctions%2F-1946120816" anchor-label="jsEntries" id="1011229471%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="js-entries.html"><span>js</span><wbr><span><span>Entries</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1011229471%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="js-entries.html"><span class="token function">jsEntries</span></a><span class="token punctuation">(</span>jsObject<span class="token operator">: </span>dynamic<span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span>dynamic<span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Get the entries of a JS object, using <code class="lang-kotlin">Object.entries</code>.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-929852937%2FFunctions%2F-1946120816" anchor-label="JsObject" id="-929852937%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="-js-object.html"><span>Js</span><wbr><span><span>Object</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-929852937%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-js-object.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="-js-object.html"><span class="token function">JsObject</span></a><span class="token punctuation">(</span>block<span class="token operator">: </span><span class="token keyword"></span><a href="-js-object.html">T</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}<span class="token punctuation">)</span><span class="token operator">: </span><a href="-js-object.html">T</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Create a JavaScript object for the given interface.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1850055760%2FFunctions%2F-1946120816" anchor-label="snakeToCamelCase" id="-1850055760%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="snake-to-camel-case.html"><span>snake</span><wbr><span>To</span><wbr><span>Camel</span><wbr><span><span>Case</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1850055760%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="snake-to-camel-case.html"><span class="token function">snakeToCamelCase</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Convert a snake-case string to camelCase.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1695437855%2FFunctions%2F-1946120816" anchor-label="toFlow" id="-1695437855%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="to-flow.html"><span>to</span><wbr><span><span>Flow</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1695437855%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation">@</span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-experimental-coroutines-api/index.html"><span class="token annotation">ExperimentalCoroutinesApi</span></a></div></div><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="to-flow.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="node/ReadableStream///PointingToDeclaration/">ReadableStream</span><span class="token punctuation">.</span><a href="to-flow.html"><span class="token function">toFlow</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="to-flow.html">T</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Convert a NodeJS stream to a flow.  The resulting flow can be consumed multiple times.</p></div><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation">@</span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-experimental-coroutines-api/index.html"><span class="token annotation">ExperimentalCoroutinesApi</span></a></div></div><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="to-flow.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="node/ReadableStream///PointingToDeclaration/">ReadableStream</span><span class="token punctuation">.</span><a href="to-flow.html"><span class="token function">toFlow</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="to-flow.html">T</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Convert a NodeJS stream to a flow.  <strong>The resulting flow can only be consumed once</strong>.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-815238630%2FFunctions%2F-1946120816" anchor-label="toObjectStream" id="-815238630%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="to-object-stream.html"><span>to</span><wbr><span>Object</span><wbr><span><span>Stream</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-815238630%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="to-object-stream.html"><span class="token function">toObjectStream</span></a><span class="token punctuation">(</span>scope<span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a><span class="token operator"> = </span>GlobalScope<span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Convert a flow to an object mode stream by writing the flow's elements to an internal.PassThrough.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1060909246%2FFunctions%2F-1946120816" anchor-label="toStream" id="1060909246%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="to-stream.html"><span>to</span><wbr><span><span>Stream</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1060909246%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="to-stream.html"><span class="token function">toStream</span></a><span class="token punctuation">(</span>scope<span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a><span class="token operator"> = </span>GlobalScope<span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="to-stream.html"><span class="token function">toStream</span></a><span class="token punctuation">(</span>scope<span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a><span class="token operator"> = </span>GlobalScope<span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="node.buffer/Buffer///PointingToDeclaration/">Buffer</span><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="to-stream.html"><span class="token function">toStream</span></a><span class="token punctuation">(</span>scope<span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a><span class="token operator"> = </span>GlobalScope<span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Convert a flow to a stream by writing the flow's elements to an internal.PassThrough.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1707295598%2FFunctions%2F-1946120816" anchor-label="writeLine" id="1707295598%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="write-line.html"><span>write</span><wbr><span><span>Line</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1707295598%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span data-unresolved-link="node/WritableStream///PointingToDeclaration/">WritableStream</span><span class="token punctuation">.</span><a href="write-line.html"><span class="token function">writeLine</span></a><span class="token punctuation">(</span>buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span data-unresolved-link="node.stream/Duplex///PointingToDeclaration/">Duplex</span><span class="token punctuation">.</span><a href="write-line.html"><span class="token function">writeLine</span></a><span class="token punctuation">(</span>buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Write a line to <a href="../../kotlin-js-action/com.rnett.action/index.html">this</a>, using the OS's line seperator.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1522671210%2FFunctions%2F-1946120816" anchor-label="writeSuspending" id="-1522671210%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="write-suspending.html"><span>write</span><wbr><span><span>Suspending</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1522671210%2FFunctions%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span data-unresolved-link="node/WritableStream///PointingToDeclaration/">WritableStream</span><span class="token punctuation">.</span><a href="write-suspending.html"><span class="token function">writeSuspending</span></a><span class="token punctuation">(</span>buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span data-unresolved-link="node/WritableStream///PointingToDeclaration/">WritableStream</span><span class="token punctuation">.</span><a href="write-suspending.html"><span class="token function">writeSuspending</span></a><span class="token punctuation">(</span>buffer<span class="token operator">: </span><span data-unresolved-link="node.buffer/Buffer///PointingToDeclaration/">Buffer</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span data-unresolved-link="node.stream/Duplex///PointingToDeclaration/">Duplex</span><span class="token punctuation">.</span><a href="write-suspending.html"><span class="token function">writeSuspending</span></a><span class="token punctuation">(</span>buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span data-unresolved-link="node/WritableStream///PointingToDeclaration/">WritableStream</span><span class="token punctuation">.</span><a href="write-suspending.html"><span class="token function">writeSuspending</span></a><span class="token punctuation">(</span>buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>encoding<span class="token operator">: </span><span data-unresolved-link="node.buffer/BufferEncoding///PointingToDeclaration/">BufferEncoding</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span data-unresolved-link="node.stream/Duplex///PointingToDeclaration/">Duplex</span><span class="token punctuation">.</span><a href="write-suspending.html"><span class="token function">writeSuspending</span></a><span class="token punctuation">(</span>buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span>encoding<span class="token operator">: </span><span data-unresolved-link="node.buffer/BufferEncoding///PointingToDeclaration/">BufferEncoding</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Write to a stream, suspending until the write completes.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h2 class="">Properties</h2>
-              <div class="table" data-togglable="Properties"><a data-name="-1673380929%2FProperties%2F-1946120816" anchor-label="currentProcess" id="-1673380929%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="current-process.html">currentProcess</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1673380929%2FProperties%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><a data-name="-1673380929%2FProperties%2F-1946120816" anchor-label="currentProcess" id="-1673380929%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="current-process.html">currentProcess</a><span class="token operator">: </span><span data-unresolved-link="node.process/Process///PointingToDeclaration/">Process</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1673380929%2FProperties%2F-1946120816" anchor-label="currentProcess" id="-1673380929%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><p class="paragraph">Get the current process.  Alias for process that doesn't have name conflicts.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1744484456%2FProperties%2F-1946120816" anchor-label="readable" id="-1744484456%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="readable.html">readable</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1744484456%2FProperties%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><a data-name="-1744484456%2FProperties%2F-1946120816" anchor-label="readable" id="-1744484456%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span data-unresolved-link="node.process/ReadStream///PointingToDeclaration/">ReadStream</span><span class="token punctuation">.</span><a href="readable.html">readable</a><span class="token operator">: </span><span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1744484456%2FProperties%2F-1946120816" anchor-label="readable" id="-1744484456%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><p class="paragraph">Get the read stream as a <span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span>.  This is just a cast. See <a href="https://nodejs.org/api/process.html#a-note-on-process-io">A note on process I/O</a> for details.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1358981193%2FProperties%2F-1946120816" anchor-label="writable" id="1358981193%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
-                <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="writable.html">writable</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1358981193%2FProperties%2F-1946120816"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><a data-name="1358981193%2FProperties%2F-1946120816" anchor-label="writable" id="1358981193%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span data-unresolved-link="node.process/WriteStream///PointingToDeclaration/">WriteStream</span><span class="token punctuation">.</span><a href="writable.html">writable</a><span class="token operator">: </span><span data-unresolved-link="node.stream/Writable///PointingToDeclaration/">Writable</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1358981193%2FProperties%2F-1946120816" anchor-label="writable" id="1358981193%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><p class="paragraph">Get the write stream as a <span data-unresolved-link="node.stream/Writable///PointingToDeclaration/">Writable</span>.  This is just a cast. See <a href="https://nodejs.org/api/process.html#a-note-on-process-io">A note on process I/O</a> for details.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-operating-system/index.html">OperatingSystem</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-operating-system/index.html">OperatingSystem</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Operating system Enum.  Limited to GitHub action runners (Windows, Mac, and Linux).</p></div></div></div>
               </div>
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+<a data-name="528330469%2FClasslikes%2F-1946120816" anchor-label="Path" id="528330469%2FClasslikes%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-path/index.html"><span><span>Path</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="528330469%2FClasslikes%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-path/index.html">Path</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">rawPath<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">resolve<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Path handling utilities modeled after JVM's <code class="lang-kotlin">Path</code> and Python's <code class="lang-kotlin">pathlib</code>.  By default resolves paths on creation.  Disabling this may lead to errors.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="-1670138809%2FFunctions%2F-1946120816" anchor-label="asBuffer" id="-1670138809%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="as-buffer.html"><span>as</span><wbr><span><span>Buffer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1670138809%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">.</span><a href="as-buffer.html"><span class="token function">asBuffer</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.buffer/Buffer///PointingToDeclaration/">Buffer</span></div><div class="brief "><p class="paragraph">Non-copying conversion to a <span data-unresolved-link="node.buffer/Buffer///PointingToDeclaration/">Buffer</span>.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1057222750%2FFunctions%2F-1946120816" anchor-label="asByteArray" id="-1057222750%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="as-byte-array.html"><span>as</span><wbr><span>Byte</span><wbr><span><span>Array</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1057222750%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.khronos.webgl/-int8-array/index.html">Int8Array</a><span class="token punctuation">.</span><a href="as-byte-array.html"><span class="token function">asByteArray</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.khronos.webgl/-uint8-array/index.html">Uint8Array</a><span class="token punctuation">.</span><a href="as-byte-array.html"><span class="token function">asByteArray</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.khronos.webgl/-array-buffer/index.html">ArrayBuffer</a><span class="token punctuation">.</span><a href="as-byte-array.html"><span class="token function">asByteArray</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">byteOffset<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">0</span><span class="token punctuation">, </span></span><span class="parameter ">length<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span>this.byteLength</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a></div><div class="brief "><p class="paragraph">Non-copying conversion to a Kotlin <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a>.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="2094781515%2FFunctions%2F-1946120816" anchor-label="asInt8Array" id="2094781515%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="as-int8-array.html"><span>as</span><wbr><span><span>Int8Array</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2094781515%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token punctuation">.</span><a href="as-int8-array.html"><span class="token function">asInt8Array</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.khronos.webgl/-int8-array/index.html">Int8Array</a></div><div class="brief "><p class="paragraph">Non-copying conversion to a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/org.khronos.webgl/-int8-array/index.html">Int8Array</a>.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1065651452%2FFunctions%2F-1946120816" anchor-label="camelToSnakeCase" id="-1065651452%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="camel-to-snake-case.html"><span>camel</span><wbr><span>To</span><wbr><span>Snake</span><wbr><span><span>Case</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1065651452%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="camel-to-snake-case.html"><span class="token function">camelToSnakeCase</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Convert a camelCase string to snake-case.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="2073753506%2FFunctions%2F-1946120816" anchor-label="decodeBase64" id="2073753506%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="decode-base64.html"><span>decode</span><wbr><span><span>Base64</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2073753506%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="decode-base64.html"><span class="token function">decodeBase64</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1763379146%2FFunctions%2F-1946120816" anchor-label="encodeBase64" id="1763379146%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="encode-base64.html"><span>encode</span><wbr><span><span>Base64</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1763379146%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="encode-base64.html"><span class="token function">encodeBase64</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="548055345%2FFunctions%2F-1946120816" anchor-label="from" id="548055345%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="from.html"><span><span>from</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="548055345%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span data-unresolved-link="node.buffer/Buffer.Companion///PointingToDeclaration/">Buffer.Companion</span><span class="token punctuation">.</span><a href="from.html"><span class="token function">from</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">data<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">encoding<span class="token operator">: </span><span data-unresolved-link="node.buffer/BufferEncoding///PointingToDeclaration/">BufferEncoding</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.buffer/Buffer///PointingToDeclaration/">Buffer</span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1011229471%2FFunctions%2F-1946120816" anchor-label="jsEntries" id="1011229471%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="js-entries.html"><span>js</span><wbr><span><span>Entries</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1011229471%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="js-entries.html"><span class="token function">jsEntries</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">jsObject<span class="token operator">: </span>dynamic</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span>dynamic<span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Get the entries of a JS object, using <code class="lang-kotlin">Object.entries</code>.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-929852937%2FFunctions%2F-1946120816" anchor-label="JsObject" id="-929852937%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-js-object.html"><span>Js</span><wbr><span><span>Object</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-929852937%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-js-object.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="-js-object.html"><span class="token function">JsObject</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><span class="token keyword"></span><a href="-js-object.html">T</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-js-object.html">T</a></div><div class="brief "><p class="paragraph">Create a JavaScript object for the given interface.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1850055760%2FFunctions%2F-1946120816" anchor-label="snakeToCamelCase" id="-1850055760%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="snake-to-camel-case.html"><span>snake</span><wbr><span>To</span><wbr><span>Camel</span><wbr><span><span>Case</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1850055760%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">.</span><a href="snake-to-camel-case.html"><span class="token function">snakeToCamelCase</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Convert a snake-case string to camelCase.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1695437855%2FFunctions%2F-1946120816" anchor-label="toFlow" id="-1695437855%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="to-flow.html"><span>to</span><wbr><span><span>Flow</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1695437855%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-experimental-coroutines-api/index.html"><span class="token annotation builtin">ExperimentalCoroutinesApi</span></a></div></div><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="to-flow.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><span data-unresolved-link="node/ReadableStream///PointingToDeclaration/">ReadableStream</span><span class="token punctuation">.</span><a href="to-flow.html"><span class="token function">toFlow</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="to-flow.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert a NodeJS stream to a flow.  The resulting flow can be consumed multiple times.</p></div><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-experimental-coroutines-api/index.html"><span class="token annotation builtin">ExperimentalCoroutinesApi</span></a></div></div><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="to-flow.html">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="node/ReadableStream///PointingToDeclaration/">ReadableStream</span><span class="token punctuation">.</span><a href="to-flow.html"><span class="token function">toFlow</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="to-flow.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Convert a NodeJS stream to a flow.  <strong>The resulting flow can only be consumed once</strong>.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-815238630%2FFunctions%2F-1946120816" anchor-label="toObjectStream" id="-815238630%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="to-object-stream.html"><span>to</span><wbr><span>Object</span><wbr><span><span>Stream</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-815238630%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="to-object-stream.html"><span class="token function">toObjectStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">scope<span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a><span class="token operator"> = </span>GlobalScope</span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span></div><div class="brief "><p class="paragraph">Convert a flow to an object mode stream by writing the flow's elements to an internal.PassThrough.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1060909246%2FFunctions%2F-1946120816" anchor-label="toStream" id="1060909246%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="to-stream.html"><span>to</span><wbr><span><span>Stream</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1060909246%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="to-stream.html"><span class="token function">toStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">scope<span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a><span class="token operator"> = </span>GlobalScope</span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="to-stream.html"><span class="token function">toStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">scope<span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a><span class="token operator"> = </span>GlobalScope</span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html">Flow</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="node.buffer/Buffer///PointingToDeclaration/">Buffer</span><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="to-stream.html"><span class="token function">toStream</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">scope<span class="token operator">: </span><a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a><span class="token operator"> = </span>GlobalScope</span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span></div><div class="brief "><p class="paragraph">Convert a flow to a stream by writing the flow's elements to an internal.PassThrough.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1707295598%2FFunctions%2F-1946120816" anchor-label="writeLine" id="1707295598%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="write-line.html"><span>write</span><wbr><span><span>Line</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1707295598%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span data-unresolved-link="node/WritableStream///PointingToDeclaration/">WritableStream</span><span class="token punctuation">.</span><a href="write-line.html"><span class="token function">writeLine</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><span data-unresolved-link="node.stream/Duplex///PointingToDeclaration/">Duplex</span><span class="token punctuation">.</span><a href="write-line.html"><span class="token function">writeLine</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Write a line to <a href="../../kotlin-js-action/com.rnett.action/index.html">this</a>, using the OS's line seperator.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1522671210%2FFunctions%2F-1946120816" anchor-label="writeSuspending" id="-1522671210%2FFunctions%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="write-suspending.html"><span>write</span><wbr><span><span>Suspending</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1522671210%2FFunctions%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span data-unresolved-link="node/WritableStream///PointingToDeclaration/">WritableStream</span><span class="token punctuation">.</span><a href="write-suspending.html"><span class="token function">writeSuspending</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span data-unresolved-link="node/WritableStream///PointingToDeclaration/">WritableStream</span><span class="token punctuation">.</span><a href="write-suspending.html"><span class="token function">writeSuspending</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">buffer<span class="token operator">: </span><span data-unresolved-link="node.buffer/Buffer///PointingToDeclaration/">Buffer</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span data-unresolved-link="node.stream/Duplex///PointingToDeclaration/">Duplex</span><span class="token punctuation">.</span><a href="write-suspending.html"><span class="token function">writeSuspending</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span data-unresolved-link="node/WritableStream///PointingToDeclaration/">WritableStream</span><span class="token punctuation">.</span><a href="write-suspending.html"><span class="token function">writeSuspending</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">encoding<span class="token operator">: </span><span data-unresolved-link="node.buffer/BufferEncoding///PointingToDeclaration/">BufferEncoding</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><span data-unresolved-link="node.stream/Duplex///PointingToDeclaration/">Duplex</span><span class="token punctuation">.</span><a href="write-suspending.html"><span class="token function">writeSuspending</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">buffer<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span></span><span class="parameter ">encoding<span class="token operator">: </span><span data-unresolved-link="node.buffer/BufferEncoding///PointingToDeclaration/">BufferEncoding</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Write to a stream, suspending until the write completes.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="-1673380929%2FProperties%2F-1946120816" anchor-label="currentProcess" id="-1673380929%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="current-process.html"><span>current</span><wbr><span><span>Process</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1673380929%2FProperties%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><a data-name="-1673380929%2FProperties%2F-1946120816" anchor-label="currentProcess" id="-1673380929%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="current-process.html">currentProcess</a><span class="token operator">: </span><span data-unresolved-link="node.process/Process///PointingToDeclaration/">Process</span></div><div class="brief "><a data-name="-1673380929%2FProperties%2F-1946120816" anchor-label="currentProcess" id="-1673380929%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><p class="paragraph">Get the current process.  Alias for process that doesn't have name conflicts.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1744484456%2FProperties%2F-1946120816" anchor-label="readable" id="-1744484456%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="readable.html"><span><span>readable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1744484456%2FProperties%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><a data-name="-1744484456%2FProperties%2F-1946120816" anchor-label="readable" id="-1744484456%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span data-unresolved-link="node.process/ReadStream///PointingToDeclaration/">ReadStream</span><span class="token punctuation">.</span><a href="readable.html">readable</a><span class="token operator">: </span><span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span></div><div class="brief "><a data-name="-1744484456%2FProperties%2F-1946120816" anchor-label="readable" id="-1744484456%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><p class="paragraph">Get the read stream as a <span data-unresolved-link="node.stream/Readable///PointingToDeclaration/">Readable</span>.  This is just a cast. See <a href="https://nodejs.org/api/process.html#a-note-on-process-io">A note on process I/O</a> for details.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1358981193%2FProperties%2F-1946120816" anchor-label="writable" id="1358981193%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a>
+        <div class="table-row" data-filterable-current=":kotlin-js-action:dokkaHtmlPartial/main" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="writable.html"><span><span>writable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1358981193%2FProperties%2F-1946120816"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":kotlin-js-action:dokkaHtmlPartial/main"><a data-name="1358981193%2FProperties%2F-1946120816" anchor-label="writable" id="1358981193%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><span data-unresolved-link="node.process/WriteStream///PointingToDeclaration/">WriteStream</span><span class="token punctuation">.</span><a href="writable.html">writable</a><span class="token operator">: </span><span data-unresolved-link="node.stream/Writable///PointingToDeclaration/">Writable</span></div><div class="brief "><a data-name="1358981193%2FProperties%2F-1946120816" anchor-label="writable" id="1358981193%2FProperties%2F-1946120816" data-filterable-set=":kotlin-js-action:dokkaHtmlPartial/main"></a><p class="paragraph">Get the write stream as a <span data-unresolved-link="node.stream/Writable///PointingToDeclaration/">Writable</span>.  This is just a cast. See <a href="https://nodejs.org/api/process.html#a-note-on-process-io">A note on process I/O</a> for details.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  
-</body></html>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
 
+</body></html>
 
