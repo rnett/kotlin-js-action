@@ -50,7 +50,7 @@ dependencies {
     implementation(latestNpm("@actions/github", "5.1.1"))
     implementation(latestNpm("@actions/artifact", "1.1.0"))
     implementation(latestNpm("@actions/cache", "3.0.6"))
-    implementation(latestNpm("@actions/http-client", "1.0.11"))
+    implementation(latestNpm("@actions/http-client", "2.0.1"))
 }
 
 kotlin {

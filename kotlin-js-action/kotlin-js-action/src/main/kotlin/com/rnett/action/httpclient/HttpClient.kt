@@ -3,8 +3,7 @@ package com.rnett.action.httpclient
 import com.rnett.action.JsObject
 import com.rnett.action.jsEntries
 import com.rnett.action.toStream
-import internal.httpclient.IHttpClient
-import internal.httpclient.ITypedResponse
+import internal.httpclient.TypedResponse
 import internal.httpclient.getProxyUrl
 import kotlinx.coroutines.async
 import kotlinx.coroutines.await
@@ -292,14 +291,14 @@ public interface BaseHttpClient<out T : HttpResponse> {
     }
 }
 
-internal class WrappedInterfaceClient(private val client: IHttpClient) : BaseHttpClient<HttpResponse> {
+internal class WrappedClient(private val client: internal.httpclient.HttpClient) : BaseHttpClient<HttpResponse> {
     override suspend fun request(
         verb: String,
         url: String,
         data: String,
         headers: HeaderProvider
     ): HttpResponse =
-        client.request(verb.uppercase(), url, data, headers.toIHeaders()).await().let(::HttpResponseImpl)
+        client.request(verb.uppercase(), url, data, headers.toOutgoingHeaders()).await().let(::HttpResponseImpl)
 
     override suspend fun request(
         verb: String,
@@ -314,7 +313,7 @@ internal class WrappedInterfaceClient(private val client: IHttpClient) : BaseHtt
             })
             data.on(Event.CLOSE) { sendStream.destroy() }
             data.on(Event.END) { sendStream.destroy() }
-            client.request(verb.uppercase(), url, sendStream, headers.toIHeaders()).await()
+            client.request(verb.uppercase(), url, sendStream, headers.toOutgoingHeaders()).await()
                 .let(::HttpResponseImpl)
         }.await()
     }
@@ -324,7 +323,7 @@ internal class WrappedInterfaceClient(private val client: IHttpClient) : BaseHtt
  * A typed HTTP response.  All casting is done in JS, so this is not type safe.
  */
 @Deprecated("This method is not type safe, JsonHttpClient (in the serialization artifact) should be used instead")
-public class JSTypedHttpResponse<T> internal constructor(response: ITypedResponse<T>) {
+public class JSTypedHttpResponse<T> internal constructor(response: TypedResponse<T>) {
     public val statusCode: Int = response.statusCode.toInt()
     public val result: T? = response.result
     public val headers: Map<String, String> = jsEntries(response.headers).mapValues {
@@ -369,7 +368,7 @@ public class HttpClientImpl internal constructor(private val client: JsHttpClien
         data: String,
         headers: HeaderProvider
     ): HttpResponse =
-        client.request(verb.uppercase(), url, data, headers.toIHeaders()).await().let(::HttpResponseImpl)
+        client.request(verb.uppercase(), url, data, headers.toOutgoingHeaders()).await().let(::HttpResponseImpl)
 
     @Suppress("RedundantAsync")
     override suspend fun request(
@@ -385,7 +384,7 @@ public class HttpClientImpl internal constructor(private val client: JsHttpClien
             })
             data.on(Event.CLOSE) { sendStream.destroy() }
             data.on(Event.END) { sendStream.destroy() }
-            client.request(verb.uppercase(), url, sendStream, headers.toIHeaders()).await()
+            client.request(verb.uppercase(), url, sendStream, headers.toOutgoingHeaders()).await()
                 .let(::HttpResponseImpl)
         }.await()
     }

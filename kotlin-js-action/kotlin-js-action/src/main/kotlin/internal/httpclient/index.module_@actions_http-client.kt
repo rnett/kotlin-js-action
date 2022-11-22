@@ -12,6 +12,7 @@ package internal.httpclient
 import node.ReadableStream
 import node.http.Agent
 import node.http.IncomingMessage
+import node.http.OutgoingHttpHeaders
 import kotlin.js.Promise
 
 internal external enum class HttpCodes {
@@ -55,21 +56,21 @@ internal external enum class MediaTypes {
 
 internal external fun getProxyUrl(serverUrl: String): String
 
-internal external open class HttpClientResponse(message: IncomingMessage) : IHttpClientResponse {
-    override var message: IncomingMessage
-    override fun readBody(): Promise<String>
+internal external open class HttpClientResponse(message: IncomingMessage) {
+    open var message: IncomingMessage
+    open fun readBody(): Promise<String>
 }
 
 internal external fun isHttps(requestUrl: String): Boolean
 
-internal external open class HttpClient(
+internal open external class HttpClient(
     userAgent: String = definedExternally,
-    handlers: Array<IRequestHandler> = definedExternally,
-    requestOptions: IRequestOptions = definedExternally
+    handlers: Array<RequestHandler> = definedExternally,
+    requestOptions: internal.httpclient.RequestOptions = definedExternally
 ) {
     open var userAgent: String?
-    open var handlers: Array<IRequestHandler>
-    open var requestOptions: IRequestOptions
+    open var handlers: Array<RequestHandler>
+    open var requestOptions: internal.httpclient.RequestOptions?
     open var _ignoreSslError: Any
     open var _socketTimeout: Any
     open var _allowRedirects: Any
@@ -83,99 +84,99 @@ internal external open class HttpClient(
     open var _disposed: Any
     open fun options(
         requestUrl: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<HttpClientResponse>
 
     open fun get(
         requestUrl: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<HttpClientResponse>
 
     open fun del(
         requestUrl: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<HttpClientResponse>
 
     open fun post(
         requestUrl: String,
         data: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<HttpClientResponse>
 
     open fun patch(
         requestUrl: String,
         data: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<HttpClientResponse>
 
     open fun put(
         requestUrl: String,
         data: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<HttpClientResponse>
 
     open fun head(
         requestUrl: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<HttpClientResponse>
 
     open fun sendStream(
         verb: String,
         requestUrl: String,
         stream: ReadableStream,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<IHttpClientResponse>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<HttpClientResponse>
 
     open fun <T> getJson(
         requestUrl: String,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<ITypedResponse<T>>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<TypedResponse<T>>
 
     open fun <T> postJson(
         requestUrl: String,
         obj: Any,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<ITypedResponse<T>>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<TypedResponse<T>>
 
     open fun <T> putJson(
         requestUrl: String,
         obj: Any,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<ITypedResponse<T>>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<TypedResponse<T>>
 
     open fun <T> patchJson(
         requestUrl: String,
         obj: Any,
-        additionalHeaders: IHeaders = definedExternally
-    ): Promise<ITypedResponse<T>>
+        additionalHeaders: OutgoingHttpHeaders = definedExternally
+    ): Promise<TypedResponse<T>>
 
     open fun request(
         verb: String,
         requestUrl: String,
         data: String,
-        headers: IHeaders
-    ): Promise<IHttpClientResponse>
+        headers: OutgoingHttpHeaders
+    ): Promise<HttpClientResponse>
 
     open fun request(
         verb: String,
         requestUrl: String,
         data: ReadableStream,
-        headers: IHeaders
-    ): Promise<IHttpClientResponse>
+        headers: OutgoingHttpHeaders
+    ): Promise<HttpClientResponse>
 
     open fun dispose()
-    open fun requestRaw(info: IRequestInfo, data: String): Promise<IHttpClientResponse>
-    open fun requestRaw(info: IRequestInfo, data: ReadableStream): Promise<IHttpClientResponse>
+    open fun requestRaw(info: RequestInfo, data: String): Promise<HttpClientResponse>
+    open fun requestRaw(info: RequestInfo, data: ReadableStream): Promise<HttpClientResponse>
     open fun requestRawWithCallback(
-        info: IRequestInfo,
+        info: RequestInfo,
         data: String,
-        onResult: (err: Any, res: IHttpClientResponse) -> Unit
+        onResult: (err: Any, res: HttpClientResponse) -> Unit
     )
 
     open fun requestRawWithCallback(
-        info: IRequestInfo,
+        info: RequestInfo,
         data: ReadableStream,
-        onResult: (err: Any, res: IHttpClientResponse) -> Unit
+        onResult: (err: Any, res: HttpClientResponse) -> Unit
     )
 
     open fun getAgent(serverUrl: String): Agent
@@ -185,8 +186,4 @@ internal external open class HttpClient(
     internal open var _getAgent: Any
     internal open var _performExponentialBackoff: Any
     internal open var _processResponse: Any
-
-    companion object {
-        internal var dateTimeDeserializer: Any
-    }
 }

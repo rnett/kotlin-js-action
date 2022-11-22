@@ -2,7 +2,6 @@ package com.rnett.action.httpclient
 
 import com.rnett.action.JsObject
 import com.rnett.action.jsEntries
-import internal.httpclient.IHeaders
 import kotlinx.js.get
 import kotlinx.js.set
 import node.http.ClientRequestArgs
@@ -24,7 +23,8 @@ public fun interface HeaderProvider : RequestHandler {
         headers.headers()
     }
 
-    public operator fun plus(other: HeaderProvider): HeaderProvider = HeaderProvider {
+    @Suppress("REDUNDANT_LABEL_WARNING")
+    public operator fun plus(other: HeaderProvider): HeaderProvider = function@ HeaderProvider {
         +this@HeaderProvider
         +other
     }
@@ -35,8 +35,8 @@ public operator fun Map<String, String>.plus(header: HeaderProvider): Map<String
 
 public fun HeaderProvider.toMap(): Map<String, String> = MapHeaders().apply { headers() }.toMap()
 
-internal fun HeaderProvider.toIHeaders(): IHeaders =
-    JsObject<IHeaders>().apply { WrappedIHeaders(this).apply { headers() } }
+internal fun HeaderProvider.toOutgoingHeaders(): OutgoingHttpHeaders =
+    JsObject<OutgoingHttpHeaders>().apply { WrappedOutgoingHttpHeaders(this).apply { headers() } }
 
 /**
  * Read-only non case sensitive HTTP headers.
@@ -178,7 +178,7 @@ internal class MapHeaders private constructor(private val map: MutableMap<String
     }
 }
 
-internal class WrappedIHeaders(private val headers: IHeaders) :
+internal class WrappedOutgoingHttpHeaders(private val headers: OutgoingHttpHeaders) :
     MutableHeaders {
     override fun get(name: String): String? = headers[name.lowercase()].headerToString()
 
@@ -192,7 +192,7 @@ internal class WrappedIHeaders(private val headers: IHeaders) :
 }
 
 
-internal class OutgoingJsHeaders(private val internal: ClientRequestArgs) : MutableHeaders {
+internal class WrappedClientRequestArgs(private val internal: ClientRequestArgs) : MutableHeaders {
 
     private val internalHeaders: OutgoingHttpHeaders
         get() {
