@@ -5,12 +5,12 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.Copy
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.withType
-import java.net.URL
 
 class DocsRootPlugin : Plugin<Project> {
     override fun apply(project: Project): Unit = with(project) {
         project.plugins.apply(MetadataPlugin::class.java)
         project.plugins.apply("org.jetbrains.dokka")
+
         val extension = project.extensions.create("docs", RootDocsExtension::class.java)
 
         val oldVersionsDir = providers.gradleProperty("oldVersionsDir")
@@ -31,8 +31,8 @@ class DocsRootPlugin : Plugin<Project> {
         }
 
         tasks.create<Copy>("generateReadme") {
-            from("../README.md")
-            into(buildDir)
+            from(rootDir.resolve("../README.md"))
+            into(buildDir.resolve("readme"))
             filter {
                 val header = extension.readmeHeader.get()
                 it.replace(

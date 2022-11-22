@@ -228,7 +228,7 @@ jobs:
       - name: Publish README
         uses: rnett/publish-docs@v2.6
         with:
-          from-file: ./kotlin-js-action/build/README.md
+          from-file: ./kotlin-js-action/build/readme/README.md
           publish-to: '$latest,!.'
           version: ${{ needs.find-version.outputs.version }}
           restore: true

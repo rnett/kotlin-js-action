@@ -4,6 +4,11 @@ plugins {
     alias(libs.plugins.publish) apply false
 }
 
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+}
+
 metadata {
     title.set("Kotlin/JS GitHub Actions SDK")
 }
