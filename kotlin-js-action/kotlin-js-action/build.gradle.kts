@@ -42,7 +42,7 @@ dependencies {
     api(libs.kotlin.wrappers.node)
 
     implementation(latestNpm("@actions/core", "1.10.0"))
-    implementation(latestNpm("@actions/exec", "1.1.0"))
+    implementation(latestNpm("@actions/exec", "1.1.1"))
     implementation(latestNpm("@actions/glob", "0.2.0"))
     implementation(latestNpm("@actions/io", "1.1.1"))
     //TODO breaks dukat
