@@ -92,3 +92,7 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
+/.idea/google-java-format.xml
+/.idea/GitLink.xml
+/.idea/checkstyle-idea.xml
+/.idea/git_toolbox_prj.xml

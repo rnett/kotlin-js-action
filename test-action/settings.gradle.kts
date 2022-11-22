@@ -13,11 +13,11 @@ pluginManagement {
 dependencyResolutionManagement {
     versionCatalogs {
         create(defaultLibrariesExtensionName.get()) {
-            from(files("../gradle/libs.versions.toml"))
+            from(files("../libs.versions.toml"))
         }
     }
 }
 
 rootProject.name = "test-action"
 
-includeBuild("..")
+includeBuild("../kotlin-js-action")

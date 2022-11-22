@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="kotlin-js-action-1.2.1-RC">
-    <output-path>C:\Users\jimne\Google Drive\My Stuff\Github Actions\kotlin-js-action\kotlin-js-action\build\libs</output-path>
-    <root id="archive" name="kotlin-js-action-1.2.1-RC.jar">
-      <element id="module-output" name="kotlin-js-action.kotlin-js-action.main" />
-    </root>
-  </artifact>
-</component>

@@ -1,6 +1,8 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="kotlin-js-action-1.5.1-SNAPSHOT">
-    <output-path>$PROJECT_DIR$/kotlin-js-action/build/libs</output-path>
-    <root id="archive" name="kotlin-js-action-1.5.1-SNAPSHOT.jar" />
+    <output-path>$PROJECT_DIR$/kotlin-js-action/kotlin-js-action/build/libs</output-path>
+    <root id="archive" name="kotlin-js-action-1.5.1-SNAPSHOT.jar">
+      <element id="module-output" name="kotlin-js-action-parent.kotlin-js-action.main" />
+    </root>
   </artifact>
 </component>

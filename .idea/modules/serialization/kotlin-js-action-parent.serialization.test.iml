@@ -7,7 +7,7 @@
         <externalSystemTestTasks>
           <externalSystemTestTask>nodeTest|:serialization|js</externalSystemTestTask>
         </externalSystemTestTasks>
-        <testOutputPath>$MODULE_DIR$/../../../serialization/build/classes/kotlin/test</testOutputPath>
+        <testOutputPath>$MODULE_DIR$/../../../kotlin-js-action/serialization/build/classes/kotlin/test</testOutputPath>
         <compilerSettings>
           <option name="additionalArguments" value="-Xir-module-name=com.github.rnett.ktjs-github-action:serialization_test -Xir-only -Xir-per-module-output-name=kotlin-js-action-parent-serialization-test -Xir-produce-klib-dir -opt-in kotlin.contracts.ExperimentalContracts,kotlin.RequiresOptIn" />
         </compilerSettings>
@@ -20,19 +20,20 @@
           <stringArguments>
             <stringArg name="main" arg="call" />
             <stringArg name="moduleKind" arg="commonjs" />
-            <stringArg name="outputFile" arg="$MODULE_DIR$/../../../serialization/build/classes/kotlin/test" />
+            <stringArg name="outputFile" arg="$MODULE_DIR$/../../../kotlin-js-action/serialization/build/classes/kotlin/test" />
             <stringArg name="sourceMapEmbedSources" arg="never" />
             <stringArg name="target" arg="v5" />
-            <stringArg name="apiVersion" arg="1.6" />
-            <stringArg name="languageVersion" arg="1.6" />
+            <stringArg name="apiVersion" arg="1.7" />
+            <stringArg name="languageVersion" arg="1.7" />
           </stringArguments>
           <arrayArguments>
             <arrayArg name="pluginClasspaths">
               <args>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.6.10/2c8ba59185f5857a29833856d5e03e03755731a7/kotlin-gradle-plugin-api-1.6.10.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-native-utils/1.6.10/dd39b79ad4d789c066cc5a62d8dde7a21f1d3ef8/kotlin-native-utils-1.6.10.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-project-model/1.6.10/1c821660ccd0c89a669fd6cd7cda70afe388c2e5/kotlin-project-model-1.6.10.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-util-io/1.6.10/e8557b2856d4fa4d49f0a5af9b5cbf85a009ca7c/kotlin-util-io-1.6.10.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.7.20/8159de6c79ac1c91fe2ecc488c30b27b2a8f5f1c/kotlin-gradle-plugin-api-1.7.20-gradle71.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-native-utils/1.7.20/8e64e54cf3fb0c275b3f2f5a9276110fbb329f8f/kotlin-native-utils-1.7.20.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-project-model/1.7.20/8db9bd1b28e2fefd67727adecb96462f7d454a39/kotlin-project-model-1.7.20.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-tooling-core/1.7.20/19c84dd609449479dd647cfb8b885f6430501a21/kotlin-tooling-core-1.7.20.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-util-io/1.7.20/6e11b33883defb7ca4b8bff8c5fe81e463803bc7/kotlin-util-io-1.7.20.jar</arg>
                 <arg>$KOTLIN_BUNDLED$/lib/kotlinx-serialization-compiler-plugin.jar</arg>
               </args>
             </arrayArg>

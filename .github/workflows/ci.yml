@@ -34,19 +34,19 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: |
-          chmod +x gradlew
+          chmod +x kotlin-js-action/gradlew
           chmod +x test-action/gradlew
 
       - name: Setup ENV Posix
         if: runner.os != 'Windows'
         run: |
-          echo "TEST_ENV_testCwd=$(pwd)" | tee -a $GITHUB_ENV
+          echo "TEST_ENV_projectDirPath=$(pwd)" | tee -a $GITHUB_ENV
           echo "TEST_ENV_userHome=$HOME" | tee -a $GITHUB_ENV
 
       - name: Setup ENV Windows
         if: runner.os == 'Windows'
         run: |
-          echo "TEST_ENV_testCwd=$(pwd)" | tee -a $env:GITHUB_ENV
+          echo "TEST_ENV_projectDirPath=$(pwd)" | tee -a $env:GITHUB_ENV
           echo "TEST_ENV_userHome=$HOME" | tee -a $env:GITHUB_ENV
 
       - name: Build and Test
@@ -57,6 +57,7 @@ jobs:
           gradle-home-cache-includes: |
             nodejs
             yarn
+          build-root-directory: ./kotlin-js-action
           arguments: check
 
       - name: Build test action
@@ -103,7 +104,7 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: |
-          chmod +x gradlew
+          chmod +x kotlin-js-action/gradlew
 
       - name: Get version
         if: github.ref == 'refs/heads/main'
@@ -111,8 +112,8 @@ jobs:
         uses: rnett/find-regex@v1.2
         with:
           regex: '\s*version ?(?:=|:) ?"?([\w.\-_]+)"?'
-          files: "build.gradle.kts,common.gradle.kts,gradle.properties,build.gradle"
-          commands: "./gradlew properties"
+          files: "kotlin-js-action/build.gradle.kts,kotlin-js-action/common.gradle.kts,kotlin-js-action/gradle.properties,kotlin-js-action/build.gradle"
+          commands: "./kotlin-js-action/gradlew properties"
       - name: Print version
         run: 'echo "Version: ${{ steps.get_version.outputs.match }}"'
 
@@ -137,6 +138,37 @@ jobs:
           staging_profile_id: ${{ secrets.SONATYPE_PROFILE_ID }}
           description: ${{ github.repository }}/${{ github.workflow }}#${{ github.run_number }} - ${{ needs.find-version.outputs.version }}
 
+  test-docs:
+    if: github.ref != 'refs/heads/main'
+    name: Test docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: Grant execute permission for gradlew
+        run: chmod +x kotlin-js-action/gradlew
+
+      - name: Build docs
+        uses: gradle/gradle-build-action@v2
+        env:
+          GRADLE_OPTS: -Xmx2048m
+        with:
+          gradle-home-cache-includes: |
+            nodejs
+            yarn
+          arguments: generateReadme dokkaHtmlMultiModule -PsourceLinkBranch=$GITHUB_SHA
+          build-root-directory: ./kotlin-js-action
+
+      - name: Cleanup Gradle Cache
+        run: |
+          rm -f ~/.gradle/caches/*/*.lock
+          rm -f ~/.gradle/caches/*/gc.properties
+
   publish:
     if: github.ref == 'refs/heads/main'
     name: Publish
@@ -151,7 +183,7 @@ jobs:
           java-version: 17
           distribution: temurin
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x kotlin-js-action/gradlew
 
       - name: Clone past docs for release
         if: needs.find-version.outputs.snapshot == 'false'
@@ -177,25 +209,26 @@ jobs:
           ORG_GRADLE_PROJECT_mavenCentralUsername: rnett
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           ORG_GRADLE_PROJECT_sonatypeRepositoryId: ${{ needs.create_staging_repository.outputs.repository_id }}
-          GRADLE_OPTS: -Xmx2048m -XX:MaxPermSize=512m
+          GRADLE_OPTS: -Xmx2048m
         with:
           gradle-home-cache-includes: |
             nodejs
             yarn
           arguments: publish generateReadme dokkaHtmlMultiModule -PsourceLinkBranch=$GITHUB_SHA -PoldVersionsDir=past-docs/old-releases
+          build-root-directory: ./kotlin-js-action
 
       - name: Publish docs
         if: github.ref == 'refs/heads/main'
         uses: rnett/publish-docs@v2.6
         with:
-          from: ./build/dokka/htmlMultiModule
+          from: ./kotlin-js-action/build/dokka/htmlMultiModule
           publish-to: $latest,!old-releases/$version
           version: ${{ needs.find-version.outputs.version }}
 
       - name: Publish README
         uses: rnett/publish-docs@v2.6
         with:
-          from-file: ./build/README.md
+          from-file: ./kotlin-js-action/build/README.md
           publish-to: '$latest,!.'
           version: ${{ needs.find-version.outputs.version }}
           restore: true

@@ -10,7 +10,6 @@ version = "1.3.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
@@ -21,6 +20,6 @@ dependencies {
 
 kotlin {
     js(IR) {
-        githubAction(buildDir.resolve("dist/index.js"))
+        githubAction(layout.buildDirectory.dir("dist").get())
     }
 }
