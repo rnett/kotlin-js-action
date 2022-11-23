@@ -7,6 +7,10 @@ repositories {
     gradlePluginPortal()
 }
 
+tasks.processResources {
+    from(rootDir.parentFile.parentFile.resolve("version.txt"))
+}
+
 gradlePlugin {
     plugins {
         create("kjs-metadata") {

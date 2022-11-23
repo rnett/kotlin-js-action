@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":kotlin-js-action:main" external.linked.project.path="$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action" external.root.project.path="$MODULE_DIR$/../../../kotlin-js-action" external.system.id="GRADLE" external.system.module.group="com.github.rnett.ktjs-github-action" external.system.module.type="sourceSet" external.system.module.version="1.6.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="kotlin-js-action-parent:kotlin-js-action:main" external.linked.project.path="$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action" external.root.project.path="$MODULE_DIR$/../../../test-action" external.system.id="GRADLE" external.system.module.group="com.github.rnett.ktjs-github-action" external.system.module.type="sourceSet" external.system.module.version="1.6.0-SNAPSHOT" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="kotlin-language" name="Kotlin">
-      <configuration version="5" platform="JavaScript " allPlatforms="JS []" useProjectSettings="false" isTestModule="false" externalProjectId=":kotlin-js-action">
+      <configuration version="5" platform="JavaScript " allPlatforms="JS []" useProjectSettings="false" isTestModule="false" externalProjectId="kotlin-js-action-parent:kotlin-js-action">
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
         <productionOutputPath>$MODULE_DIR$/../../../kotlin-js-action/kotlin-js-action/build/classes/kotlin/main</productionOutputPath>
         <compilerSettings>

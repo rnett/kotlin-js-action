@@ -59,7 +59,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-921324371/kotlin-js-action.build-logic.publishing.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-921324371/kotlin-js-action.build-logic.publishing.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/test-action.iml" filepath="$PROJECT_DIR$/.idea/modules/test-action.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/test-action.main.iml" filepath="$PROJECT_DIR$/.idea/modules/test-action.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test-action.test.iml" filepath="$PROJECT_DIR$/.idea/modules/test-action.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/test-action.test.iml" filepath="$PROJECT_DIR$/.idea/modules/test-action.test.iml" group="kotlin-js-action" />
     </modules>
   </component>
 </project>
