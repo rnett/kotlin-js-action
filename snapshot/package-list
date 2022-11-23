@@ -15,7 +15,5 @@ com.rnett.action.httpclient
 com.rnett.action.io
 com.rnett.action.toolcache
 internal.toolcache
-module:Kotlin JS GitHub Action Gradle Plugin
-com.rnett.action
 module:Kotlin JS GitHub Action SDK Serialization support
 com.rnett.action.serialization
