@@ -113,6 +113,7 @@ jobs:
         with:
           regex: '([\w.\-_]+)'
           files: "version.txt"
+          commands: "cat version.txt"
       - name: Print version
         run: 'echo "Version: ${{ steps.get_version.outputs.match }}"'
 
