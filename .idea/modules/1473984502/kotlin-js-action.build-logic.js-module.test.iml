@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="build-logic:js-module:test" external.linked.project.path="$MODULE_DIR$/../../../kotlin-js-action/build-logic/js-module" external.root.project.path="$MODULE_DIR$/../../../kotlin-js-action" external.system.id="GRADLE" external.system.module.group="build-logic" external.system.module.type="sourceSet" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="build-logic:js-module:test" external.linked.project.path="$MODULE_DIR$/../../../kotlin-js-action/build-logic/js-module" external.root.project.path="$MODULE_DIR$/../../../test-action" external.system.id="GRADLE" external.system.module.group="build-logic" external.system.module.type="sourceSet" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="kotlin-language" name="Kotlin">
       <configuration version="5" platform="JVM 1.8" allPlatforms="JVM [1.8]" useProjectSettings="false">
@@ -357,15 +357,15 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="kotlin-js-action.build-logic.common-module.main" />
+    <orderEntry type="module" module-name="kotlin-js-action.build-logic.common-module.main" scope="PROVIDED" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.6.21" level="project" />
-    <orderEntry type="module" module-name="kotlin-js-action.build-logic.docs.main" />
-    <orderEntry type="module" module-name="kotlin-js-action.build-logic.publishing.main" />
+    <orderEntry type="module" module-name="kotlin-js-action.build-logic.docs.main" scope="PROVIDED" />
+    <orderEntry type="module" module-name="kotlin-js-action.build-logic.publishing.main" scope="PROVIDED" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-gradle-plugin:gradle71:1.7.21" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.6.21" level="project" />
-    <orderEntry type="module" module-name="kotlin-js-action.build-logic.metadata.main" />
+    <orderEntry type="module" module-name="kotlin-js-action.build-logic.metadata.main" scope="PROVIDED" />
     <orderEntry type="library" name="Gradle: org.jetbrains.dokka:dokka-gradle-plugin:1.7.20" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.dokka:versioning-plugin:1.7.20" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-gradle-plugin-model:1.7.21" level="project" />
@@ -388,11 +388,15 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="kotlin-js-action.build-logic.common-module.main" scope="RUNTIME" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.20" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.7.20" level="project" />
+    <orderEntry type="module" module-name="kotlin-js-action.build-logic.publishing.main" scope="RUNTIME" />
+    <orderEntry type="module" module-name="kotlin-js-action.build-logic.docs.main" scope="RUNTIME" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.20" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.7.20" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.vanniktech:gradle-maven-publish-plugin:0.22.0" level="project" />
+    <orderEntry type="module" module-name="kotlin-js-action.build-logic.metadata.main" scope="RUNTIME" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains.kotlin:kotlin-gradle-plugin-idea-proto:1.7.21" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains.kotlin:kotlin-gradle-plugin-idea:1.7.21" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains.kotlin:kotlin-util-klib:1.7.21" level="project" />

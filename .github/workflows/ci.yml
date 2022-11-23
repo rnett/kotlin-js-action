@@ -111,9 +111,8 @@ jobs:
         id: get_version
         uses: rnett/find-regex@v1.2
         with:
-          regex: '\s*version ?(?:=|:) ?"?([\w.\-_]+)"?'
-          files: "kotlin-js-action/build.gradle.kts,kotlin-js-action/common.gradle.kts,kotlin-js-action/gradle.properties,kotlin-js-action/build.gradle"
-          commands: "./kotlin-js-action/gradlew properties"
+          regex: '([\w.\-_]+)'
+          files: "version.txt"
       - name: Print version
         run: 'echo "Version: ${{ steps.get_version.outputs.match }}"'
 
